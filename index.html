@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>入党之路 · 关卡1：申请书的审查</title>
+<style>
+  :root{
+    --red:#C8102E;
+    --red-2:#9E0B24;
+    --red-deep:#6B0A18;
+    --red-dark:#3A0A12;
+    --gold:#D9A94A;
+    --gold-2:#F0D18C;
+    --ink:#22304A;
+    --paper:#FDFAF1;
+    --gl:rgba(198,64,64,.40);
+    --stage-bg:#1d1218;
+    --ok:#1F7A4C;
+    --shadow:0 18px 40px rgba(0,0,0,.28);
+    --font-cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-kai:"KaiTi","STKaiti","Kaiti SC","楷体","Kaiti TC","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--font-cjk);
+    color:#F6EEE6;
+    background:
+      radial-gradient(1200px 620px at 12% -8%, rgba(200,16,46,.30), transparent 62%),
+      radial-gradient(900px 520px at 92% 4%, rgba(217,169,74,.16), transparent 60%),
+      linear-gradient(170deg,#2A0D14 0%,#1B0A0F 48%,#120709 100%);
+    background-attachment:fixed;
+    min-height:100vh;
+    -webkit-text-size-adjust:100%;
+  }
+  .app{max-width:1200px;margin:0 auto;padding:16px 16px 34px}
+  body.phase-letter .app{padding-bottom:118px}
+
+  /* ---------- HUD ---------- */
+  .hud{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin-bottom:14px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.09);
+  }
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand h1{font-size:19px;margin:0;letter-spacing:.06em;font-weight:600;color:#FFF6EA}
+  .brand .sub{font-size:12px;color:rgba(255,240,225,.62);letter-spacing:.14em;margin-top:2px}
+  .badge{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.08em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.55);
+    box-shadow:0 4px 14px rgba(200,16,46,.36);
+  }
+  .hud-right{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .progress{
+    display:flex;align-items:baseline;gap:6px;padding:7px 14px;border-radius:10px;
+    background:rgba(0,0,0,.30);border:1px solid rgba(217,169,74,.30);
+    font-size:13px;color:rgba(255,244,232,.78);letter-spacing:.05em;
+  }
+  .progress b{font-size:21px;color:var(--gold-2);font-weight:700;font-variant-numeric:tabular-nums}
+  .progress.done{border-color:rgba(96,214,150,.6);background:rgba(31,122,76,.24)}
+  .progress.done b{color:#8BF0B8}
+
+  .btn{
+    font-family:inherit;font-size:14px;cursor:pointer;border-radius:10px;
+    padding:9px 18px;letter-spacing:.06em;transition:transform .14s ease,box-shadow .2s ease,background .2s ease;
+    border:1px solid rgba(240,209,140,.45);
+  }
+  .btn:active{transform:translateY(1px) scale(.99)}
+  .btn.primary{
+    color:#FFF6E6;font-weight:700;
+    background:linear-gradient(165deg,#D3153A,#9E0B24 60%,#7A0819);
+    box-shadow:0 8px 20px rgba(200,16,46,.40),inset 0 1px 0 rgba(255,255,255,.22);
+  }
+  .btn.primary:hover{box-shadow:0 10px 26px rgba(200,16,46,.55),inset 0 1px 0 rgba(255,255,255,.28)}
+  .btn.ghost{color:#FFEFDA;background:rgba(255,255,255,.07);border-color:rgba(217,169,74,.38)}
+  .btn.ghost:hover{background:rgba(255,255,255,.13)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  /* ---------- 舞台 ---------- */
+  .stage-wrap{position:relative}
+  .scene{
+    position:relative;width:100%;aspect-ratio:16/9;max-height:min(62vh,620px);
+    border-radius:18px;overflow:hidden;background:var(--stage-bg);
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow);
+  }
+  .scene .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0%}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(122% 90% at 50% 44%, transparent 42%, rgba(24,8,10,.5) 100%)}
+
+  .actor{position:absolute;left:50%;bottom:0;pointer-events:none;user-select:none}
+  .zhang{
+    height:88%;width:auto;transform-origin:50% 100%;
+    transform:translateX(-50%) translateY(-24%) scale(.09);
+    opacity:0;filter:blur(2.4px) saturate(.86);
+    transition:transform 3.4s cubic-bezier(.22,.76,.28,1),opacity 1.1s ease-out,filter 2.6s ease-out;
+  }
+  .zhang.show{opacity:1;filter:blur(1.7px) saturate(.86)}
+  .zhang.near{transform:translateX(-50%) translateY(0) scale(1);opacity:1;filter:blur(0) saturate(1)}
+  .zhang.bye{opacity:0;transition:opacity .55s ease-in}
+  .zhang-hand{
+    height:97%;width:auto;transform-origin:50% 100%;
+    transform:translateX(-50%) translateY(7%) scale(.93);opacity:0;
+    transition:transform .7s cubic-bezier(.2,.8,.3,1),opacity .7s ease-out;
+  }
+  .zhang-hand.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+  .zhang-hand.bye{opacity:0;transform:translateX(-50%) translateY(3%) scale(1.02);transition:transform .6s ease-in,opacity .6s ease-in}
+
+  .sheet{
+    position:absolute;left:50%;top:62%;width:17%;max-width:148px;aspect-ratio:3/4;
+    transform:translate(-50%,0) scale(.92) rotate(-2deg);opacity:0;
+    background:linear-gradient(158deg,#FFFDF6,#F4ECDD 66%,#E7DCC7);
+    border-radius:4px;box-shadow:0 10px 22px rgba(0,0,0,.35);
+    transition:top 1s cubic-bezier(.3,.78,.35,1),transform 1s cubic-bezier(.3,.78,.35,1),opacity .45s ease-out;
+    pointer-events:none;overflow:hidden;
+  }
+  .sheet::before{content:"";position:absolute;inset:9% 9%;
+    background-image:
+      repeating-linear-gradient(to bottom, transparent 0 7px, rgba(198,64,64,.45) 7px 7.9px),
+      repeating-linear-gradient(to right, transparent 0 7px, rgba(198,64,64,.38) 7px 7.9px);
+  }
+  .sheet span{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);
+    font-family:var(--font-kai);font-size:clamp(8px,1vw,12px);letter-spacing:.16em;color:#8E0C20;opacity:.8;white-space:nowrap}
+  .sheet.fly{top:76%;opacity:1;transform:translate(-50%,0) scale(.6) rotate(0deg)}
+  .sheet.gone{opacity:0;transition:opacity .5s ease-in}
+
+  .hands{
+    position:absolute;left:50%;bottom:0;width:min(66%,700px);
+    transform:translate(-50%,112%);opacity:0;
+    transition:transform 1.05s cubic-bezier(.24,.82,.3,1),opacity .5s ease-out;
+    pointer-events:none;
+  }
+  .hands.show{transform:translate(-50%,4%);opacity:1}
+  .hands.bye{transform:translate(-50%,112%);opacity:0;transition:transform .9s ease-in,opacity .8s ease-in .1s}
+
+  .chapter{
+    position:absolute;left:0;right:0;bottom:0;padding:18px 22px;
+    background:linear-gradient(0deg,rgba(12,4,6,.86),rgba(12,4,6,0));
+    display:flex;flex-direction:column;gap:3px;pointer-events:none;
+    transition:opacity .5s ease;
+  }
+  .chapter em{font-style:normal;font-size:clamp(12px,1.5vw,16px);letter-spacing:.3em;color:var(--gold-2)}
+  .chapter strong{font-weight:600;font-size:clamp(13px,1.7vw,19px);letter-spacing:.1em;color:#FFF3E2}
+  .chapter.hide{opacity:0}
+
+  /* ---------- 对话 ---------- */
+  .dialogue{
+    position:relative;margin-top:14px;padding:16px 18px 18px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.30);box-shadow:var(--shadow);
+    display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;
+  }
+  .speaker{
+    flex:0 0 auto;padding:6px 14px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.14em;
+    color:#FFEFD6;background:linear-gradient(160deg,#8E0C20,#5E0A16);border:1px solid rgba(240,209,140,.4);
+  }
+  .speaker.sp-zhang{background:linear-gradient(160deg,#1E4E7A,#123252);border-color:rgba(150,200,240,.42)}
+  .line{flex:1 1 320px;margin:0;font-size:16px;line-height:1.85;color:#F7EFE6;letter-spacing:.03em;min-width:0}
+  .dlg-actions{flex:0 0 auto;display:flex;gap:10px;align-items:center}
+
+  /* ---------- 申请书 ---------- */
+  .letter{display:none}
+  body.phase-letter .letter{display:block}
+  body.phase-letter .scene,body.phase-letter .dialogue{display:none}
+
+  .letter-bar{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin-bottom:14px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);
+  }
+  .hint{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#F6E9D8;letter-spacing:.04em;line-height:1.7;flex:1 1 420px;min-width:0}
+  .hint .dot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;background:var(--red);margin-top:6px;
+    box-shadow:0 0 0 4px rgba(200,16,46,.22)}
+  .hint b{color:var(--gold-2);font-size:19px;font-variant-numeric:tabular-nums}
+  .bar-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+  .letter-body{display:flex;gap:16px;align-items:flex-start}
+  .doc-wrap{position:relative;flex:1 1 auto;min-width:0;display:flex;justify-content:center}
+
+  .paper{
+    --pad-x:26px;--pad-t:26px;--head-h:84px;
+    position:relative;width:100%;max-width:720px;
+    padding:var(--pad-t) var(--pad-x) 52px;
+    background-color:var(--paper);
+    background-image:radial-gradient(rgba(160,130,90,.055) 1px,transparent 1px);
+    background-size:7px 7px;
+    border-radius:5px;
+    box-shadow:0 20px 44px rgba(0,0,0,.42),0 2px 0 rgba(255,255,255,.5) inset;
+    animation:unfold .62s cubic-bezier(.2,.8,.3,1) both;
+  }
+  @keyframes unfold{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+  .paper-head{
+    position:relative;height:var(--head-h);line-height:var(--head-h);text-align:center;
+    font-family:var(--font-kai);font-size:clamp(22px,3vw,30px);letter-spacing:.42em;text-indent:.42em;
+    color:#8E0C20;font-weight:700;
+  }
+  .paper-head::before{
+    content:"";position:absolute;left:calc(-1 * var(--pad-x));right:calc(-1 * var(--pad-x));
+    top:calc(-1 * var(--pad-t) + 8px);height:2px;background:rgba(198,64,64,.62);
+    box-shadow:0 6px 0 rgba(198,64,64,.34);
+  }
+  .paper-foot{
+    position:absolute;left:0;right:0;bottom:14px;text-align:right;padding-right:var(--pad-x);
+    font-size:12px;letter-spacing:.22em;color:rgba(150,60,60,.7);
+  }
+  .origin-img{width:100%;max-width:720px;display:block;border-radius:5px;box-shadow:0 20px 44px rgba(0,0,0,.42)}
+  .hidden{display:none !important}
+
+  /* 方格稿纸 */
+  .doc{position:relative;font-family:var(--font-kai);color:var(--ink)}
+  .grid{
+    display:grid;row-gap:0;column-gap:0;
+    grid-template-columns:repeat(var(--cols,20),1fr);
+    border-top:1px solid var(--gl);border-left:1px solid var(--gl);
+  }
+  .cell{
+    position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+    border-right:1px solid var(--gl);border-bottom:1px solid var(--gl);
+    font-size:calc(var(--cell,30px) * .68);line-height:1;
+    cursor:pointer;-webkit-user-select:none;user-select:none;
+    transition:background .16s ease,color .16s ease;
+  }
+  .cell:hover{background:rgba(200,16,46,.07)}
+  .cell.sel{
+    background:rgba(200,16,46,.15);color:#8E0C20;
+    box-shadow:inset 0 0 0 2px rgba(200,16,46,.5);
+  }
+  .cell.struck{cursor:default;color:#5C4A3A}
+  .cell.struck::after{
+    content:"";position:absolute;left:-1px;right:-1px;top:calc(50% - 1.1px);height:2.2px;
+    background:linear-gradient(90deg,rgba(200,16,46,.95),rgba(158,11,36,.95));
+    border-radius:2px;transform:rotate(-1.2deg);transform-origin:0 50%;
+  }
+  .cell.struck.draw::after{animation:strike .34s ease-out both;animation-delay:var(--d,0ms)}
+  @keyframes strike{from{transform:rotate(-1.2deg) scaleX(0)}to{transform:rotate(-1.2deg) scaleX(1)}}
+  .filler{border-right:1px solid var(--gl);border-bottom:1px solid var(--gl)}
+  .brk{grid-column:1 / -1;height:0;margin-bottom:9px}
+
+  .side{flex:0 0 296px;display:flex;flex-direction:column;gap:14px}
+  .side-card{
+    padding:16px 16px 18px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow);
+  }
+  .side-card h3{margin:0 0 10px;font-size:14px;letter-spacing:.16em;color:var(--gold-2);font-weight:700}
+  .side-card p{margin:0 0 10px;font-size:13.5px;line-height:1.75;color:rgba(255,244,232,.82)}
+  .side-card p b{color:#FFD98F}
+  .side-tip{font-size:12.5px !important;color:rgba(255,240,225,.6) !important;line-height:1.8 !important}
+  .dots{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 12px}
+  .dots i{
+    width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+    font-size:12px;font-style:normal;color:rgba(255,240,225,.5);
+    border:1px dashed rgba(217,169,74,.45);background:rgba(0,0,0,.2);
+    transition:all .3s ease;
+  }
+  .dots i.on{color:#FFF3E0;border:1px solid rgba(255,140,150,.85);background:linear-gradient(160deg,#D3153A,#8E0C20);
+    box-shadow:0 0 0 4px rgba(200,16,46,.18)}
+  .mini-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:auto 1fr;gap:7px 12px}
+  .mini-list .k{font-size:12.5px;color:rgba(255,240,225,.55);letter-spacing:.08em}
+  .mini-list .v{margin:0;font-size:13.5px;color:#FFF3E4}
+  .roster{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+  .roster li{font-size:13px;color:rgba(255,244,232,.86);line-height:1.6;display:flex;gap:8px;align-items:baseline}
+  .roster .tag{flex:0 0 auto;font-size:11px;padding:2px 7px;border-radius:6px;letter-spacing:.06em;
+    background:rgba(200,16,46,.28);border:1px solid rgba(255,140,150,.35);color:#FFD9DE}
+  .roster .tag.pre{background:rgba(217,169,74,.2);border-color:rgba(240,209,140,.4);color:#FFE9B8}
+
+  /* ---------- 底部反馈条 ---------- */
+  .feedback{
+    position:fixed;left:0;right:0;bottom:0;z-index:45;padding:26px 16px 14px;
+    background:linear-gradient(0deg,rgba(14,5,8,.95),rgba(14,5,8,.78) 62%,rgba(14,5,8,0));
+    opacity:0;transform:translateY(14px);pointer-events:none;
+    transition:opacity .28s ease,transform .28s ease;
+  }
+  .feedback.show{opacity:1;transform:none}
+  .fb-inner{
+    max-width:1200px;margin:0 auto;display:flex;gap:11px;align-items:flex-start;
+    font-size:14.5px;line-height:1.72;color:#FFF3E4;letter-spacing:.02em;
+  }
+  .fb-icon{flex:0 0 auto;font-size:16px;line-height:1.6}
+  .feedback.ok .fb-icon{color:#8BF0B8}
+  .feedback.warn .fb-icon{color:#FFD98F}
+  .feedback.bad .fb-icon{color:#FF9AA8}
+  .feedback.ok .fb-inner{color:#DFFFEE}
+
+  /* ---------- 弹窗 ---------- */
+  .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;
+    background:rgba(16,6,9,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal.open{display:flex;animation:fadein .28s ease-out both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .modal-card{
+    width:100%;max-width:860px;max-height:88vh;overflow:auto;
+    background:linear-gradient(180deg,#FFFDF7,#F7F0E2);
+    color:#2C2118;border-radius:18px;border:1px solid rgba(217,169,74,.6);
+    box-shadow:0 30px 70px rgba(0,0,0,.5);animation:rise .34s cubic-bezier(.2,.8,.3,1) both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+  .modal-head{
+    padding:20px 24px 16px;border-bottom:1px solid rgba(150,110,60,.22);
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(200,16,46,.07),transparent);
+  }
+  .modal-head h2{margin:0;font-size:20px;letter-spacing:.1em;color:#8E0C20}
+  .modal-head p{margin:4px 0 0;font-size:13px;color:#6B5A48;letter-spacing:.05em}
+  .modal-body{padding:18px 24px 24px}
+  .ans{
+    display:grid;grid-template-columns:38px 1fr;gap:0 14px;
+    padding:16px 0;border-bottom:1px dashed rgba(150,110,60,.28);
+  }
+  .ans:last-child{border-bottom:0}
+  .ans .no{
+    width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:15px;color:#fff;background:linear-gradient(160deg,#D3153A,#8E0C20);
+    box-shadow:0 4px 12px rgba(200,16,46,.3)
+  }
+  .ans h4{margin:2px 0 10px;font-size:15.5px;letter-spacing:.06em;color:#8E0C20}
+  .ans .row{display:flex;gap:10px;font-size:14px;line-height:1.8;margin-bottom:6px;align-items:flex-start}
+  .ans .row .lbl{flex:0 0 auto;font-size:12px;padding:2px 8px;border-radius:6px;margin-top:3px;letter-spacing:.08em}
+  .lbl.bad{background:rgba(200,16,46,.12);color:#9E0B24;border:1px solid rgba(200,16,46,.28)}
+  .lbl.good{background:rgba(31,122,76,.12);color:#15623C;border:1px solid rgba(31,122,76,.28)}
+  .lbl.why{background:rgba(217,169,74,.18);color:#7A5A12;border:1px solid rgba(217,169,74,.45)}
+  .ans .row .txt{flex:1 1 auto;color:#3A2C22}
+  .ans .row .txt.bad{color:#9E0B24;text-decoration:line-through;text-decoration-color:rgba(200,16,46,.5)}
+  .ans .row .txt.good{color:#15623C;font-weight:600}
+  .summary{
+    margin-top:20px;padding:16px 18px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.14),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5)
+  }
+  .summary h3{margin:0 0 8px;font-size:15px;color:#7A5A12;letter-spacing:.1em}
+  .summary ul{margin:0;padding-left:20px}
+  .summary li{font-size:14px;line-height:1.9;color:#4A3A2A}
+  .next-lv{
+    margin-top:14px;padding:14px 18px;border-radius:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    background:rgba(200,16,46,.06);border:1px dashed rgba(200,16,46,.35)
+  }
+  .next-lv strong{font-size:14px;color:#8E0C20;letter-spacing:.06em}
+  .next-lv span{font-size:13px;color:#6B5A48}
+  .srcs{
+    margin-top:14px;padding:14px 18px;border-radius:12px;
+    background:rgba(34,48,74,.05);border:1px solid rgba(34,48,74,.16)
+  }
+  .srcs strong{display:block;font-size:13px;letter-spacing:.1em;color:#3A4A66;margin-bottom:8px}
+  .srcs ul{margin:0;padding-left:18px}
+  .srcs li{font-size:12.5px;line-height:1.9;color:#5A5040}
+  .srcs a{color:#8E0C20;text-decoration:underline;text-underline-offset:2px}
+  .modal-foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding:0 24px 22px}
+  .btn.dark{color:#fff;background:linear-gradient(165deg,#8E0C20,#5E0A16);border-color:rgba(240,209,140,.4)}
+  .btn.plain{color:#6B5A48;background:#fff;border-color:rgba(150,110,60,.35)}
+  .btn.plain:hover{background:#FBF6EC}
+
+  .clear-flag{
+    display:none;margin-bottom:14px;padding:14px 18px;border-radius:14px;align-items:center;gap:12px;
+    background:linear-gradient(160deg,rgba(31,122,76,.24),rgba(31,122,76,.08));
+    border:1px solid rgba(96,214,150,.5);color:#D8FFE9;font-size:15px;letter-spacing:.06em
+  }
+  body.cleared .clear-flag{display:flex}
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:880px){
+    .letter-body{flex-direction:column}
+    .side{flex:1 1 auto;width:100%;flex-direction:row;flex-wrap:wrap}
+    .side-card{flex:1 1 260px}
+  }
+  @media (max-width:640px){
+    .app{padding:10px 10px 26px}
+    body.phase-letter .app{padding-bottom:132px}
+    .brand h1{font-size:16px}
+    .line{font-size:15px}
+    .paper{--pad-x:16px;--pad-t:20px;--head-h:64px;padding-bottom:42px}
+    .paper-foot{bottom:10px}
+    .hud,.letter-bar{padding:10px 12px}
+    .progress b{font-size:18px}
+    .hint{font-size:13px}
+    .ans{grid-template-columns:30px 1fr;gap:0 10px}
+    .modal-body{padding:14px 16px 20px}
+    .modal-head{padding:16px}
+    .modal-foot{padding:0 16px 18px}
+    .fb-inner{font-size:13.5px}
+  }
+
+  @media print{
+    @page{margin:14mm}
+    body{background:#fff;color:#000}
+    .hud,.dialogue,.letter-bar,.side,.modal,.clear-flag,.chapter,.feedback{display:none !important}
+    .paper{box-shadow:none;border:1px solid #ccc;animation:none;max-width:none}
+    .letter{display:block !important}
+    .scene{display:none !important}
+    .cell:hover{background:transparent}
+    .cell.sel{background:transparent;box-shadow:none;color:inherit}
+    .cell.struck::after{background:#C8102E}
+    .cell.struck{text-decoration:line-through;text-decoration-color:#C8102E;text-decoration-thickness:2px}
+    .srcs a{color:#000}
+    .srcs a[href]::after{content:"（" attr(href) "）";font-size:11px;word-break:break-all}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="hud">
+    <div class="brand">
+      <span class="badge">关卡 1</span>
+      <div>
+        <h1>申请书的审查</h1>
+        <div class="sub">入党之路 · 角色扮演闯关</div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="progress" id="hudProgress"><span>已划出</span><b id="hudFound">0</b><span>/ 6</span></div>
+      <button class="btn ghost" id="btnProfile" type="button">人物档案</button>
+      <button class="btn ghost" id="btnReplay" type="button">重看剧情</button>
+    </div>
+  </header>
+
+  <div class="clear-flag" id="clearFlag">
+    <span>✔ 6 处错误全部划出，本关通过。</span>
+  </div>
+
+  <main class="stage-wrap">
+
+    <!-- ============ 剧情舞台 ============ -->
+    <section class="scene" id="scene">
+      <img class="bg" src="https://Lyy803.github.io/picx-images-hosting/bg_corridor.60v1urqqbk.webp" alt="第一党支部办公室门前的走廊，向纵深延伸">
+      <div class="vignette"></div>
+
+      <img class="actor zhang" id="zhang" src="https://Lyy803.github.io/picx-images-hosting/zhang_full.6pobeseamp.webp" alt="张三从走廊远处走来">
+      <img class="actor zhang-hand" id="zhangHand" src="https://Lyy803.github.io/picx-images-hosting/zhang_hand2.3uvn8zz3v7.webp" alt="张三双手递交写在方格稿纸上的入党申请书">
+      <div class="sheet" id="sheet"><span>入党申请书</span></div>
+      <img class="hands" id="hands" src="https://Lyy803.github.io/picx-images-hosting/hands.8l0w7eqq6u.webp" alt="屏幕中的一双手接过申请书">
+
+      <div class="chapter" id="chapter">
+        <em>2024年10月10日</em>
+        <strong>上午 9:30 · 第一党支部办公室门前</strong>
+      </div>
+    </section>
+
+    <!-- ============ 申请书 ============ -->
+    <section class="letter" id="letter" aria-hidden="true">
+      <div class="letter-bar">
+        <div class="hint">
+          <span class="dot" aria-hidden="true"></span>
+          <span>点中错误的第一个字，再连续点选相邻的字，把整处错误选完整　已划出 <b id="found">0</b> / 6</span>
+        </div>
+        <div class="bar-actions">
+          <button class="btn ghost" id="btnClearSel" type="button">清空选择</button>
+          <button class="btn ghost" id="btnOrigin" type="button">查看手写原件</button>
+          <button class="btn ghost" id="btnReset" type="button">重新开始</button>
+        </div>
+      </div>
+
+      <div class="letter-body">
+        <div class="doc-wrap" id="docWrap">
+          <div class="paper" id="paper">
+            <div class="paper-head">入党申请书</div>
+            <div class="doc" id="doc"><div class="grid" id="grid"></div></div>
+            <div class="paper-foot">第 1 页 共 1 页</div>
+          </div>
+          <img class="origin-img hidden" id="originImg" src="https://Lyy803.github.io/picx-images-hosting/origin.6f1hlmz2fs.webp" alt="入党申请书手写原件">
+        </div>
+
+        <aside class="side">
+          <div class="side-card">
+            <h3>本关任务</h3>
+            <p>逐字核对这份入党申请书，找出全部 <b>6 处</b> 表述错误。</p>
+            <div class="dots" id="dots" aria-hidden="true"></div>
+            <p class="side-tip">操作：先点错误的第一个字，再连续点选相邻的字，直到把整处错误一个字不差地选完整，选对后会自动划上红色横线。选得不对或没选全，屏幕下方会给出提示。</p>
+          </div>
+          <div class="side-card">
+            <h3>申请人档案</h3>
+            <ul class="mini-list">
+              <li class="k">姓名</li><li class="v">张三</li>
+              <li class="k">性别</li><li class="v">男</li>
+              <li class="k">出生</li><li class="v">2002年2月</li>
+              <li class="k">政治面貌</li><li class="v">共青团员</li>
+              <li class="k">所在支部</li><li class="v">第一党支部</li>
+              <li class="k">上级党组织</li><li class="v">公司党委</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 对话 ============ -->
+  <footer class="dialogue" id="dialogue">
+    <div class="speaker" id="speaker">旁白</div>
+    <p class="line" id="line"></p>
+    <div class="dlg-actions">
+      <button class="btn primary" id="btnNext" type="button">继续 ▸</button>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ 底部反馈条 ============ -->
+<div class="feedback" id="feedback" role="status" aria-live="polite">
+  <div class="fb-inner">
+    <span class="fb-icon" id="fbIcon" aria-hidden="true">◆</span>
+    <span id="fbText"></span>
+  </div>
+</div>
+
+<!-- ============ 弹窗：人物档案 ============ -->
+<div class="modal" id="modalProfile" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h2 id="profileTitle">人物档案 · 第一党支部</h2>
+        <p>关卡1 场景设定，后续关卡将围绕这份名单展开</p>
+      </div>
+      <button class="btn plain" data-close="modalProfile" type="button">关闭</button>
+    </div>
+    <div class="modal-body">
+      <div class="ans" style="grid-template-columns:1fr">
+        <div>
+          <h4>申请人</h4>
+          <p style="margin:0;font-size:14px;line-height:1.9;color:#3A2C22">
+            张三，男，2002年2月出生，共青团员。<br>
+            2024年9月20日撰写入党申请书，2024年10月10日递交第一党支部。
+          </p>
+        </div>
+      </div>
+      <div class="ans" style="grid-template-columns:1fr;border-bottom:0">
+        <div>
+          <h4>第一党支部（党员 6 名：正式 5 名、预备 1 名）</h4>
+          <ul class="roster" style="color:#3A2C22">
+            <li><span class="tag">正式</span><span style="color:#3A2C22">李四　—— 支部书记</span></li>
+            <li><span class="tag">正式</span><span style="color:#3A2C22">王五　—— 支部干事</span></li>
+            <li><span class="tag">正式</span><span style="color:#3A2C22">赵六　—— 2026年1月受留党察看处分</span></li>
+            <li><span class="tag">正式</span><span style="color:#3A2C22">孙七</span></li>
+            <li><span class="tag">正式</span><span style="color:#3A2C22">钱十</span></li>
+            <li><span class="tag pre">预备</span><span style="color:#3A2C22">周八</span></li>
+          </ul>
+          <p style="margin:14px 0 0;font-size:14px;line-height:1.9;color:#3A2C22">
+            上级党组织：公司党委（具有审批预备党员的权限）。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn dark" data-close="modalProfile" type="button">知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 弹窗：答案解析 ============ -->
+<div class="modal" id="modalAnswer" role="dialog" aria-modal="true" aria-labelledby="answerTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h2 id="answerTitle">关卡 1 通过 · 6 处错误全解析</h2>
+        <p>对照党章与党的会议实际，逐处订正</p>
+      </div>
+      <button class="btn plain" data-close="modalAnswer" type="button">回看申请书</button>
+    </div>
+    <div class="modal-body" id="answerBody"></div>
+    <div class="modal-foot">
+      <button class="btn plain" id="btnRetry" type="button">重新挑战本关</button>
+      <button class="btn dark" data-close="modalAnswer" type="button">关闭，回看申请书</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var el = function(id){ return document.getElementById(id); };
+  var scene = el("scene"), chapter = el("chapter");
+  var speakerEl = el("speaker"), lineEl = el("line"), btnNext = el("btnNext");
+  var zhang = el("zhang"), zhangHand = el("zhangHand"), sheet = el("sheet"), hands = el("hands");
+  var letter = el("letter"), doc = el("doc"), grid = el("grid");
+  var paper = el("paper"), originImg = el("originImg"), btnOrigin = el("btnOrigin");
+  var hudFound = el("hudFound"), foundEl = el("found"), dots = el("dots");
+  var hudProgress = el("hudProgress");
+  var feedback = el("feedback"), fbText = el("fbText"), fbIcon = el("fbIcon");
+
+  var busy = false, step = 0, showingOrigin = false;
+  var COLS = 20, CELLDOM = [], FLAT = "", CHARS = [];
+  var selAnchor = -1, selFocus = -1, judgeTimer = null, fbTimer = null, restartNext = false;
+  var foundIds = [], miss = 0, near = 0, cleared = false;
+
+  /* ---------------- 申请书文本 ---------------- */
+  var LETTER = [
+    { t:"敬爱的党组织：", indent:0 },
+    { t:"我志愿加入中国共产党，拥护党的纲领，遵守党的章程，履行党员义务，执行党的决定，严守党的纪律，保守党的秘密，对党忠诚，积极工作，为共产主义奋斗终身，随时准备为党和人民牺牲一切，永不叛党。", indent:2 },
+    { t:"中国共产党是中国阶级的先锋队，同时是中国人民和中国中华民族的先锋队，是中国特色社会主义事业的领导核心。", indent:2 },
+    { t:"党始终坚持以马克思列宁主义、毛泽东思想为指导，团结带领全国各族人民完成了新民主主义革命，建立了制度，进行了改革开放的伟大革命。", indent:2 },
+    { t:"党的二十届三中全会对进一步全面深化改革作出系统部署，四中全会着重推进国家治理体系和治理能力现代化。", indent:2 },
+    { t:"作为一名共青团员，我一直向往成为一名光荣的共产党员。今天，我郑重向党组织递交我的入党申请书，请党组织在实践中考验我。", indent:2 },
+    { t:"此致", indent:0 },
+    { t:"敬礼！", indent:0 },
+    { t:"申请人：张三", align:"right" },
+    { t:"2024年9月20日", align:"right" }
+  ];
+
+  var ERRORS = [
+    { id:"1", seg:"中国共产党是中国阶级的先锋队", cat:"党的性质表述", where:"正文第 2 段（写党的性质那一句）",
+      note:"党章原文是「中国工人阶级的先锋队」，这里漏写了「工人」二字。" },
+    { id:"2", seg:"同时是中国人民和中国中华民族的先锋队", cat:"党的性质表述", where:"正文第 2 段（写党的性质那一句）",
+      note:"党章原文是「中国人民和中华民族的先锋队」，「中国人民」与「中华民族」并列，中间多写了一个「中国」。" },
+    { id:"3", seg:"党始终坚持以马克思列宁主义、毛泽东思想为指导", cat:"指导思想列举不全", where:"正文第 3 段开头",
+      note:"党章规定的行动指南还要包括邓小平理论、「三个代表」重要思想、科学发展观、习近平新时代中国特色社会主义思想。" },
+    { id:"4", seg:"建立了制度", cat:"党的历史进程表述残缺", where:"正文第 3 段",
+      note:"规范表述是「建立了中华人民共和国，确立了社会主义基本制度」，只写「建立了制度」语义不完整。" },
+    { id:"5", seg:"四中全会着重推进国家治理体系和治理能力现代化", cat:"所引全会的届次与主题不符", where:"正文第 4 段",
+      note:"这是党的十九届四中全会的主题；党的二十届四中全会审议通过的是「十五五」规划建议。" },
+    { id:"6", seg:"2024年9月20日", cat:"落款时间与所引内容的时间逻辑", where:"落款处",
+      note:"落款为 2024年9月20日，而党的二十届四中全会 2025年10月20日至23日才召开，不可能引用尚未召开的会议。" }
+  ];
+
+  function buildFlat(){
+    CHARS = [];
+    LETTER.forEach(function(p, pi){
+      for(var i=0;i<p.t.length;i++) CHARS.push({ ch:p.t.charAt(i), p:pi });
+    });
+    FLAT = CHARS.map(function(o){ return o.ch; }).join("");
+    ERRORS.forEach(function(e){
+      e.s = FLAT.indexOf(e.seg);
+      e.e = e.s < 0 ? -1 : e.s + e.seg.length - 1;
+    });
+  }
+
+  /* ---------------- 剧情脚本 ---------------- */
+  var STEPS = [
+    { sp:"旁白", cls:"",
+      text:"2024年10月10日，上午9:30。第一党支部办公室门前。走廊刚打扫过，两侧的门都关着，安静得能听见脚步声。",
+      act:null },
+    { sp:"旁白", cls:"",
+      text:"走廊尽头，一个年轻人正朝这边走来。",
+      act:function(){ zhang.classList.add("show"); setTimeout(function(){ zhang.classList.add("near"); }, 90); } },
+    { sp:"旁白", cls:"",
+      text:"他叫张三，2002年2月出生，共青团员。这份入党申请书，他早在9月20日就写好了，今天特地来递交。",
+      act:null },
+    { sp:"入党申请人张三", cls:"sp-zhang",
+      text:"书记您好，我是张三。这是我的入党申请书，请您收下。",
+      act:function(){
+        zhang.classList.add("bye");
+        zhangHand.classList.add("show");
+      } },
+    { sp:"旁白", cls:"",
+      text:"你伸出双手，接过了这份申请书。",
+      act:function(){
+        hands.classList.add("show");
+        setTimeout(function(){ sheet.classList.add("fly"); }, 460);
+        setTimeout(function(){
+          zhangHand.classList.add("bye");
+          hands.classList.remove("show");
+          hands.classList.add("bye");
+          sheet.classList.add("gone");
+        }, 1500);
+      } },
+    { sp:"旁白", cls:"",
+      text:"翻开一看，方格稿纸上是工整的小楷。可内容读下去……有几处表述明显不对。"
+    }
+  ];
+
+  function setSpeaker(sp, cls){
+    speakerEl.textContent = sp;
+    speakerEl.className = "speaker" + (cls ? " " + cls : "");
+  }
+
+  function renderStep(){
+    var s = STEPS[step];
+    setSpeaker(s.sp, s.cls);
+    lineEl.textContent = s.text;
+    btnNext.textContent = (step === STEPS.length - 1) ? "展开申请书 ▸" : "继续 ▸";
+  }
+
+  function next(){
+    if(busy) return;
+    var s = STEPS[step];
+    if(s.act){
+      busy = true;
+      btnNext.disabled = true;
+      s.act();
+      setTimeout(function(){
+        busy = false;
+        btnNext.disabled = false;
+        advance();
+      }, 2300);
+    } else {
+      advance();
+    }
+  }
+
+  function advance(){
+    if(step < STEPS.length - 1){
+      step++;
+      renderStep();
+    } else {
+      enterLetter();
+    }
+  }
+
+  function hardReset(node, cls){
+    node.style.transition = "none";
+    node.className = cls;
+    void node.offsetWidth;
+    node.style.transition = "";
+  }
+
+  /* ---------------- 进入申请书 ---------------- */
+  function enterLetter(){
+    chapter.classList.add("hide");
+    document.body.classList.add("phase-letter");
+    letter.setAttribute("aria-hidden","false");
+    window.scrollTo({ top:0, behavior:"smooth" });
+    layoutGrid();
+    say("warn", "先点错误的第一个字，再连续点选相邻的字，把整处错误一个字不差地选完整。选对了会自动划上红色横线。");
+  }
+
+  /* ---------------- 方格稿纸渲染 ---------------- */
+  function layoutGrid(){
+    var inner = doc.clientWidth;
+    if(inner < 60) return;
+    var cols = Math.max(12, Math.min(22, Math.floor(inner / 30)));
+    COLS = cols;
+    grid.style.setProperty("--cols", cols);
+    grid.style.setProperty("--cell", (inner / cols) + "px");
+    renderLetter();
+  }
+
+  function mkFiller(){
+    var i = document.createElement("i");
+    i.className = "filler";
+    return i;
+  }
+
+  function renderLetter(){
+    var frag = document.createDocumentFragment();
+    var idx = 0;
+    CELLDOM = [];
+    LETTER.forEach(function(p){
+      var brk = document.createElement("i");
+      brk.className = "brk";
+      frag.appendChild(brk);
+
+      var len = p.t.length;
+      var pre = 0, post = 0;
+      if(p.align === "right"){
+        pre = (COLS - (len % COLS)) % COLS;
+      } else {
+        pre = p.indent || 0;
+      }
+      post = (COLS - ((pre + len) % COLS)) % COLS;
+
+      var i;
+      for(i=0;i<pre;i++) frag.appendChild(mkFiller());
+      for(i=0;i<len;i++){
+        var cell = document.createElement("span");
+        cell.className = "cell";
+        cell.textContent = p.t.charAt(i);
+        cell.setAttribute("data-i", String(idx));
+        frag.appendChild(cell);
+        CELLDOM[idx] = cell;
+        idx++;
+      }
+      for(i=0;i<post;i++) frag.appendChild(mkFiller());
+    });
+    grid.textContent = "";
+    grid.appendChild(frag);
+    paintState();
+  }
+
+  function paintState(){
+    var a = selStart(), b = selEnd();
+    var i, j, cell, e;
+    var struck = {};
+    for(i=0;i<ERRORS.length;i++){
+      e = ERRORS[i];
+      if(foundIds.indexOf(e.id) < 0 || e.s < 0) continue;
+      for(j=e.s;j<=e.e;j++) struck[j] = 1;
+    }
+    for(i=0;i<CELLDOM.length;i++){
+      cell = CELLDOM[i];
+      if(!cell) continue;
+      if(a >= 0 && i >= a && i <= b && !struck[i]) cell.classList.add("sel");
+      else cell.classList.remove("sel");
+      cell.classList.remove("struck","draw");
+      cell.style.removeProperty("--d");
+    }
+    for(i in struck){
+      cell = CELLDOM[i];
+      if(cell) cell.classList.add("struck");
+    }
+  }
+
+  /* ---------------- 选择状态 ---------------- */
+  function selStart(){ return selAnchor < 0 ? -1 : Math.min(selAnchor, selFocus); }
+  function selEnd(){ return selAnchor < 0 ? -1 : Math.max(selAnchor, selFocus); }
+
+  function clearSel(){
+    selAnchor = -1; selFocus = -1; restartNext = false;
+    if(judgeTimer){ clearTimeout(judgeTimer); judgeTimer = null; }
+    paintState();
+  }
+
+  function onCellClick(i){
+    if(cleared) return;
+    var cell = CELLDOM[i];
+    if(!cell || cell.classList.contains("struck")) return;
+
+    if(selAnchor < 0){
+      selAnchor = selFocus = i;
+      restartNext = false;
+    } else {
+      var a = selStart(), b = selEnd();
+      if(i >= a && i <= b){
+        selFocus = i;
+        restartNext = false;
+      } else if(i === a - 1 || i === b + 1){
+        selFocus = i;
+        restartNext = false;
+      } else if(!restartNext && Math.abs(i - selAnchor) <= 24){
+        selFocus = i;
+      } else {
+        selAnchor = selFocus = i;
+        restartNext = false;
+      }
+    }
+    paintState();
+    if(judgeTimer){ clearTimeout(judgeTimer); judgeTimer = null; }
+
+    var hit = exactHit();
+    if(hit){ succeed(hit); return; }
+    judgeTimer = setTimeout(judge, 1200);
+  }
+
+  function exactHit(){
+    var a = selStart(), b = selEnd();
+    if(a < 0 || b < a) return null;
+    var seg = FLAT.slice(a, b + 1);
+    for(var i=0;i<ERRORS.length;i++){
+      var e = ERRORS[i];
+      if(e.s < 0) continue;
+      if(e.seg === seg && foundIds.indexOf(e.id) < 0) return e;
+    }
+    return null;
+  }
+
+  function succeed(e){
+    foundIds.push(e.id);
+    miss = 0; near = 0; restartNext = false;
+    var a = selStart(), b = selEnd();
+    var i, cell;
+    if(a >= 0){
+      for(i=a;i<=b;i++){
+        cell = CELLDOM[i];
+        if(cell) cell.classList.remove("sel");
+      }
+    }
+    selAnchor = -1; selFocus = -1;
+    for(i=e.s;i<=e.e;i++){
+      cell = CELLDOM[i];
+      if(!cell) continue;
+      cell.classList.remove("sel");
+      cell.classList.add("struck","draw");
+      cell.style.setProperty("--d", ((i - e.s) * 42) + "ms");
+    }
+    blip(680 + foundIds.length * 70);
+    if(foundIds.length === 6){ blip(920); setTimeout(function(){ blip(1240); }, 150); }
+    foundEl.textContent = String(foundIds.length);
+    hudFound.textContent = String(foundIds.length);
+    renderDots();
+    say("ok", "✔ 找对了：第 " + foundIds.length + " 处 ——「" + e.seg + "」。" + e.note);
+    if(foundIds.length === 6){
+      cleared = true;
+      document.body.classList.add("cleared");
+      hudProgress.classList.add("done");
+      setTimeout(finish, 900);
+    }
+  }
+
+  function judge(){
+    judgeTimer = null;
+    var a = selStart(), b = selEnd();
+    if(a < 0 || b - a + 1 < 2) return;
+    var seg = FLAT.slice(a, b + 1);
+
+    for(var i=0;i<ERRORS.length;i++){
+      var e = ERRORS[i];
+      if(e.s < 0) continue;
+      if(e.seg === seg){
+        restartNext = true;
+        say("warn", "这处已经划出来了，换一处再试试。");
+        return;
+      }
+    }
+
+    var partial = null, over = null, shift = null;
+    for(i=0;i<ERRORS.length;i++){
+      e = ERRORS[i];
+      if(e.s < 0 || foundIds.indexOf(e.id) >= 0) continue;
+      if(a >= e.s && b <= e.e){ partial = { e:e, head:a > e.s, tail:b < e.e }; break; }
+      if(a <= e.s && b >= e.e && !over){ over = e; continue; }
+      if(a <= e.e && b >= e.s && !shift) shift = e;
+    }
+
+    if(partial){
+      near++;
+      restartNext = false;
+      var side = partial.head && partial.tail ? "开头和结尾都还有几个字没选上"
+               : (partial.head ? "开头还有几个字没选上" : "结尾还有几个字没选上");
+      var extra = near >= 2 ? "（这句话共 " + partial.e.seg.length + " 个字，连标点一起数一数。）" : "";
+      say("warn", "快接近正确答案了！" + side + "，再往" + (partial.head ? "前" : "") + (partial.tail ? "后" : "") + "多选几个字。" + extra);
+      return;
+    }
+
+    if(over){
+      miss++;
+      restartNext = true;
+      say("warn", "范围偏大了，多选了几个字，收一收。" + escal());
+      return;
+    }
+    if(shift){
+      miss++;
+      restartNext = true;
+      say("warn", "范围偏了，开头或结尾选到了无关的字，重新对齐一下。" + escal());
+      return;
+    }
+
+    if(seg.length >= 4){
+      miss++;
+      restartNext = true;
+      say("warn", "这段表述没有问题，换一处再看看。" + escal());
+    } else {
+      restartNext = false;
+      say("warn", "这段表述没有问题。选中范围还太短，把整处错误选完整才算数。");
+    }
+  }
+
+  function escal(){
+    var unf = ERRORS.filter(function(e){ return foundIds.indexOf(e.id) < 0; });
+    if(!unf.length) return "";
+    var remain = unf.length;
+    if(miss === 2) return " 提示：还剩 " + remain + " 处没找到，可以从「党的性质表述、指导思想列举、党的历史进程表述、所引全会与落款时间」四个方向去看。";
+    if(miss >= 3 && miss <= 4) return " 提示：注意【" + unf[0].cat + "】方面的问题，就在" + unf[0].where + "。";
+    if(miss >= 5 && miss <= 6) return " 提示：答案在" + unf[0].where + "，属于【" + unf[0].cat + "】类问题。";
+    if(miss >= 7 && miss <= 8) return " 提示：这一段里以「" + unf[0].seg.charAt(0) + "」开头、共 " + unf[0].seg.length + " 个字的内容有问题。";
+    return " 直接告诉你：应划出的是「" + unf[0].seg + "」。";
+  }
+
+  /* ---------------- 反馈条 ---------------- */
+  function say(kind, text){
+    feedback.className = "feedback show " + kind;
+    fbIcon.textContent = kind === "ok" ? "✔" : (kind === "bad" ? "✖" : "◆");
+    fbText.textContent = text;
+    if(fbTimer){ clearTimeout(fbTimer); fbTimer = null; }
+    if(kind === "ok"){
+      fbTimer = setTimeout(hideFeedback, 7000);
+    }
+  }
+
+  function hideFeedback(){
+    if(fbTimer){ clearTimeout(fbTimer); fbTimer = null; }
+    feedback.className = "feedback";
+  }
+
+  function blip(freq){
+    try{
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if(!Ctx) return;
+      if(!window.__ac) window.__ac = new Ctx();
+      var ac = window.__ac;
+      var o = ac.createOscillator(), g = ac.createGain();
+      o.type = "sine"; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.075, ac.currentTime + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.26);
+      o.connect(g); g.connect(ac.destination);
+      o.start(); o.stop(ac.currentTime + 0.28);
+    }catch(e){}
+  }
+
+  function renderDots(){
+    var html = "";
+    for(var i=0;i<6;i++){
+      var on = foundIds.indexOf(String(i + 1)) > -1;
+      html += '<i class="' + (on ? "on" : "") + '">' + (i + 1) + "</i>";
+    }
+    dots.innerHTML = html;
+  }
+
+  /* ---------------- 通关 ---------------- */
+  var ANSWERS = [
+    { n:1, key:"性质表述缺字",
+      bad:"中国阶级的先锋队",
+      good:"中国工人阶级的先锋队",
+      why:"党章总纲第一句写明：中国共产党是「中国工人阶级的先锋队」。漏掉「工人」二字，就把党的阶级基础写没了，性质表述不准确。" },
+    { n:2, key:"性质表述冗余",
+      bad:"中国人民和中国中华民族",
+      good:"中国人民和中华民族",
+      why:"「中国人民」与「中华民族」是并列关系，中间不加「中国」。多写一个「中国」，句子成分重复，不符合党章原文。" },
+    { n:3, key:"指导思想不全",
+      bad:"以马克思列宁主义、毛泽东思想为指导",
+      good:"以马克思列宁主义、毛泽东思想、邓小平理论、「三个代表」重要思想、科学发展观、习近平新时代中国特色社会主义思想为指导",
+      why:"党章规定，党以马克思列宁主义、毛泽东思想、邓小平理论、「三个代表」重要思想、科学发展观、习近平新时代中国特色社会主义思想作为自己的行动指南。只写前两项，遗漏了后续指导思想，属于重大表述不完整。" },
+    { n:4, key:"语句残缺",
+      bad:"建立了制度",
+      good:"建立了中华人民共和国，确立了社会主义基本制度",
+      why:"「建立了制度」语义不完整，指的是什么制度、建立的是什么，都说不清楚。党章总纲的规范表述是：完成了新民主主义革命，建立了中华人民共和国，确立了社会主义基本制度。" },
+    { n:5, key:"全会归属错误",
+      bad:"推进国家治理体系和治理能力现代化",
+      good:"「十五五」规划建议（党的二十届四中全会审议通过）",
+      why:"「坚持和完善中国特色社会主义制度、推进国家治理体系和治理能力现代化」是党的十九届四中全会（2019年10月）专门研究的主题；党的二十届四中全会（2025年10月20日至23日）审议通过的是《中共中央关于制定国民经济和社会发展第十五个五年规划的建议》，主题并不相同，不能张冠李戴。" },
+    { n:6, key:"时间逻辑错误",
+      bad:"2024年9月20日",
+      good:"落款日期必须与所引会议、文件在时间上自洽",
+      why:"申请书落款为2024年9月20日，而党的二十届四中全会到2025年10月20日至23日才召开。撰写时不可能引用尚未召开会议的内容，前后矛盾。（对比：党的二十届三中全会于2024年7月15日至18日召开，在落款之前，可以引用。）" }
+  ];
+
+  function buildAnswers(){
+    var html = "";
+    for(var i=0;i<ANSWERS.length;i++){
+      var a = ANSWERS[i];
+      html += '<div class="ans">' +
+        '<div class="no">' + a.n + "</div>" +
+        "<div>" +
+          "<h4>" + a.key + "</h4>" +
+          '<div class="row"><span class="lbl bad">原文</span><span class="txt bad">' + a.bad + "</span></div>" +
+          '<div class="row"><span class="lbl good">应改为</span><span class="txt good">' + a.good + "</span></div>" +
+          '<div class="row"><span class="lbl why">解析</span><span class="txt">' + a.why + "</span></div>" +
+        "</div>" +
+      "</div>";
+    }
+    html += '<div class="summary"><h3>本关知识点小结</h3><ul>' +
+      "<li>入党申请书中关于党的性质、指导思想的表述，必须与《中国共产党章程》总纲一致，不能凭印象缩写。</li>" +
+      "<li>引用党的会议和文件要「四对得上」：届次、名称、时间、主题，缺一不可。</li>" +
+      "<li>撰写时间与引用内容必须自洽——写申请书时，不可能引用还没召开的会议。</li>" +
+      "<li>党的性质完整表述：中国共产党是中国工人阶级的先锋队，同时是中国人民和中华民族的先锋队。</li>" +
+      "</ul></div>" +
+      '<div class="next-lv"><strong>下一关预告</strong><span>关卡 2：党组织派人谈话 —— 支部书记李四与你的第一次正式谈话。</span><a class="btn dark" href="党建知识闯关_关卡2_派人谈话.html">进入关卡 2 ▸</a></div>' +
+      '<div class="srcs"><strong>本关判定依据（可点击查阅原文）</strong><ul>' +
+        '<li>《中国共产党章程》总纲（党的性质、指导思想表述）—— <a href="https://www.12371.cn/special/zggcdzc/" target="_blank" rel="noopener noreferrer">共产党员网 · 党章全文</a></li>' +
+        '<li>《中共中央关于坚持和完善中国特色社会主义制度、推进国家治理体系和治理能力现代化若干重大问题的决定》（2019年10月31日党的十九届四中全会通过）—— <a href="https://www.gov.cn/zhengce/2019-11/05/content_5449023.htm" target="_blank" rel="noopener noreferrer">中国政府网</a></li>' +
+        '<li>《中国共产党第二十届中央委员会第四次全体会议公报》（2025年10月23日通过，全会于10月20日至23日召开）—— <a href="https://www.gov.cn/yaowen/liebiao/202510/content_7045444.htm" target="_blank" rel="noopener noreferrer">中国政府网</a></li>' +
+        '<li>《中国共产党第二十届中央委员会第三次全体会议公报》（2024年7月18日通过，全会于7月15日至18日召开）—— <a href="https://www.gov.cn/yaowen/liebiao/202407/content_6963409.htm" target="_blank" rel="noopener noreferrer">中国政府网</a></li>' +
+      "</ul></div>";
+    el("answerBody").innerHTML = html;
+  }
+
+  function finish(){
+    openModal("modalAnswer");
+  }
+
+  /* ---------------- 弹窗 ---------------- */
+  function openModal(id){
+    var m = el(id);
+    m.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(id){
+    var m = el(id);
+    m.classList.remove("open");
+    if(!document.querySelector(".modal.open")) document.body.style.overflow = "";
+  }
+
+  document.addEventListener("click", function(e){
+    var t = e.target;
+    if(t && t.getAttribute && t.getAttribute("data-close")){
+      closeModal(t.getAttribute("data-close"));
+    }
+    if(t && t.classList && t.classList.contains("modal")){
+      closeModal(t.id);
+    }
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape"){
+      var open = document.querySelector(".modal.open");
+      if(open) closeModal(open.id);
+    }
+  });
+
+  /* ---------------- 按钮 ---------------- */
+  btnNext.addEventListener("click", next);
+  el("btnProfile").addEventListener("click", function(){ openModal("modalProfile"); });
+
+  grid.addEventListener("click", function(e){
+    var t = e.target;
+    if(!t || !t.classList || !t.classList.contains("cell")) return;
+    var i = parseInt(t.getAttribute("data-i"), 10);
+    if(isNaN(i)) return;
+    onCellClick(i);
+  });
+
+  el("btnClearSel").addEventListener("click", function(){
+    clearSel();
+    say("warn", "已清空选择。重新点错误的第一个字开始。");
+  });
+
+  btnOrigin.addEventListener("click", function(){
+    showingOrigin = !showingOrigin;
+    if(showingOrigin){
+      paper.classList.add("hidden");
+      originImg.classList.remove("hidden");
+      btnOrigin.textContent = "返回方格稿纸";
+      hideFeedback();
+    } else {
+      paper.classList.remove("hidden");
+      originImg.classList.add("hidden");
+      btnOrigin.textContent = "查看手写原件";
+      layoutGrid();
+    }
+  });
+
+  function resetRun(){
+    foundIds = []; miss = 0; near = 0; cleared = false;
+    selAnchor = -1; selFocus = -1; restartNext = false;
+    if(judgeTimer){ clearTimeout(judgeTimer); judgeTimer = null; }
+    foundEl.textContent = "0";
+    hudFound.textContent = "0";
+    document.body.classList.remove("cleared");
+    hudProgress.classList.remove("done");
+    closeModal("modalAnswer");
+    if(showingOrigin){ btnOrigin.click(); }
+    paintState();
+    renderDots();
+    say("warn", "已重置。先点错误的第一个字，再连续点选相邻的字，把整处错误选完整。");
+  }
+
+  el("btnReset").addEventListener("click", resetRun);
+  el("btnRetry").addEventListener("click", resetRun);
+
+  el("btnReplay").addEventListener("click", function(){
+    closeModal("modalAnswer");
+    closeModal("modalProfile");
+    hideFeedback();
+    document.body.classList.remove("phase-letter","cleared");
+    letter.setAttribute("aria-hidden","true");
+    hudProgress.classList.remove("done");
+    foundIds = []; miss = 0; near = 0; cleared = false;
+    selAnchor = -1; selFocus = -1; restartNext = false;
+    foundEl.textContent = "0"; hudFound.textContent = "0";
+    hardReset(zhang, "actor zhang");
+    hardReset(zhangHand, "actor zhang-hand");
+    hardReset(hands, "hands");
+    hardReset(sheet, "sheet");
+    chapter.classList.remove("hide");
+    step = 0; busy = false; btnNext.disabled = false;
+    renderStep();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  var rt;
+  window.addEventListener("resize", function(){
+    if(!document.body.classList.contains("phase-letter")) return;
+    clearTimeout(rt);
+    rt = setTimeout(function(){ if(!showingOrigin) layoutGrid(); }, 180);
+  });
+
+  /* ---------------- 初始化 ---------------- */
+  buildFlat();
+  renderStep();
+  renderDots();
+  buildAnswers();
+})();
+</script>
+</body>
+</html>
