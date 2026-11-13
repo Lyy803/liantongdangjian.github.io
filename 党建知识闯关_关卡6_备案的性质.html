@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>入党之路 · 关卡6：备案的性质</title>
+<style>
+  :root{
+    --red:#C8102E;--red-2:#9E0B24;--red-deep:#6B0A18;
+    --gold:#D9A94A;--gold-2:#F0D18C;
+    --ink:#22304A;--stage-bg:#1d1218;--ok:#1F7A4C;
+    --shadow:0 18px 40px rgba(0,0,0,.28);
+    --font-cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-kai:"KaiTi","STKaiti","Kaiti SC","楷体","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  [hidden]{display:none !important}
+  body{font-family:var(--font-cjk);color:#F6EEE6;
+    background:radial-gradient(1200px 620px at 12% -8%,rgba(200,16,46,.30),transparent 62%),
+                radial-gradient(900px 520px at 92% 4%,rgba(217,169,74,.16),transparent 60%),
+                linear-gradient(170deg,#2A0D14 0%,#1B0A0F 48%,#120709 100%);
+    background-attachment:fixed;min-height:100vh;-webkit-text-size-adjust:100%;user-select:none}
+  .app{max-width:1200px;margin:0 auto;padding:16px 16px 34px}
+  body.phase-quiz .app{padding-bottom:118px}
+
+  .hud{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin-bottom:14px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand h1{font-size:19px;margin:0;letter-spacing:.06em;font-weight:600;color:#FFF6EA}
+  .brand .sub{font-size:12px;color:rgba(255,240,225,.62);letter-spacing:.14em;margin-top:2px}
+  .badge{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.08em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.55);box-shadow:0 4px 14px rgba(200,16,46,.36)}
+  .hud-right{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .progress{display:flex;align-items:baseline;gap:6px;padding:7px 14px;border-radius:10px;
+    background:rgba(0,0,0,.30);border:1px solid rgba(217,169,74,.30);
+    font-size:13px;color:rgba(255,244,232,.78);letter-spacing:.05em}
+  .progress b{font-size:21px;color:var(--gold-2);font-weight:700;font-variant-numeric:tabular-nums}
+  .progress.done{border-color:rgba(96,214,150,.6);background:rgba(31,122,76,.24)}
+  .progress.done b{color:#8BF0B8}
+
+  .btn{font-family:inherit;font-size:14px;cursor:pointer;border-radius:10px;
+    padding:9px 18px;letter-spacing:.06em;
+    border:1px solid rgba(240,209,140,.45);user-select:none;
+    transition:transform .14s ease,box-shadow .2s ease,background .2s ease}
+  .btn:active{transform:translateY(1px) scale(.99)}
+  .btn.primary{color:#FFF6E6;font-weight:700;
+    background:linear-gradient(165deg,#D3153A,#9E0B24 60%,#7A0819);
+    box-shadow:0 8px 20px rgba(200,16,46,.40),inset 0 1px 0 rgba(255,255,255,.22)}
+  .btn.primary:hover{box-shadow:0 10px 26px rgba(200,16,46,.55),inset 0 1px 0 rgba(255,255,255,.28)}
+  .btn.primary[disabled]{opacity:.5;cursor:not-allowed}
+  .btn.ghost{color:#FFEFDA;background:rgba(255,255,255,.07);border-color:rgba(217,169,74,.38)}
+  .btn.ghost:hover{background:rgba(255,255,255,.13)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  .scene-wrap{position:relative}
+  .scene{position:relative;width:100%;aspect-ratio:16/9;max-height:min(55vh,500px);
+    border-radius:18px;overflow:hidden;background:var(--stage-bg);
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .scene .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(122% 90% at 50% 44%,transparent 42%,rgba(24,8,10,.5) 100%)}
+  .actor{position:absolute;pointer-events:none;user-select:none}
+  .actor-li{
+    right:5%;bottom:0;height:98%;width:auto;transform-origin:50% 100%;
+    transform:translateY(5%) scale(.99);opacity:0;
+    transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s ease-out;
+  }
+  .actor-li.show{opacity:1;transform:translateY(0) scale(1)}
+  .chapter{position:absolute;left:0;right:0;bottom:0;padding:18px 22px;
+    background:linear-gradient(0deg,rgba(12,4,6,.86),rgba(12,4,6,0));
+    display:flex;flex-direction:column;gap:3px;pointer-events:none;transition:opacity .5s ease}
+  .chapter em{font-style:normal;font-size:clamp(12px,1.5vw,16px);letter-spacing:.3em;color:var(--gold-2)}
+  .chapter strong{font-weight:600;font-size:clamp(13px,1.7vw,19px);letter-spacing:.1em;color:#FFF3E2}
+  .chapter.hide{opacity:0}
+
+  .dialogue{position:relative;margin-top:14px;padding:16px 18px 18px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.30);box-shadow:var(--shadow);
+    display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .speaker{flex:0 0 auto;padding:6px 14px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.14em;
+    color:#FFEFD6;background:linear-gradient(160deg,#8E0C20,#5E0A16);border:1px solid rgba(240,209,140,.4)}
+  .speaker.zhang{background:linear-gradient(160deg,#1E4E7A,#123252);border-color:rgba(150,200,240,.42)}
+  .speaker.li{background:linear-gradient(160deg,#7A5A12,#4A3608);border-color:rgba(240,209,140,.5)}
+  .speaker.wang{background:linear-gradient(160deg,#1E6B5A,#0F4034);border-color:rgba(140,230,200,.42)}
+  .line{flex:1 1 320px;margin:0;font-size:16px;line-height:1.85;color:#F7EFE6;letter-spacing:.03em;min-width:0}
+  .dlg-actions{flex:0 0 auto;display:flex;gap:10px;align-items:center}
+
+  .quiz{display:none}
+  body.phase-quiz .quiz{display:block}
+  body.phase-quiz .dialogue{display:none}
+  body.phase-quiz .chapter{opacity:0}
+
+  .quiz-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin:14px 0;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32)}
+  .hint{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#F6E9D8;letter-spacing:.04em;line-height:1.7;flex:1 1 420px;min-width:0}
+  .hint .dot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;background:var(--red);margin-top:6px;
+    box-shadow:0 0 0 4px rgba(200,16,46,.22)}
+  .hint b{color:var(--gold-2);font-size:19px;font-variant-numeric:tabular-nums}
+  .bar-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+  .quiz-body{display:flex;gap:16px;align-items:flex-start}
+  .quiz-main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:14px}
+
+  .monologue{margin:0;padding:15px 18px;border-radius:14px;font-size:15px;line-height:1.95;
+    color:#F6E9D8;letter-spacing:.03em;
+    background:linear-gradient(180deg,rgba(217,169,74,.14),rgba(217,169,74,.04));
+    border:1px dashed rgba(217,169,74,.45)}
+  .monologue strong{color:var(--gold-2);font-weight:700}
+
+  .qcard{padding:18px 20px 20px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:var(--shadow)}
+  .qcard.done{border-color:rgba(96,214,150,.45)}
+  .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:6px}
+  .qno{flex:0 0 auto;padding:5px 11px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.12em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.5)}
+  .qhead h3{margin:2px 0 0;font-size:16.5px;line-height:1.6;letter-spacing:.03em;color:#FFF6EA;font-weight:600}
+  .qnote{margin:0 0 13px;font-size:12.5px;letter-spacing:.08em;color:rgba(255,240,225,.6)}
+  .qrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .dbox{display:inline-flex;align-items:center;gap:6px}
+  .dbox input{width:78px;font-family:inherit;font-size:19px;letter-spacing:.08em;font-variant-numeric:tabular-nums;
+    text-align:center;color:#FFF6EA;padding:11px 8px;border-radius:11px;background:rgba(0,0,0,.34);
+    border:1px solid rgba(217,169,74,.42);outline:none;transition:border-color .2s ease,box-shadow .2s ease;
+    -webkit-user-select:text;user-select:text}
+  .dbox input:focus{border-color:rgba(240,209,140,.85);box-shadow:0 0 0 4px rgba(217,169,74,.16)}
+  .dbox input[disabled]{opacity:.7}
+  .dbox span{font-size:14px;color:rgba(255,240,225,.72);letter-spacing:.06em}
+  .dbox.y input{width:94px}
+
+  .verdict{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:14px;padding:12px 16px;border-radius:11px;
+    font-size:14.5px;line-height:1.75;letter-spacing:.03em}
+  .verdict.ok{background:linear-gradient(160deg,rgba(31,122,76,.30),rgba(31,122,76,.10));border:1px solid rgba(96,214,150,.5);color:#D8FFE9}
+  .verdict.ok b{color:#8BF0B8}
+  .verdict.bad{background:linear-gradient(160deg,rgba(200,16,46,.26),rgba(200,16,46,.08));border:1px solid rgba(255,140,150,.45);color:#FFE6EA}
+  .verdict.bad b{color:#FF9AA8}
+
+  .reveal{margin-top:12px;padding:16px 18px 17px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.17),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5);
+    animation:unfold .46s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes unfold{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .reveal .rv-lbl{font-size:12px;letter-spacing:.22em;color:#FFD98F;font-weight:700}
+  .reveal .rv-ans{margin:7px 0 13px;font-size:26px;font-weight:700;letter-spacing:.05em;color:#FFF6E2;line-height:1.35}
+  .reveal p{margin:0 0 10px;font-size:14px;line-height:1.9;color:rgba(255,246,234,.9);letter-spacing:.02em}
+  .reveal p:last-child{margin-bottom:0}
+  .reveal p b{color:#FFD98F}
+  .reveal .quote{margin:0 0 11px;padding:11px 15px;border-left:3px solid rgba(240,209,140,.72);
+    background:rgba(0,0,0,.22);border-radius:0 8px 8px 0;
+    font-family:var(--font-kai);font-size:14.5px;line-height:1.9;color:#FFF3E2;letter-spacing:.02em}
+  .reveal .quote i{display:block;margin-top:6px;font-style:normal;font-size:12.5px;letter-spacing:.08em;color:rgba(255,240,225,.6)}
+  .reveal .calc{margin:2px 0 11px;padding:13px 15px;border-radius:10px;background:rgba(0,0,0,.26);
+    border:1px dashed rgba(217,169,74,.45);font-size:14px;line-height:2;color:#FFF3E2;
+    font-variant-numeric:tabular-nums;letter-spacing:.03em}
+  .reveal .calc b{color:#FFD98F}
+  .reveal .diff{margin:0 0 12px;padding:10px 14px;border-radius:8px;
+    background:rgba(200,16,46,.14);border:1px dashed rgba(255,140,150,.4);color:#FFE6EA;font-size:13.5px;line-height:1.8}
+  .reveal .diff b{color:#FFD9DE}
+
+  .finish-row{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-top:2px}
+
+  .side{flex:0 0 296px;display:flex;flex-direction:column;gap:14px}
+  .side-card{padding:16px 16px 18px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .side-card h3{margin:0 0 10px;font-size:14px;letter-spacing:.16em;color:var(--gold-2);font-weight:700}
+  .side-card p{margin:0 0 10px;font-size:13.5px;line-height:1.75;color:rgba(255,244,232,.82)}
+  .side-card p b{color:#FFD98F}
+  .side-tip{font-size:12.5px !important;color:rgba(255,240,225,.62) !important;line-height:1.85 !important}
+  .timeline{display:flex;flex-direction:column;gap:8px;margin:4px 0}
+  .timeline li{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:rgba(255,244,232,.85);line-height:1.6}
+  .timeline .d{flex:0 0 auto;font-variant-numeric:tabular-nums;color:#FFD98F;font-size:12.5px;letter-spacing:.04em}
+
+  .feedback{position:fixed;left:0;right:0;bottom:0;z-index:45;padding:26px 16px 14px;
+    background:linear-gradient(0deg,rgba(14,5,8,.95),rgba(14,5,8,.78) 62%,rgba(14,5,8,0));
+    opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .28s ease,transform .28s ease}
+  .feedback.show{opacity:1;transform:none}
+  .fb-inner{max-width:1200px;margin:0 auto;display:flex;gap:11px;align-items:flex-start;
+    font-size:14.5px;line-height:1.72;color:#FFF3E4;letter-spacing:.02em}
+  .fb-icon{flex:0 0 auto;font-size:16px;line-height:1.6}
+  .feedback.ok .fb-icon{color:#8BF0B8}.feedback.warn .fb-icon{color:#FFD98F}.feedback.bad .fb-icon{color:#FF9AA8}
+
+  .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;
+    background:rgba(16,6,9,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal.open{display:flex;animation:fadein .28s ease-out both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .modal-card{width:100%;max-width:860px;max-height:88vh;overflow:auto;
+    background:linear-gradient(180deg,#FFFDF7,#F7F0E2);
+    color:#2C2118;border-radius:18px;border:1px solid rgba(217,169,74,.6);
+    box-shadow:0 30px 70px rgba(0,0,0,.5);animation:rise .34s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+  .modal-head{padding:20px 24px 16px;border-bottom:1px solid rgba(150,110,60,.22);
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(200,16,46,.07),transparent)}
+  .modal-head h2{margin:0;font-size:20px;letter-spacing:.1em;color:#8E0C20}
+  .modal-head p{margin:4px 0 0;font-size:13px;color:#6B5A48;letter-spacing:.05em}
+  .modal-body{padding:18px 24px 24px}
+  .ans{display:grid;grid-template-columns:38px 1fr;gap:0 14px;
+    padding:16px 0;border-bottom:1px dashed rgba(150,110,60,.28)}
+  .ans:last-child{border-bottom:0}
+  .ans .no{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:15px;color:#fff;background:linear-gradient(160deg,#D3153A,#8E0C20);
+    box-shadow:0 4px 12px rgba(200,16,46,.3)}
+  .ans h4{margin:2px 0 10px;font-size:15.5px;letter-spacing:.06em;color:#8E0C20}
+  .ans .row{display:flex;gap:10px;font-size:14px;line-height:1.85;margin-bottom:7px;align-items:flex-start}
+  .ans .row .lbl{flex:0 0 auto;font-size:12px;padding:2px 8px;border-radius:6px;margin-top:3px;letter-spacing:.08em}
+  .lbl.bad{background:rgba(200,16,46,.12);color:#9E0B24;border:1px solid rgba(200,16,46,.28)}
+  .lbl.good{background:rgba(31,122,76,.12);color:#15623C;border:1px solid rgba(31,122,76,.28)}
+  .lbl.why{background:rgba(217,169,74,.18);color:#7A5A12;border:1px solid rgba(217,169,74,.45)}
+  .ans .row .txt{flex:1 1 auto;color:#3A2C22}
+  .ans .row .txt.good{color:#15623C;font-weight:700;font-size:15px}
+  .summary{margin-top:20px;padding:16px 18px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.14),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5)}
+  .summary h3{margin:0 0 8px;font-size:15px;color:#7A5A12;letter-spacing:.1em}
+  .summary ul{margin:0;padding-left:20px}
+  .summary li{font-size:14px;line-height:1.9;color:#4A3A2A}
+  .next-lv{margin-top:14px;padding:14px 18px;border-radius:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    background:rgba(200,16,46,.06);border:1px dashed rgba(200,16,46,.35)}
+  .next-lv strong{font-size:14px;color:#8E0C20;letter-spacing:.06em}
+  .next-lv span{font-size:13px;color:#6B5A48}
+  .srcs{margin-top:14px;padding:14px 18px;border-radius:12px;
+    background:rgba(34,48,74,.05);border:1px solid rgba(34,48,74,.16)}
+  .srcs strong{display:block;font-size:13px;letter-spacing:.1em;color:#3A4A66;margin-bottom:8px}
+  .srcs ul{margin:0;padding-left:18px}
+  .srcs li{font-size:12.5px;line-height:1.9;color:#5A5040}
+  .srcs a{color:#8E0C20;text-decoration:underline;text-underline-offset:2px}
+  .modal-foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding:0 24px 22px}
+  .btn.dark{color:#fff;background:linear-gradient(165deg,#8E0C20,#5E0A16);border-color:rgba(240,209,140,.4)}
+  .btn.plain{color:#6B5A48;background:#fff;border-color:rgba(150,110,60,.35)}
+  .btn.plain:hover{background:#FBF6EC}
+  .clear-flag{display:none;margin-bottom:14px;padding:14px 18px;border-radius:14px;align-items:center;gap:12px;
+    background:linear-gradient(160deg,rgba(31,122,76,.24),rgba(31,122,76,.08));
+    border:1px solid rgba(96,214,150,.5);color:#D8FFE9;font-size:15px;letter-spacing:.06em}
+  body.cleared .clear-flag{display:flex}
+
+  @media (max-width:880px){.quiz-body{flex-direction:column}.side{flex:1 1 auto;width:100%;flex-direction:row;flex-wrap:wrap}.side-card{flex:1 1 260px}}
+  @media (max-width:640px){
+    .app{padding:10px 10px 26px}.brand h1{font-size:16px}.line{font-size:15px}
+    .hud,.quiz-bar{padding:10px 12px}.progress b{font-size:18px}.hint{font-size:13px}
+    .dbox input{width:62px;font-size:17px}.dbox.y input{width:74px}.dbox span{font-size:13px}
+    .reveal .rv-ans{font-size:21px}.monologue{font-size:14px}
+    .ans{grid-template-columns:30px 1fr;gap:0 10px}
+    .modal-body{padding:14px 16px 20px}.modal-head{padding:16px}.modal-foot{padding:0 16px 18px}
+    .fb-inner{font-size:13.5px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="hud">
+    <div class="brand">
+      <span class="badge">关卡 6</span>
+      <div>
+        <h1>备案的性质</h1>
+        <div class="sub">入党之路 · 角色扮演闯关</div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="progress" id="hudProgress"><span>已提交</span><b id="hudRight">0</b><span>/ 1</span></div>
+      <button class="btn ghost" id="btnProfile" type="button">人物档案</button>
+      <button class="btn ghost" id="btnReplay" type="button">重看剧情</button>
+    </div>
+  </header>
+
+  <div class="clear-flag" id="clearFlag"><span>✔ 答案已提交，本关通过。</span></div>
+
+  <main class="stage-wrap">
+    <section class="scene" id="scene">
+      <img class="bg" src="https://Lyy803.github.io/picx-images-hosting/bg.6bhvnx5ygv.webp" alt="第一党支部办公室">
+      <div class="vignette"></div>
+      <img class="actor actor-li" id="li" src="https://Lyy803.github.io/picx-images-hosting/li_half.1vzgizh8c5.webp" alt="支部书记李四">
+      <div class="chapter" id="chapter">
+        <em>2025年6月15日</em>
+        <strong>下午 · 公司党委办公室</strong>
+      </div>
+    </section>
+
+    <section class="quiz" id="quiz" aria-hidden="true">
+      <div class="quiz-bar">
+        <div class="hint">
+          <span class="dot" aria-hidden="true"></span>
+          <span>一张时间线摆在眼前：支委会、公示、备案，三个日子依次发生。张三被<b>正式确定</b>为入党积极分子，究竟是哪一天？</span>
+        </div>
+        <div class="bar-actions">
+          <button class="btn ghost" id="btnReset" type="button">重新开始</button>
+        </div>
+      </div>
+      <div class="quiz-body">
+        <div class="quiz-main">
+          <p class="monologue">
+            <strong>背景交代：</strong>2025年5月10日，第一党支部召开<b>支部党员大会</b>，集体研究决定同意将张三列为入党积极分子；<br>
+            5月12日至16日在支部范围内进行了<b>公示</b>，无异议；<br>
+            5月17日支部将备案材料报送公司党委；<br>
+            <strong>2025年6月15日</strong>，公司党委审查完毕，批复同意，完成<b>备案</b>。
+          </p>
+
+          <article class="qcard" id="qcard">
+            <div class="qhead">
+              <span class="qno">问 1</span>
+              <h3>张三被确定为入党积极分子的时间是哪一天？</h3>
+            </div>
+            <p class="qnote">只填数字，后面自带年月日</p>
+            <div class="qrow">
+              <label class="dbox y"><input id="q1y" type="text" inputmode="numeric" maxlength="4" autocomplete="off"><span>年</span></label>
+              <label class="dbox"><input id="q1m" type="text" inputmode="numeric" maxlength="2" autocomplete="off"><span>月</span></label>
+              <label class="dbox"><input id="q1d" type="text" inputmode="numeric" maxlength="2" autocomplete="off"><span>日</span></label>
+              <button class="btn primary" id="q1go" type="button">提交</button>
+            </div>
+            <div class="verdict" id="q1v" hidden></div>
+            <div class="reveal" id="q1r" hidden></div>
+          </article>
+
+          <div class="finish-row" id="finishRow" hidden>
+            <button class="btn primary" id="btnFinish" type="button">查看本关完整解析 ▸</button>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="side-card">
+            <h3>时间线</h3>
+            <ul class="timeline">
+              <li><span class="d">5月10日</span><span>支部党员大会研究决定</span></li>
+              <li><span class="d">5月12-16日</span><span>支部范围内公示（5 天）</span></li>
+              <li><span class="d">5月17日</span><span>支部报送公司党委备案</span></li>
+              <li><span class="d">6月15日</span><span>公司党委批复同意 · 完成备案</span></li>
+            </ul>
+            <p class="side-tip">四个时间点摆在眼前。"研究决定""公示""批复同意"——哪一个是<b>真正的确定时间</b>？</p>
+          </div>
+          <div class="side-card">
+            <h3>关键词提示</h3>
+            <p class="side-tip">"备案"的性质是<b>告知性审查</b>，不是审批。党委备案不改变支部党员大会研究确定的时间节点。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dialogue" id="dialogue">
+    <div class="speaker" id="speaker">旁白</div>
+    <p class="line" id="line"></p>
+    <div class="dlg-actions">
+      <button class="btn primary" id="btnNext" type="button">继续 ▸</button>
+    </div>
+  </footer>
+</div>
+
+<div class="feedback" id="feedback" role="status" aria-live="polite">
+  <div class="fb-inner"><span class="fb-icon" id="fbIcon" aria-hidden="true">◆</span><span id="fbText"></span></div>
+</div>
+
+<div class="modal" id="modalProfile" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><h2>人物档案 · 第一党支部</h2><p>关卡6 场景设定：备案 ≠ 确定时间</p></div>
+      <button class="btn plain" data-close="modalProfile" type="button">关闭</button>
+    </div>
+    <div class="modal-body">
+      <div class="ans" style="grid-template-columns:1fr">
+        <div>
+          <h4>本关时间线</h4>
+          <p style="margin:0;font-size:14px;line-height:1.9;color:#3A2C22">
+            2025年5月10日 · 支部党员大会议研究<br>
+            2025年5月12—16日 · 支部范围内公示<br>
+            2025年5月17日 · 支部报送公司党委备案<br>
+            2025年6月15日 · 公司党委批复同意，完成备案
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn dark" data-close="modalProfile" type="button">知道了</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modalAnswer" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><h2>关卡 6 通过 · 备案的性质</h2><p>备案不改变支部研究确定的时间节点</p></div>
+      <button class="btn plain" data-close="modalAnswer" type="button">回看场景</button>
+    </div>
+    <div class="modal-body" id="answerBody"></div>
+    <div class="modal-foot">
+      <button class="btn plain" id="btnRetry" type="button">重新挑战本关</button>
+      <button class="btn dark" data-close="modalAnswer" type="button">关闭，回看场景</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function el(id){ return document.getElementById(id); }
+
+  /* ================= 反馈 ================= */
+  var AC = null;
+  function blip(kind){
+    try{
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if(!Ctx) return;
+      AC = AC || new Ctx();
+      if(AC.state === "suspended" && AC.resume) AC.resume();
+      var t = AC.currentTime;
+      var notes = kind === "ok" ? [660, 990] : (kind === "bad" ? [320, 210] : [520]);
+      for(var i = 0; i < notes.length; i++){
+        var o = AC.createOscillator(), g = AC.createGain();
+        o.type = "sine"; o.frequency.value = notes[i];
+        var at = t + i * 0.09;
+        g.gain.setValueAtTime(0.0001, at);
+        g.gain.exponentialRampToValueAtTime(0.16, at + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.22);
+        o.connect(g); g.connect(AC.destination);
+        o.start(at); o.stop(at + 0.26);
+      }
+    }catch(e){}
+  }
+  var fb = el("feedback"), fbIcon = el("fbIcon"), fbText = el("fbText"), fbTimer = null;
+  function say(kind, text){
+    fb.classList.remove("ok","warn","bad");
+    fb.classList.add(kind === "ok" ? "ok" : (kind === "bad" ? "bad" : "warn"));
+    fbIcon.textContent = kind === "ok" ? "✔" : (kind === "bad" ? "✕" : "◆");
+    fbText.textContent = text;
+    fb.classList.add("show");
+    if(fbTimer) clearTimeout(fbTimer);
+    fbTimer = setTimeout(function(){ fb.classList.remove("show"); }, kind === "ok" ? 3400 : 5600);
+  }
+
+  /* ================= 弹窗工具 ================= */
+  function closeModals(){ var ms = document.querySelectorAll(".modal"); for(var i = 0; i < ms.length; i++) ms[i].classList.remove("open"); }
+  function openModal(id){ var m = el(id); if(m) m.classList.add("open"); }
+  document.addEventListener("click", function(e){ var t = e.target; if(t && t.getAttribute && t.getAttribute("data-close")) closeModals(); if(t && t.classList && t.classList.contains("modal")) closeModals(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModals(); });
+
+  /* ================= 剧情 ================= */
+  var li = el("li");
+  var chapter = el("chapter"), speaker = el("speaker"), lineEl = el("line"), btnNext = el("btnNext");
+
+  function switchActor(who){
+    if(li){ li.classList.remove("show"); if(who === "li") li.classList.add("show"); }
+  }
+
+  var STEPS = [
+    { who:"旁白", cls:"", text:"2025年6月15日，公司党建工作部正在整理各支部报来的备案材料——其中就包括第一党支部关于张三同志的备案申请。",
+      fx:function(){ switchActor(null); } },
+    { who:"入党申请人张三", cls:"zhang", text:"（电话中）李书记您好，我想问一下——我这算确定成积极分子了吗？支部是5月10日研究的，但党委今天才批下来。到底哪天算是我的确定时间啊？",
+      fx:function(){ switchActor(null); } },
+    { who:"支部书记李四", cls:"li", text:"张三同志别急。5月10日那天支部党员大会集体研究，一致同意把你列为入党积极分子，这个决定从那天就生效了。",
+      fx:function(){ switchActor("li"); } },
+    { who:"支部书记李四", cls:"li", text:"党委的备案是必经程序，性质上属于告知性审查——党委审查后如果没意见就批复同意，不会改变支部已经研究确定的时间节点。",
+      fx:function(){ switchActor("li"); } },
+    { who:"旁白", cls:"", text:"所以张三被确定为积极分子的时间，究竟是5月10日（支部研究）、5月16日（公示结束），还是6月15日（党委批复）？请你填出正确答案。",
+      fx:function(){ switchActor(null); } },
+  ];
+
+  var stepIdx = 0;
+  function renderStep(){
+    var s = STEPS[stepIdx];
+    speaker.textContent = s.who;
+    speaker.className = "speaker" + (s.cls ? " " + s.cls : "");
+    lineEl.textContent = s.text;
+    btnNext.textContent = (stepIdx === STEPS.length - 1) ? "填日期 ▸" : "继续 ▸";
+    if(s.fx) s.fx();
+  }
+  function nextStep(){
+    if(stepIdx >= STEPS.length - 1){ enterQuiz(); return; }
+    stepIdx++; renderStep(); blip("tick");
+  }
+  btnNext.addEventListener("click", nextStep);
+
+  function enterQuiz(){
+    if(document.body.classList.contains("phase-quiz")) return;
+    document.body.classList.add("phase-quiz");
+    chapter.classList.add("hide");
+    var q = el("quiz"); q.setAttribute("aria-hidden","false");
+    say("warn", "时间线右侧栏里四个日期都摆在眼前。想想：「备案」到底是什么性质？");
+    setTimeout(function(){ try{ q.scrollIntoView({ behavior:"smooth", block:"start" }); }catch(e){ window.scrollTo(0, Math.max(0, q.offsetTop - 12)); } }, 280);
+  }
+
+  /* ================= 答题 ================= */
+  var CORRECT = { y:2025, m:5, d:10 };
+  var submitted = false;
+
+  function digitsOf(s){ return String(s == null ? "" : s).replace(/[^0-9]/g, ""); }
+  function fmt(p){ return p.y + "年" + p.m + "月" + p.d + "日"; }
+
+  el("q1go").addEventListener("click", function(){
+    if(submitted) return;
+    var y = digitsOf(el("q1y").value), m = digitsOf(el("q1m").value), d = digitsOf(el("q1d").value);
+    if(!y || !m || !d){ say("warn", "年、月、日都要填上。"); blip("tick"); return; }
+    if(y.length !== 4 || +m < 1 || +m > 12 || +d < 1 || +d > 31){ say("warn", "格式不对，年份 4 位，月份 1-12，日期 1-31。"); blip("tick"); return; }
+
+    submitted = true;
+    var p = { y:+y, m:+m, d:+d };
+    var isCorrect = (p.y === CORRECT.y && p.m === CORRECT.m && p.d === CORRECT.d);
+    var ids = ["q1y","q1m","q1d","q1go"];
+    for(var i = 0; i < ids.length; i++) el(ids[i]).disabled = true;
+
+    var v = el("q1v");
+    v.className = "verdict " + (isCorrect ? "ok" : "bad");
+    v.innerHTML = isCorrect
+      ? "<b>✔ 回答正确</b><span>你填的是 " + fmt(p) + "。</span>"
+      : "<b>✗ 回答有误</b><span>你填的是 " + fmt(p) + "，再对照时间线想一想。</span>";
+    v.hidden = false;
+    el("qcard").classList.add("done");
+    document.body.classList.add("cleared");
+    el("hudProgress").classList.add("done");
+
+    blip(isCorrect ? "ok" : "bad");
+    say(isCorrect ? "ok" : "bad", isCorrect ? "答对了：备案不改变支部研究确定的时间。" : "没关系，正确答案和依据马上给你。");
+
+    // always-reveal
+    setTimeout(function(){ revealAnswer(p); }, 700);
+  });
+
+  function revealAnswer(my){
+    var r = el("q1r");
+    var diffClass = (my.y === CORRECT.y && my.m === CORRECT.m && my.d === CORRECT.d) ? "" : "";
+    var diff = "";
+    if(my.y === 2025 && my.m === 6 && my.d === 15){
+      diff = '<div class="diff">⚠ 容易误填：<b>6月15日（党委批复同意）</b>是备案完成日，但备案是告知性审查，不改变支部研究确定的时间节点。</div>';
+    } else if(my.y === 2025 && my.m === 5 && my.d >= 12 && my.d <= 16){
+      diff = '<div class="diff">⚠ 容易误填：<b>5月' + my.d + '日</b>是公示期间或结束日，公示是支部研究之后的内部程序，不是确定时间的计算依据。</div>';
+    }
+
+    r.innerHTML =
+      '<div class="rv-lbl">正 确 答 案</div>' +
+      '<div class="rv-ans">2025年5月10日</div>' +
+      '<div class="calc">' +
+        '5月10日 — <b>支部党员大会集体研究决定</b><br>' +
+        '5月12-16日 — 支部公示（内部程序，不改变确定时间）<br>' +
+        '5月17日 — 支部报送党委备案<br>' +
+        '6月15日 — <b>公司党委批复同意，备案完成</b>（告知性审查）<br>' +
+        '→ 张三被确定为入党积极分子的时间 = <b>2025年5月10日</b>' +
+      '</div>' +
+      diff +
+      '<p class="quote">' +
+        '党支部委员会（不设支部委员会的由支部大会）研究决定同意将某人列为入党积极分子后，应当报上级党委备案。上级党委备案是必经程序，属于告知性审查。' +
+        '<i>——《中国共产党发展党员工作细则》第八条</i>' +
+      '</p>' +
+      '<p><b>备案的性质：</b>上级党委备案是<b>告知性审查</b>，不是审批。党委审查认为不符合条件的，可以提出纠正意见、责令支部重新研究；但如果党委未提出异议，只是批复同意，这个备案行为<b>不改变支部委员会研究确定的时间节点</b>。</p>' +
+      '<p><b>正确做法：</b>确定积极分子的时间以<b>支部委员会集体研究决定之日</b>为准。备案日期（2025年6月15日）只是上级知晓并认可这一决定的证明，不是确定时间本身。</p>';
+    r.hidden = false;
+    el("finishRow").hidden = false;
+  }
+
+  /* ================= 通关弹窗 ================= */
+  function buildAnswer(){
+    var html = "";
+    var p = null;
+    try{
+      var y = +digitsOf(el("q1y").value), m = +digitsOf(el("q1m").value), d = +digitsOf(el("q1d").value);
+      p = { y: isNaN(y) ? 0 : y, m: isNaN(m) ? 0 : m, d: isNaN(d) ? 0 : d };
+    }catch(e){}
+    var myStr = (p && p.y) ? fmt(p) : "（未作答）";
+    var ok = (p && p.y === CORRECT.y && p.m === CORRECT.m && p.d === CORRECT.d);
+
+    html += '<div class="ans"><div class="no">1</div><div>' +
+      '<h4>张三被确定为入党积极分子的时间是哪一天？</h4>' +
+      '<div class="row"><span class="lbl good">正确答案</span><span class="txt good">2025年5月10日</span></div>' +
+      '<div class="row"><span class="lbl why">你的作答</span><span class="txt">' + myStr + '　' + (ok ? "（正确）" : "（有误）") + '</span></div>' +
+      '<div class="row"><span class="lbl why">确定时间</span><span class="txt">以<b>支部党员大会研究决定之日</b>（2025年5月10日）为确定入党积极分子的时间。</span></div>' +
+      '<div class="row"><span class="lbl why">备案性质</span><span class="txt">上级党委备案是必经程序，属于<b>告知性审查</b>；如党委审查认为不符合条件，可提出纠正意见，但备案<b>不改变</b>支委会研究确定的时间节点。</span></div>' +
+      '<div class="row"><span class="lbl bad">易错点</span><span class="txt">把党委备案完成日（2025年6月15日）误当成确定时间。备案是"告知+审查"，不是"审批生效"。</span></div>' +
+      '</div></div>';
+
+    html += '<div class="summary"><h3>知识点小结</h3><ul>' +
+      '<li>确定积极分子的时间 = <b>支部党员大会集体研究决定之日</b>。</li>' +
+      '<li>备案是<b>告知性审查</b>，不是审批，不改变支部研究确定的时间。</li>' +
+      '<li>党委备案是必经程序；备案后积极分子身份正式生效（但时间回溯到支部研究日）。</li>' +
+      '<li>公示是支部研究决定后的内部程序，公示结束日也不是确定时间。</li>' +
+      '</ul></div>';
+
+    html += '<div class="next-lv"><strong>下一关预告</strong>' +
+      '<span>关卡 7：培养考察安排的审查 —— 培养联系人的人选安排里，藏着一处不符合规定的表述。</span>' +
+      '<a class="btn dark" href="党建知识闯关_关卡7_培养考察安排的审查.html">进入关卡 7 ▸</a></div>';
+
+    html += '<div class="srcs"><strong>权威来源（可点击查阅原文）</strong><ul>' +
+      '<li>《中国共产党发展党员工作细则》（2026年修订）第八条 ——<a href="https://www.gov.cn/zhengce/202605/content_7069304.htm" target="_blank" rel="noopener">中国政府网</a></li>' +
+      '</ul></div>';
+
+    el("answerBody").innerHTML = html;
+  }
+
+  function finish(){ buildAnswer(); openModal("modalAnswer"); }
+
+  /* ================= 复位 ================= */
+  function resetRun(){
+    closeModals();
+    stepIdx = 0; submitted = false;
+    chapter.classList.remove("hide");
+    document.body.classList.remove("phase-quiz", "cleared");
+    el("quiz").setAttribute("aria-hidden", "true");
+    el("hudProgress").classList.remove("done");
+
+    var ids = ["q1y","q1m","q1d","q1go"];
+    for(var i = 0; i < ids.length; i++){
+      el(ids[i]).disabled = false;
+      if(ids[i] !== "q1go") el(ids[i]).value = "";
+    }
+    el("q1v").hidden = true; el("q1v").innerHTML = "";
+    el("q1r").hidden = true; el("q1r").innerHTML = "";
+    el("qcard").classList.remove("done");
+    el("finishRow").hidden = true;
+
+    renderStep();
+    say("warn", "已回到场景开头。");
+    window.scrollTo(0, 0);
+  }
+
+  /* ================= 绑定 ================= */
+  el("btnProfile").addEventListener("click", function(){ openModal("modalProfile"); });
+  el("btnReplay").addEventListener("click", resetRun);
+  el("btnReset").addEventListener("click", resetRun);
+  el("btnRetry").addEventListener("click", resetRun);
+  el("btnFinish").addEventListener("click", finish);
+
+  renderStep();
+
+  /* 年份输入补全：自动补全为2025 */
+  el("q1y").addEventListener("blur", function(){
+    if(!this.value) this.value = "2025";
+  });
+})();
+</script>
+</body>
+</html>

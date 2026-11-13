@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>入党之路 · 关卡5：确定入党积极分子</title>
+<style>
+  :root{
+    --red:#C8102E;--red-2:#9E0B24;--red-deep:#6B0A18;
+    --gold:#D9A94A;--gold-2:#F0D18C;
+    --ink:#22304A;--stage-bg:#1d1218;--ok:#1F7A4C;
+    --shadow:0 18px 40px rgba(0,0,0,.28);
+    --font-cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-kai:"KaiTi","STKaiti","Kaiti SC","楷体","Songti SC",serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  [hidden]{display:none !important}
+  body{
+    font-family:var(--font-cjk);color:#F6EEE6;
+    background:radial-gradient(1200px 620px at 12% -8%,rgba(200,16,46,.30),transparent 62%),
+                radial-gradient(900px 520px at 92% 4%,rgba(217,169,74,.16),transparent 60%),
+                linear-gradient(170deg,#2A0D14 0%,#1B0A0F 48%,#120709 100%);
+    background-attachment:fixed;min-height:100vh;-webkit-text-size-adjust:100%;
+  }
+  .app{max-width:1200px;margin:0 auto;padding:16px 16px 34px}
+  body.phase-quiz .app{padding-bottom:118px}
+
+  /* ---------- HUD ---------- */
+  .hud{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin-bottom:14px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand h1{font-size:19px;margin:0;letter-spacing:.06em;font-weight:600;color:#FFF6EA}
+  .brand .sub{font-size:12px;color:rgba(255,240,225,.62);letter-spacing:.14em;margin-top:2px}
+  .badge{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.08em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.55);box-shadow:0 4px 14px rgba(200,16,46,.36)}
+  .hud-right{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .progress{display:flex;align-items:baseline;gap:6px;padding:7px 14px;border-radius:10px;
+    background:rgba(0,0,0,.30);border:1px solid rgba(217,169,74,.30);
+    font-size:13px;color:rgba(255,244,232,.78);letter-spacing:.05em}
+  .progress b{font-size:21px;color:var(--gold-2);font-weight:700;font-variant-numeric:tabular-nums}
+  .progress.done{border-color:rgba(96,214,150,.6);background:rgba(31,122,76,.24)}
+  .progress.done b{color:#8BF0B8}
+
+  .btn{font-family:inherit;font-size:14px;cursor:pointer;border-radius:10px;
+    padding:9px 18px;letter-spacing:.06em;
+    border:1px solid rgba(240,209,140,.45);
+    transition:transform .14s ease,box-shadow .2s ease,background .2s ease}
+  .btn:active{transform:translateY(1px) scale(.99)}
+  .btn.primary{color:#FFF6E6;font-weight:700;
+    background:linear-gradient(165deg,#D3153A,#9E0B24 60%,#7A0819);
+    box-shadow:0 8px 20px rgba(200,16,46,.40),inset 0 1px 0 rgba(255,255,255,.22)}
+  .btn.primary:hover{box-shadow:0 10px 26px rgba(200,16,46,.55),inset 0 1px 0 rgba(255,255,255,.28)}
+  .btn.primary[disabled]{opacity:.5;cursor:not-allowed}
+  .btn.ghost{color:#FFEFDA;background:rgba(255,255,255,.07);border-color:rgba(217,169,74,.38)}
+  .btn.ghost:hover{background:rgba(255,255,255,.13)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  /* ---------- 舞台 ---------- */
+  .scene-wrap{position:relative}
+  .scene{position:relative;width:100%;aspect-ratio:16/9;max-height:min(55vh,500px);
+    border-radius:18px;overflow:hidden;background:var(--stage-bg);
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow);
+    transition:max-width .55s cubic-bezier(.3,.8,.3,1);max-width:100%}
+  .scene .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(122% 90% at 50% 44%,transparent 42%,rgba(24,8,10,.5) 100%)}
+  .chapter{position:absolute;left:0;right:0;bottom:0;padding:18px 22px;
+    background:linear-gradient(0deg,rgba(12,4,6,.86),rgba(12,4,6,0));
+    display:flex;flex-direction:column;gap:3px;pointer-events:none;transition:opacity .5s ease}
+  .chapter em{font-style:normal;font-size:clamp(12px,1.5vw,16px);letter-spacing:.3em;color:var(--gold-2)}
+  .chapter strong{font-weight:600;font-size:clamp(13px,1.7vw,19px);letter-spacing:.1em;color:#FFF3E2}
+  .chapter.hide{opacity:0}
+
+  /* ---------- 对话 ---------- */
+  .dialogue{position:relative;margin-top:14px;padding:16px 18px 18px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.30);box-shadow:var(--shadow);
+    display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .speaker{flex:0 0 auto;padding:6px 14px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.14em;
+    color:#FFEFD6;background:linear-gradient(160deg,#8E0C20,#5E0A16);border:1px solid rgba(240,209,140,.4)}
+  .speaker.zhang{background:linear-gradient(160deg,#1E4E7A,#123252);border-color:rgba(150,200,240,.42)}
+  .speaker.li{background:linear-gradient(160deg,#7A5A12,#4A3608);border-color:rgba(240,209,140,.5)}
+  .speaker.wang{background:linear-gradient(160deg,#1E6B5A,#0F4034);border-color:rgba(140,230,200,.42)}
+  .line{flex:1 1 320px;margin:0;font-size:16px;line-height:1.85;color:#F7EFE6;letter-spacing:.03em;min-width:0}
+  .dlg-actions{flex:0 0 auto;display:flex;gap:10px;align-items:center}
+
+  /* ---------- 答题区 ---------- */
+  .quiz{display:none}
+  body.phase-quiz .quiz{display:block}
+  body.phase-quiz .dialogue{display:none}
+  body.phase-quiz .chapter{opacity:0}
+
+  .quiz-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin:14px 0;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32)}
+  .hint{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#F6E9D8;letter-spacing:.04em;line-height:1.7;flex:1 1 420px;min-width:0}
+  .hint .dot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;background:var(--red);margin-top:6px;
+    box-shadow:0 0 0 4px rgba(200,16,46,.22)}
+  .hint b{color:var(--gold-2);font-size:19px;font-variant-numeric:tabular-nums}
+  .bar-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+  .quiz-body{display:flex;gap:16px;align-items:flex-start}
+  .quiz-main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:14px}
+
+  .qcard{padding:18px 20px 20px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:var(--shadow)}
+  .qcard.done{border-color:rgba(96,214,150,.45)}
+  .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:6px}
+  .qno{flex:0 0 auto;padding:5px 11px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.12em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.5)}
+  .qhead h3{margin:2px 0 0;font-size:16.5px;line-height:1.6;letter-spacing:.03em;color:#FFF6EA;font-weight:600}
+  .qnote{margin:0 0 13px;font-size:12.5px;letter-spacing:.08em;color:rgba(255,240,225,.6)}
+
+  /* ---- 目标格（4 个方框） ---- */
+  .slots-row{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 6px}
+  .slot{
+    flex:1 1 calc(25% - 9px);min-width:140px;min-height:72px;
+    border-radius:12px;padding:10px 12px;
+    background:rgba(0,0,0,.24);
+    border:2px dashed rgba(217,169,74,.45);
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+    position:relative;transition:all .2s ease;cursor:pointer;
+  }
+  .slot .num{
+    position:absolute;top:6px;left:10px;font-size:12px;font-weight:700;letter-spacing:.14em;
+    color:rgba(217,169,74,.75)
+  }
+  .slot.drag-over{border-color:rgba(240,209,140,.95);background:rgba(240,209,140,.10);
+    box-shadow:0 0 0 3px rgba(240,209,140,.18)}
+  .slot.filled{border-style:solid;border-color:rgba(240,209,140,.6)}
+  .slot.correct{border-color:rgba(96,214,150,.8);background:rgba(31,122,76,.18)}
+  .slot.wrong{border-color:rgba(255,140,150,.75);background:rgba(200,16,46,.18)}
+
+  /* ---- 词汇池 ---- */
+  .pool-label{font-size:12px;color:rgba(255,240,225,.55);letter-spacing:.1em;margin:10px 0 6px}
+  .pool{display:flex;gap:8px;flex-wrap:wrap;padding:12px;border-radius:12px;
+    background:rgba(0,0,0,.18);border:1px dashed rgba(217,169,74,.3)}
+  .word{
+    padding:9px 14px;border-radius:8px;font-size:14px;font-weight:600;letter-spacing:.04em;
+    color:#FFF6E6;cursor:grab;user-select:none;
+    background:linear-gradient(160deg,#3E2731,#281620);
+    border:1px solid rgba(240,209,140,.45);
+    box-shadow:0 4px 10px rgba(0,0,0,.3);
+    transition:transform .12s ease,box-shadow .18s ease,opacity .2s ease;
+    touch-action:none;
+  }
+  .word:hover:not([disabled]){transform:translateY(-1px);box-shadow:0 6px 14px rgba(200,16,46,.35)}
+  .word:active{cursor:grabbing}
+  .word.gone{opacity:.25;pointer-events:none}
+  .word.dragging{opacity:.5}
+
+  /* 点击选择时的浮动菜单 */
+  .picker{
+    position:fixed;z-index:80;background:linear-gradient(180deg,#2A0D14,#1B0A0F);
+    border:1px solid rgba(240,209,140,.6);border-radius:10px;padding:8px;
+    box-shadow:0 14px 30px rgba(0,0,0,.6);display:flex;flex-direction:column;gap:4px;
+    min-width:180px;animation:pickerIn .18s ease-out both;
+  }
+  @keyframes pickerIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .picker button{font-family:inherit;font-size:14px;color:#FFF6E6;cursor:pointer;
+    padding:7px 12px;border:none;border-radius:6px;background:transparent;text-align:left}
+  .picker button:hover{background:rgba(240,209,140,.15)}
+  .picker button.empty{color:rgba(255,240,225,.4)}
+
+  .dragging-ghost{
+    position:fixed;z-index:99;pointer-events:none;
+    transform:translate(-50%,-50%);
+    padding:9px 14px;border-radius:8px;font-size:14px;font-weight:600;
+    color:#FFF6E6;background:linear-gradient(160deg,#D3153A,#9E0B24);
+    border:1px solid rgba(240,209,140,.8);
+    box-shadow:0 10px 24px rgba(0,0,0,.5);letter-spacing:.04em;
+    animation:ghost .12s ease-out both;
+  }
+  @keyframes ghost{from{transform:translate(-50%,-50%) scale(.95);opacity:.6}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+
+  .verdict{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:14px;padding:12px 16px;border-radius:11px;
+    font-size:14.5px;line-height:1.75;letter-spacing:.03em}
+  .verdict.ok{background:linear-gradient(160deg,rgba(31,122,76,.30),rgba(31,122,76,.10));border:1px solid rgba(96,214,150,.5);color:#D8FFE9}
+  .verdict.ok b{color:#8BF0B8}
+  .verdict.bad{background:linear-gradient(160deg,rgba(200,16,46,.26),rgba(200,16,46,.08));border:1px solid rgba(255,140,150,.45);color:#FFE6EA}
+  .verdict.bad b{color:#FF9AA8}
+
+  .reveal{margin-top:12px;padding:16px 18px 17px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.17),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5);
+    animation:unfold .46s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes unfold{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .reveal .rv-lbl{font-size:12px;letter-spacing:.22em;color:#FFD98F;font-weight:700}
+  .reveal .rv-ans{margin:7px 0 13px;font-size:22px;font-weight:700;letter-spacing:.04em;color:#FFF6E2;line-height:1.5}
+  .reveal .rv-ans ol{margin:0;padding-left:24px;column-gap:10px;display:grid;grid-template-columns:1fr 1fr}
+  .reveal .rv-ans li{font-size:16px;line-height:2;color:#FFD98F}
+  .reveal p{margin:0 0 10px;font-size:14px;line-height:1.9;color:rgba(255,246,234,.9);letter-spacing:.02em}
+  .reveal p:last-child{margin-bottom:0}
+  .reveal p b{color:#FFD98F}
+  .reveal .quote{margin:0 0 11px;padding:11px 15px;border-left:3px solid rgba(240,209,140,.72);
+    background:rgba(0,0,0,.22);border-radius:0 8px 8px 0;
+    font-family:var(--font-kai);font-size:14.5px;line-height:1.9;color:#FFF3E2;letter-spacing:.02em}
+  .reveal .quote i{display:block;margin-top:6px;font-style:normal;font-size:12.5px;letter-spacing:.08em;color:rgba(255,240,225,.6)}
+
+  .finish-row{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-top:2px}
+
+  /* ---------- 侧栏 ---------- */
+  .side{flex:0 0 296px;display:flex;flex-direction:column;gap:14px}
+  .side-card{padding:16px 16px 18px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .side-card h3{margin:0 0 10px;font-size:14px;letter-spacing:.16em;color:var(--gold-2);font-weight:700}
+  .side-card p{margin:0 0 10px;font-size:13.5px;line-height:1.75;color:rgba(255,244,232,.82)}
+  .side-card p b{color:#FFD98F}
+  .side-tip{font-size:12.5px !important;color:rgba(255,240,225,.62) !important;line-height:1.85 !important}
+  .mini-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:auto 1fr;gap:7px 12px}
+  .mini-list .k{font-size:12.5px;color:rgba(255,240,225,.55);letter-spacing:.08em}
+  .mini-list .v{margin:0;font-size:13.5px;color:#FFF3E4}
+
+  /* ---------- 底部反馈条 ---------- */
+  .feedback{position:fixed;left:0;right:0;bottom:0;z-index:45;padding:26px 16px 14px;
+    background:linear-gradient(0deg,rgba(14,5,8,.95),rgba(14,5,8,.78) 62%,rgba(14,5,8,0));
+    opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .28s ease,transform .28s ease}
+  .feedback.show{opacity:1;transform:none}
+  .fb-inner{max-width:1200px;margin:0 auto;display:flex;gap:11px;align-items:flex-start;
+    font-size:14.5px;line-height:1.72;color:#FFF3E4;letter-spacing:.02em}
+  .fb-icon{flex:0 0 auto;font-size:16px;line-height:1.6}
+  .feedback.ok .fb-icon{color:#8BF0B8}
+  .feedback.warn .fb-icon{color:#FFD98F}
+  .feedback.bad .fb-icon{color:#FF9AA8}
+
+  /* ---------- 弹窗 ---------- */
+  .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;
+    background:rgba(16,6,9,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal.open{display:flex;animation:fadein .28s ease-out both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .modal-card{width:100%;max-width:860px;max-height:88vh;overflow:auto;
+    background:linear-gradient(180deg,#FFFDF7,#F7F0E2);
+    color:#2C2118;border-radius:18px;border:1px solid rgba(217,169,74,.6);
+    box-shadow:0 30px 70px rgba(0,0,0,.5);animation:rise .34s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+  .modal-head{padding:20px 24px 16px;border-bottom:1px solid rgba(150,110,60,.22);
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(200,16,46,.07),transparent)}
+  .modal-head h2{margin:0;font-size:20px;letter-spacing:.1em;color:#8E0C20}
+  .modal-head p{margin:4px 0 0;font-size:13px;color:#6B5A48;letter-spacing:.05em}
+  .modal-body{padding:18px 24px 24px}
+  .ans{display:grid;grid-template-columns:38px 1fr;gap:0 14px;
+    padding:16px 0;border-bottom:1px dashed rgba(150,110,60,.28)}
+  .ans:last-child{border-bottom:0}
+  .ans .no{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:15px;color:#fff;background:linear-gradient(160deg,#D3153A,#8E0C20);
+    box-shadow:0 4px 12px rgba(200,16,46,.3)}
+  .ans h4{margin:2px 0 10px;font-size:15.5px;letter-spacing:.06em;color:#8E0C20}
+  .ans .row{display:flex;gap:10px;font-size:14px;line-height:1.85;margin-bottom:7px;align-items:flex-start}
+  .ans .row .lbl{flex:0 0 auto;font-size:12px;padding:2px 8px;border-radius:6px;margin-top:3px;letter-spacing:.08em}
+  .lbl.bad{background:rgba(200,16,46,.12);color:#9E0B24;border:1px solid rgba(200,16,46,.28)}
+  .lbl.good{background:rgba(31,122,76,.12);color:#15623C;border:1px solid rgba(31,122,76,.28)}
+  .lbl.why{background:rgba(217,169,74,.18);color:#7A5A12;border:1px solid rgba(217,169,74,.45)}
+  .ans .row .txt{flex:1 1 auto;color:#3A2C22}
+  .ans .row .txt.good{color:#15623C;font-weight:700;font-size:15px}
+  .summary{margin-top:20px;padding:16px 18px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.14),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5)}
+  .summary h3{margin:0 0 8px;font-size:15px;color:#7A5A12;letter-spacing:.1em}
+  .summary ol{margin:0;padding-left:22px}
+  .summary ol li{font-size:14px;line-height:1.9;color:#4A3A2A;margin-bottom:4px}
+  .next-lv{margin-top:14px;padding:14px 18px;border-radius:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    background:rgba(200,16,46,.06);border:1px dashed rgba(200,16,46,.35)}
+  .next-lv strong{font-size:14px;color:#8E0C20;letter-spacing:.06em}
+  .next-lv span{font-size:13px;color:#6B5A48}
+  .srcs{margin-top:14px;padding:14px 18px;border-radius:12px;
+    background:rgba(34,48,74,.05);border:1px solid rgba(34,48,74,.16)}
+  .srcs strong{display:block;font-size:13px;letter-spacing:.1em;color:#3A4A66;margin-bottom:8px}
+  .srcs ul{margin:0;padding-left:18px}
+  .srcs li{font-size:12.5px;line-height:1.9;color:#5A5040}
+  .srcs a{color:#8E0C20;text-decoration:underline;text-underline-offset:2px}
+  .modal-foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding:0 24px 22px}
+  .btn.dark{color:#fff;background:linear-gradient(165deg,#8E0C20,#5E0A16);border-color:rgba(240,209,140,.4)}
+  .btn.plain{color:#6B5A48;background:#fff;border-color:rgba(150,110,60,.35)}
+  .btn.plain:hover{background:#FBF6EC}
+  .clear-flag{display:none;margin-bottom:14px;padding:14px 18px;border-radius:14px;align-items:center;gap:12px;
+    background:linear-gradient(160deg,rgba(31,122,76,.24),rgba(31,122,76,.08));
+    border:1px solid rgba(96,214,150,.5);color:#D8FFE9;font-size:15px;letter-spacing:.06em}
+  body.cleared .clear-flag{display:flex}
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:880px){
+    .quiz-body{flex-direction:column}
+    .side{flex:1 1 auto;width:100%;flex-direction:row;flex-wrap:wrap}
+    .side-card{flex:1 1 260px}
+    .slot{flex:1 1 calc(50% - 6px)}
+  }
+  @media (max-width:640px){
+    .app{padding:10px 10px 26px}
+    body.phase-quiz .app{padding-bottom:132px}
+    .brand h1{font-size:16px}.line{font-size:15px}
+    .hud,.quiz-bar{padding:10px 12px}.progress b{font-size:18px}
+    .hint{font-size:13px}.qcard{padding:14px 14px 16px}
+    .slot{flex:1 1 100%}.reveal .rv-ans ol{grid-template-columns:1fr}
+    .ans{grid-template-columns:30px 1fr;gap:0 10px}
+    .modal-body{padding:14px 16px 20px}.modal-head{padding:16px}
+    .modal-foot{padding:0 16px 18px}.fb-inner{font-size:13.5px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="hud">
+    <div class="brand">
+      <span class="badge">关卡 5</span>
+      <div>
+        <h1>确定入党积极分子</h1>
+        <div class="sub">入党之路 · 角色扮演闯关</div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="progress" id="hudProgress"><span>已提交</span><b id="hudRight">0</b><span>/ 1</span></div>
+      <button class="btn ghost" id="btnProfile" type="button">人物档案</button>
+      <button class="btn ghost" id="btnReplay" type="button">重看剧情</button>
+    </div>
+  </header>
+
+  <div class="clear-flag" id="clearFlag">
+    <span>✔ 答案已提交，本关通过。</span>
+  </div>
+
+  <main class="stage-wrap">
+
+    <section class="scene" id="scene">
+      <img class="bg" src="https://Lyy803.github.io/picx-images-hosting/huiyi_5.szr85uaer.webp" alt="第一党支部会议室">
+      <div class="vignette"></div>
+      <div class="chapter" id="chapter">
+        <em>2025年5月10日</em>
+        <strong>下午 · 第一党支部会议室</strong>
+      </div>
+    </section>
+
+    <section class="quiz" id="quiz" aria-hidden="true">
+
+      <div class="quiz-bar">
+        <div class="hint">
+          <span class="dot" aria-hidden="true"></span>
+          <span>将词汇按正确顺序拖进四个方框，或点击方框从列表选择。填完后点<b>提交</b>。</span>
+        </div>
+        <div class="bar-actions">
+          <button class="btn ghost" id="btnResetQuiz" type="button">重置</button>
+        </div>
+      </div>
+
+      <div class="quiz-body">
+        <div class="quiz-main">
+
+          <article class="qcard" id="qcard">
+            <div class="qhead">
+              <span class="qno">问 1</span>
+              <h3>张三是通过以下哪些步骤成为入党积极分子？按正确的先后顺序排列。</h3>
+            </div>
+            <p class="qnote">从词汇池中选词，按顺序填入 ①②③④ 方框。提交后无论对错都会给出解析。</p>
+
+            <div class="slots-row" id="slotsRow">
+              <div class="slot" data-slot="0"><span class="num">①</span></div>
+              <div class="slot" data-slot="1"><span class="num">②</span></div>
+              <div class="slot" data-slot="2"><span class="num">③</span></div>
+              <div class="slot" data-slot="3"><span class="num">④</span></div>
+            </div>
+
+            <div class="pool-label">备选词汇（5 个，其中 1 个是干扰项）：</div>
+            <div class="pool" id="pool"></div>
+
+            <div class="verdict" id="verdict" hidden></div>
+            <div class="reveal" id="reveal" hidden></div>
+
+            <div class="finish-row" id="submitRow">
+              <button class="btn primary" id="btnSubmit" type="button" disabled>提交答案</button>
+            </div>
+            <div class="finish-row" id="finishRow" hidden>
+              <button class="btn primary" id="btnFinish" type="button">查看本关完整解析 ▸</button>
+            </div>
+          </article>
+        </div>
+
+        <aside class="side">
+          <div class="side-card">
+            <h3>本关场景</h3>
+            <p>2025年5月10日，第一党支部拟将张三从<b>入党申请人</b>确定为<b>入党积极分子</b>。</p>
+            <p class="side-tip">这是发展党员程序中的关键一步。你还记得确定一名积极分子要走哪些程序吗？</p>
+          </div>
+          <div class="side-card">
+            <h3>发展党员四阶段</h3>
+            <ul class="mini-list">
+              <li class="k">1</li><li class="v">申请入党 → 谈话</li>
+              <li class="k">2</li><li class="v">确定积极分子（本关）</li>
+              <li class="k">3</li><li class="v">确定发展对象</li>
+              <li class="k">4</li><li class="v">接收预备党员 → 转正</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dialogue" id="dialogue">
+    <div class="speaker" id="speaker">旁白</div>
+    <p class="line" id="line"></p>
+    <div class="dlg-actions">
+      <button class="btn primary" id="btnNext" type="button">继续 ▸</button>
+    </div>
+  </footer>
+</div>
+
+<div class="feedback" id="feedback" role="status" aria-live="polite">
+  <div class="fb-inner">
+    <span class="fb-icon" id="fbIcon" aria-hidden="true">◆</span>
+    <span id="fbText"></span>
+  </div>
+</div>
+
+<!-- 人物档案 -->
+<div class="modal" id="modalProfile" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h2 id="profileTitle">人物档案 · 第一党支部</h2>
+        <p>关卡5 场景设定：确定入党积极分子</p>
+      </div>
+      <button class="btn plain" data-close="modalProfile" type="button">关闭</button>
+    </div>
+    <div class="modal-body">
+      <div class="ans" style="grid-template-columns:1fr">
+        <div>
+          <h4>时间线</h4>
+          <p style="margin:0;font-size:14px;line-height:1.9;color:#3A2C22">
+            2024年9月20日 · 张三撰写入党申请书<br>
+            2024年10月10日 · 第一党支部收到申请书<br>
+            2024年10月15日 · 支部书记李四与张三开展正式谈话<br>
+            <b>2025年5月10日</b> · 支部拟确定张三为入党积极分子（本关）
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn dark" data-close="modalProfile" type="button">知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- 通关解析 -->
+<div class="modal" id="modalAnswer" role="dialog" aria-modal="true" aria-labelledby="answerTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div>
+        <h2 id="answerTitle">关卡 5 通过 · 确定入党积极分子的程序</h2>
+        <p>候选人 → 积极分子，中间有几步？</p>
+      </div>
+      <button class="btn plain" data-close="modalAnswer" type="button">回看场景</button>
+    </div>
+    <div class="modal-body" id="answerBody"></div>
+    <div class="modal-foot">
+      <button class="btn plain" id="btnRetry" type="button">重新挑战本关</button>
+      <button class="btn dark" data-close="modalAnswer" type="button">关闭，回看场景</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function el(id){ return document.getElementById(id); }
+
+  /* ================= 反馈 ================= */
+  var AC = null;
+  function blip(kind){
+    try{
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if(!Ctx) return;
+      AC = AC || new Ctx();
+      if(AC.state === "suspended" && AC.resume) AC.resume();
+      var t = AC.currentTime;
+      var notes = kind === "ok" ? [660, 990] : (kind === "bad" ? [320, 210] : [520]);
+      for(var i = 0; i < notes.length; i++){
+        var o = AC.createOscillator(), g = AC.createGain();
+        o.type = "sine"; o.frequency.value = notes[i];
+        var at = t + i * 0.09;
+        g.gain.setValueAtTime(0.0001, at);
+        g.gain.exponentialRampToValueAtTime(0.16, at + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.22);
+        o.connect(g); g.connect(AC.destination);
+        o.start(at); o.stop(at + 0.26);
+      }
+    }catch(e){}
+  }
+  var fb = el("feedback"), fbIcon = el("fbIcon"), fbText = el("fbText"), fbTimer = null;
+  function say(kind, text){
+    fb.classList.remove("ok","warn","bad");
+    fb.classList.add(kind === "ok" ? "ok" : (kind === "bad" ? "bad" : "warn"));
+    fbIcon.textContent = kind === "ok" ? "✔" : (kind === "bad" ? "✕" : "◆");
+    fbText.textContent = text;
+    fb.classList.add("show");
+    if(fbTimer) clearTimeout(fbTimer);
+    fbTimer = setTimeout(function(){ fb.classList.remove("show"); }, kind === "ok" ? 3400 : 5600);
+  }
+
+  /* ================= 弹窗工具 ================= */
+  function closeModals(){ var ms = document.querySelectorAll(".modal"); for(var i = 0; i < ms.length; i++) ms[i].classList.remove("open"); }
+  function openModal(id){ var m = el(id); if(m) m.classList.add("open"); }
+  document.addEventListener("click", function(e){
+    var t = e.target;
+    if(t && t.getAttribute && t.getAttribute("data-close")) closeModals();
+    if(t && t.classList && t.classList.contains("modal")) closeModals();
+  });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModals(); });
+
+  /* ================= 剧情脚本 ================= */
+  var chapter = el("chapter"), speaker = el("speaker"), lineEl = el("line"), btnNext = el("btnNext");
+
+  var STEPS = [
+    { who:"旁白", cls:"", text:"2025年5月10日，第一党支部会议室。张三递交入党申请书已经快八个月了。今天支委们要讨论一件事——是否将张三确定为入党积极分子。" },
+    { who:"支部书记李四", cls:"li", text:"各位支委，今天我们召开党员大会：讨论确定张三同志为入党积极分子的相关事宜。" },
+    { who:"支部干事王五", cls:"wang", text:"首先是团组织推优——张三是共青团员，我们按程序收集了他所在团支部的意见，团支部一致推荐。然后是征求了部分群众的意见，反响也不错。" },
+    { who:"孙七", cls:"", text:"还有，我们找了两位正式党员做党员推荐，都同意推荐张三。程序上都齐了。" },
+    { who:"支部书记李四", cls:"li", text:"好。那接下来，支委会要按照规定，把这些材料综合起来研究，最后形成一致意见——同意还是不同意，报上级党委备案。" },
+    { who:"旁白", cls:"", text:"你能把确定入党积极分子的正确程序完整说出来吗？请按先后顺序，把四个步骤拖进方框里。" },
+  ];
+
+  var stepIdx = 0;
+  function renderStep(){
+    var s = STEPS[stepIdx];
+    speaker.textContent = s.who;
+    speaker.className = "speaker" + (s.cls ? " " + s.cls : "");
+    lineEl.textContent = s.text;
+    btnNext.textContent = (stepIdx === STEPS.length - 1) ? "摆一摆 ▸" : "继续 ▸";
+  }
+  function nextStep(){
+    if(stepIdx >= STEPS.length - 1){ enterQuiz(); return; }
+    stepIdx++;
+    renderStep();
+    blip("tick");
+  }
+  btnNext.addEventListener("click", nextStep);
+
+  function enterQuiz(){
+    if(document.body.classList.contains("phase-quiz")) return;
+    document.body.classList.add("phase-quiz");
+    chapter.classList.add("hide");
+    var q = el("quiz"); q.setAttribute("aria-hidden","false");
+    initQuiz();
+    say("warn", "将词汇按正确顺序拖进方框。或点击方框 → 从列表选。");
+    setTimeout(function(){
+      try{ q.scrollIntoView({ behavior:"smooth", block:"start" }); }
+      catch(e){ window.scrollTo(0, Math.max(0, q.offsetTop - 12)); }
+    }, 280);
+  }
+
+  /* ================= 拖拽排序核心 ================= */
+  /* 词汇池（含干扰项） */
+  var ALL_WORDS = [
+    { id:"wyty",   label:"党员推荐" },
+    { id:"twty",   label:"团组织推优" },
+    { id:"cczj",   label:"收集群众意见" },
+    { id:"hzsw",   label:"召开党支部委员会" },
+    { id:"czhz",   label:"收集团组织意见" } // ← 干扰项（≠团组织推优）
+  ];
+
+  /* 正确答案：按顺序 */
+  var CORRECT = [
+    { id:"twty", label:"团组织推优" },
+    { id:"cczj", label:"收集群众意见" },
+    { id:"wyty", label:"党员推荐" },
+    { id:"hzsw", label:"召开党支部委员会" }
+  ];
+
+  /* 状态：4 个目标槽 */
+  var slots = [null, null, null, null]; // 存 word 对象或 null
+  var answered = false;
+  var userOrder = null;
+
+  var poolEl = el("pool");
+  var slotsRow = el("slotsRow");
+  var btnSubmit = el("btnSubmit");
+
+  /* ---- 渲染词汇池（打乱顺序）---- */
+  function renderPool(){
+    poolEl.innerHTML = "";
+    var shuffled = ALL_WORDS.slice();
+    // Fisher-Yates
+    for(var i = shuffled.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = tmp;
+    }
+    shuffled.forEach(function(w){
+      var btn = document.createElement("div");
+      btn.className = "word";
+      btn.textContent = w.label;
+      btn.dataset.id = w.id;
+      btn.dataset.source = "pool";
+      btn.addEventListener("pointerdown", onWordPointerDown, {passive:false});
+      btn.addEventListener("click", onWordClick);
+      poolEl.appendChild(btn);
+    });
+  }
+
+  /* ---- 渲染槽 ---- */
+  function renderSlots(){
+    var children = slotsRow.children;
+    var cnNum = ["①","②","③","④"];
+    for(var i = 0; i < children.length; i++){
+      var slot = children[i];
+      slot.innerHTML = '<span class="num">' + cnNum[i] + '</span>';
+      slot.classList.remove("filled","correct","wrong");
+      var w = slots[i];
+      if(w){
+        slot.classList.add("filled");
+        var word = document.createElement("div");
+        word.className = "word";
+        word.textContent = w.label;
+        word.dataset.id = w.id;
+        word.dataset.source = "slot";
+        word.dataset.slot = String(i);
+        word.addEventListener("pointerdown", onWordPointerDown, {passive:false});
+        word.addEventListener("click", function(e){
+          e.stopPropagation();
+          if(answered) return;
+          // 点击已填的词 → 弹菜单（可移除）
+          openPicker(i, word);
+        });
+        slot.appendChild(word);
+      }
+      slot.addEventListener("click", function(e){
+        if(e.target.classList && e.target.classList.contains("word")) return;
+        if(answered) return;
+        var idx = parseInt(this.dataset.slot, 10);
+        openPicker(idx, this);
+      });
+    }
+    updateSubmit();
+  }
+
+  /* ---- 提交按钮可用性 ---- */
+  function updateSubmit(){
+    var full = slots.every(function(s){ return s !== null; });
+    btnSubmit.disabled = !full;
+  }
+
+  /* ---- 同步词汇池的 gone 状态 ---- */
+  function syncPoolGone(){
+    var filledIds = {};
+    slots.forEach(function(s){ if(s) filledIds[s.id] = true; });
+    var words = poolEl.querySelectorAll(".word");
+    for(var i = 0; i < words.length; i++){
+      var id = words[i].dataset.id;
+      words[i].classList.toggle("gone", !!filledIds[id]);
+    }
+  }
+
+  /* ================= 拖拽逻辑（Pointer Events） ================= */
+  var drag = null; // { wordEl, word, origin, ghost, active }
+  var ghostEl = null;
+
+  function onWordPointerDown(e){
+    if(answered) return;
+    var el_ = e.currentTarget;
+    var id = el_.dataset.id;
+    var word = ALL_WORDS.find(function(w){ return w.id === id; });
+    if(!word) return;
+
+    drag = {
+      wordEl: el_,
+      word: word,
+      origin: {
+        source: el_.dataset.source, // "pool" or "slot"
+        slotIdx: el_.dataset.slot ? parseInt(el_.dataset.slot, 10) : -1
+      },
+      pointerId: e.pointerId,
+      startX: e.clientX, startY: e.clientY,
+      moved: false,
+      active: false
+    };
+
+    e.preventDefault();
+    el_.setPointerCapture(e.pointerId);
+  }
+
+  document.addEventListener("pointermove", function(e){
+    if(!drag || drag.pointerId !== e.pointerId) return;
+    var dx = e.clientX - drag.startX, dy = e.clientY - drag.startY;
+    if(!drag.active && Math.abs(dx) + Math.abs(dy) > 6){
+      drag.active = true;
+      drag.moved = true;
+      // 原位置变淡
+      drag.wordEl.classList.add("dragging");
+      // 创建 ghost
+      ghostEl = document.createElement("div");
+      ghostEl.className = "dragging-ghost";
+      ghostEl.textContent = drag.word.label;
+      document.body.appendChild(ghostEl);
+    }
+    if(drag.active && ghostEl){
+      ghostEl.style.left = e.clientX + "px";
+      ghostEl.style.top = e.clientY + "px";
+      // 高亮目标
+      var hoverSlot = findSlotAt(e.clientX, e.clientY);
+      var slots = slotsRow.querySelectorAll(".slot");
+      for(var i = 0; i < slots.length; i++){
+        slots[i].classList.toggle("drag-over", slots[i] === hoverSlot);
+      }
+    }
+  });
+
+  document.addEventListener("pointerup", function(e){
+    if(!drag || drag.pointerId !== e.pointerId) return;
+
+    // 清高亮
+    var slotsE = slotsRow.querySelectorAll(".slot");
+    for(var i = 0; i < slotsE.length; i++) slotsE[i].classList.remove("drag-over");
+
+    if(drag.active){
+      var target = findSlotAt(e.clientX, e.clientY);
+      if(target){
+        placeWordIntoSlot(drag.word, target);
+      } else {
+        // 放回原位置 —— 其实不需要显式操作，因为 placeWordIntoSlot 会从原槽移除
+        // 这里如果 target 是 pool 区域也放回 pool
+        placeWordIntoSlot(drag.word, null, drag.origin);
+      }
+      drag.wordEl.classList.remove("dragging");
+      if(ghostEl && ghostEl.parentNode) ghostEl.parentNode.removeChild(ghostEl);
+      ghostEl = null;
+      drag = null;
+      renderSlots();
+      syncPoolGone();
+    } else {
+      // 只是按下没移动，让 click 处理
+      drag = null;
+    }
+  });
+
+  function findSlotAt(x, y){
+    var list = slotsRow.querySelectorAll(".slot");
+    for(var i = 0; i < list.length; i++){
+      var r = list[i].getBoundingClientRect();
+      if(x >= r.left && x <= r.right && y >= r.top && y <= r.bottom){
+        return list[i];
+      }
+    }
+    return null;
+  }
+
+  /* 将 word 放到目标槽。若 target 已有内容：
+     - 来自 pool → 挤出到 pool
+     - 来自 slot A → 与 A 交换
+     origin: 源位置信息（可选） */
+  function placeWordIntoSlot(word, target, origin){
+    var targetIdx = target ? parseInt(target.dataset.slot, 10) : -1;
+    // 从原槽移除
+    var sourceIdx = -1;
+    for(var i = 0; i < slots.length; i++){
+      if(slots[i] && slots[i].id === word.id){ sourceIdx = i; break; }
+    }
+    if(sourceIdx >= 0) slots[sourceIdx] = null;
+    if(targetIdx >= 0){
+      // 交换：如果目标已有词
+      var prev = slots[targetIdx];
+      slots[targetIdx] = word;
+      // 如果之前那个词也要还回 pool/源
+      // （上面已清空 source，这里需要把 prev 放到 sourceIdx 位置，或留在 pool）
+      if(prev && prev.id !== word.id){
+        // 如果有 sourceIdx（意味着原来源是 slot），放到 sourceIdx；否则丢回 pool（slots 保持 null 即可）
+        if(sourceIdx >= 0) slots[sourceIdx] = prev;
+        // 否则 prev 自动还到 pool
+      }
+    }
+    // 如果 targetIdx < 0（放回 pool），slots 数组里 word 已经在 sourceIdx 被清掉了，无需操作
+  }
+
+  /* ================= 点击备选（pool → slot / slot → pool / slot → slot） ================= */
+  var pickerEl = null;
+
+  function onWordClick(e){
+    if(answered) return;
+    if(drag && drag.active) return; // 拖拽后不处理
+    var el_ = e.currentTarget;
+    var source = el_.dataset.source;
+    var id = el_.dataset.id;
+    var word = ALL_WORDS.find(function(w){ return w.id === id; });
+    if(!word) return;
+
+    if(source === "pool"){
+      // 点 pool 里的词 → 找空槽
+      var emptyIdx = -1;
+      for(var i = 0; i < slots.length; i++){
+        if(!slots[i]){ emptyIdx = i; break; }
+      }
+      if(emptyIdx >= 0){
+        slots[emptyIdx] = word;
+        renderSlots(); syncPoolGone();
+        blip("tick");
+      } else {
+        say("warn", "四个槽都填满了。可以先把某个槽里的词挪走。");
+      }
+    }
+  }
+
+  function openPicker(slotIdx, anchor){
+    if(answered) return;
+    closePicker();
+    pickerEl = document.createElement("div");
+    pickerEl.className = "picker";
+    pickerEl.setAttribute("role","listbox");
+
+    // 选项：空 / 池中所有词
+    var btnEmpty = document.createElement("button");
+    btnEmpty.textContent = "（清空这个位置）";
+    btnEmpty.className = "empty";
+    btnEmpty.addEventListener("click", function(){
+      slots[slotIdx] = null;
+      closePicker(); renderSlots(); syncPoolGone();
+      blip("tick");
+    });
+    pickerEl.appendChild(btnEmpty);
+
+    // 已被其他槽占用的词 + 池中词（都可以选）
+    ALL_WORDS.forEach(function(w){
+      var btn = document.createElement("button");
+      btn.textContent = w.label;
+      // 已在这个槽 → 跳过（点自己没意义）
+      if(slots[slotIdx] && slots[slotIdx].id === w.id) return;
+      // 已在其他槽 → 选了就交换
+      btn.addEventListener("click", function(){
+        // 先找到这个词目前在哪
+        var curIdx = -1;
+        for(var i = 0; i < slots.length; i++){
+          if(slots[i] && slots[i].id === w.id){ curIdx = i; break; }
+        }
+        if(curIdx >= 0){
+          // 交换
+          slots[curIdx] = slots[slotIdx];
+          slots[slotIdx] = w;
+        } else {
+          slots[slotIdx] = w;
+        }
+        closePicker(); renderSlots(); syncPoolGone();
+        blip("tick");
+      });
+      pickerEl.appendChild(btn);
+    });
+
+    document.body.appendChild(pickerEl);
+    // 定位
+    var r = anchor.getBoundingClientRect();
+    pickerEl.style.left = Math.min(r.left, window.innerWidth - 200) + "px";
+    pickerEl.style.top = (r.bottom + 6) + "px";
+
+    setTimeout(function(){
+      document.addEventListener("click", closePicker, {once:true, capture:true});
+    }, 0);
+  }
+  function closePicker(){
+    if(pickerEl && pickerEl.parentNode){ pickerEl.parentNode.removeChild(pickerEl); }
+    pickerEl = null;
+  }
+
+  /* ================= 初始化 ================= */
+  function initQuiz(){
+    slots = [null, null, null, null];
+    answered = false;
+    userOrder = null;
+    renderPool();
+    renderSlots();
+    btnSubmit.disabled = true;
+    btnSubmit.hidden = false;
+    el("submitRow").hidden = false;
+    el("finishRow").hidden = true;
+    el("verdict").hidden = true; el("verdict").innerHTML = "";
+    el("reveal").hidden = true; el("reveal").innerHTML = "";
+    el("qcard").classList.remove("done","cleared");
+    document.body.classList.remove("cleared");
+    el("hudProgress").classList.remove("done");
+  }
+
+  el("btnResetQuiz").addEventListener("click", initQuiz);
+
+  /* ================= 提交判定 ================= */
+  btnSubmit.addEventListener("click", function(){
+    if(answered) return;
+    answered = true;
+    userOrder = slots.slice();
+
+    btnSubmit.hidden = true;
+    el("submitRow").hidden = true;
+    el("finishRow").hidden = false;
+    el("qcard").classList.add("done");
+    document.body.classList.add("cleared");
+    el("hudProgress").classList.add("done");
+
+    // 逐项比对
+    var correctCount = 0;
+    var isExact = true;
+    for(var i = 0; i < 4; i++){
+      var ok = slots[i] && slots[i].id === CORRECT[i].id;
+      if(ok){ correctCount++; }
+      else { isExact = false; }
+      slotsRow.children[i].classList.add(ok ? "correct" : "wrong");
+    }
+
+    var verdict = el("verdict");
+    if(isExact){
+      verdict.className = "verdict ok";
+      verdict.innerHTML = "<b>✔ 全对！</b><span>四个步骤的顺序完全正确。</span>";
+      blip("ok"); say("ok", "全对！接下来看看解析，再走一遍完整流程。");
+    } else if(correctCount >= 2){
+      verdict.className = "verdict bad";
+      verdict.innerHTML = "<b>✗ 不完全正确</b><span>答对了 " + correctCount + " / 4 个。不过没关系，完整解析马上给你。</span>";
+      blip("bad"); say("warn", "答对了 " + correctCount + " / 4。请看完整解析。");
+    } else {
+      verdict.className = "verdict bad";
+      verdict.innerHTML = "<b>✗ 有误</b><span>答对了 " + correctCount + " / 4。完整解析马上告诉你正确程序。</span>";
+      blip("bad"); say("bad", "没关系，正确答案和依据马上给你。");
+    }
+    verdict.hidden = false;
+
+    // 无论对错都展开解析
+    showReveal();
+  });
+
+  function showReveal(){
+    var r = el("reveal");
+    r.innerHTML =
+      '<div class="rv-lbl">正 确 答 案（按先后顺序）</div>' +
+      '<div class="rv-ans"><ol start="1">' +
+        CORRECT.map(function(c){ return "<li>" + c.label + "</li>"; }).join("") +
+      '</ol></div>' +
+      '<p class="quote">' +
+        '在入党申请人中确定入党积极分子，应当采取党员推荐、群团组织推优等方式产生人选，由支部委员会（不设支部委员会的由支部大会，下同）研究决定，并报上级党委备案。' +
+        '<i>——《中国共产党发展党员工作细则》第八条</i>' +
+      '</p>' +
+      '<p><b>完整流程拆解：</b></p>' +
+      '<p><b>① 团组织推优：</b>张三是共青团员，第一步要经过团组织（团支部）的推优程序。"收集团组织意见"只是其中的一个环节，不等同于团组织推优本身。</p>' +
+      '<p><b>② 收集群众意见：</b>支部通过个别访谈、座谈会、公示等方式，听取党内外群众对张三的反映。</p>' +
+      '<p><b>③ 党员推荐：</b>一般可采取会议无记名推荐、个别谈话推荐、书面推荐（含联名推荐）等具体形式，推荐主体为正式党员，预备党员不能参与党员推荐</p>' +
+      '<p><b>④ 召开党支部委员会：</b>支部委员会集体研究，综合推优、群众意见、党员推荐等情况，形成同意或不同意的一致意见，并报上级党委备案。</p>' +
+      '<p><b>⚠ 注意：</b>没有经过上面这些程序、直接由支部书记个人拍板确定积极分子，属于<b>程序违规</b>。</p>';
+    r.hidden = false;
+  }
+
+  /* ================= 通关弹窗 ================= */
+  function buildAnswer(){
+    var html = "";
+    var correctCount = 0;
+    for(var i = 0; i < 4; i++){
+      if(userOrder && userOrder[i] && userOrder[i].id === CORRECT[i].id) correctCount++;
+    }
+
+    html += '<div class="ans"><div class="no">1</div><div>' +
+      '<h4>确定入党积极分子的正确程序（按顺序）</h4>' +
+      '<div class="row"><span class="lbl good">正确答案</span><span class="txt good">' +
+        CORRECT.map(function(c,i){ return (i+1) + ". " + c.label; }).join("　→　") +
+      '</span></div>' +
+      '<div class="row"><span class="lbl why">你的作答</span><span class="txt">' +
+        (userOrder ? userOrder.map(function(w,i){
+          return (i+1) + ". " + (w ? w.label : "（未填）") +
+            ((w && w.id === CORRECT[i].id) ? " ✓" : " ✗");
+        }).join("　") : "（未作答）") +
+      '</span></div>' +
+      '<div class="row"><span class="lbl why">判定</span><span class="txt">答对 <b>' + correctCount + ' / 4</b>' +
+        (correctCount === 4 ? "，顺序完全正确！" : "。") + '</span></div>' +
+      '</div></div>';
+
+    html += '<div class="summary"><h3>知识点小结</h3><ol>' +
+      '<li>确定入党积极分子的三种推荐方式：<b>党员推荐、群团组织推优、群众推荐</b>。团组织推优适用于共青团员。</li>' +
+      '<li>支部委员会（不设支委的是支部大会）<b>集体研究决定</b>，不能由支部书记个人拍板。</li>' +
+      '<li>必须<b>报上级党委备案</b>，备案后积极分子身份才正式生效。</li>' +
+      '<li>从积极分子到发展对象，还要经过至少一年的<b>培养考察期</b>。</li>' +
+      '<li>完整发展路径：申请 → 谈话 → <b>确定积极分子</b>（本关） → 考察 → 确定发展对象 → 接收预备党员 → 转正。</li>' +
+      '</ol></div>';
+
+    html += '<div class="next-lv"><strong>下一关预告</strong>' +
+      '<span>关卡 6：备案的性质 —— 支部研究、公示、备案三日期，张三被确定为积极分子到底是哪一天？</span>' +
+      '<a class="btn dark" href="党建知识闯关_关卡6_备案的性质.html">进入关卡 6 ▸</a></div>';
+
+    html += '<div class="srcs"><strong>权威来源（可点击查阅原文）</strong><ul>' +
+      '<li>《中国共产党发展党员工作细则》（2026年修订）第八条 ——<a href="https://www.gov.cn/zhengce/202605/content_7069304.htm" target="_blank" rel="noopener">中国政府网</a></li>' +
+      '<li>中共中央办公厅印发《中国共产党发展党员工作细则》权威解读 ——<a href="http://cpc.people.com.cn/n1/2026/0519/c64387-40722562.html" target="_blank" rel="noopener">中国共产党新闻网</a></li>' +
+      '</ul></div>';
+
+    el("answerBody").innerHTML = html;
+  }
+  function finish(){ buildAnswer(); openModal("modalAnswer"); }
+
+  /* ================= 复位 ================= */
+  function resetRun(){
+    closeModals(); closePicker();
+    stepIdx = 0; dialoguePhase = "intro"; answered = false; userOrder = null;
+    chapter.classList.remove("hide");
+    document.body.classList.remove("phase-quiz", "cleared");
+    el("quiz").setAttribute("aria-hidden", "true");
+    el("hudProgress").classList.remove("done");
+    renderStep();
+    say("warn", "已回到场景开头。");
+    window.scrollTo(0, 0);
+  }
+
+  /* ================= 绑定 ================= */
+  el("btnProfile").addEventListener("click", function(){ openModal("modalProfile"); });
+  el("btnReplay").addEventListener("click", resetRun);
+  el("btnRetry").addEventListener("click", resetRun);
+  el("btnFinish").addEventListener("click", finish);
+
+  /* ================= 初始化 ================= */
+  renderStep();
+})();
+</script>
+</body>
+</html>

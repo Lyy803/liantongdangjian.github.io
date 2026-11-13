@@ -1,0 +1,1584 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>入党之路 · 关卡14-2~14-4：宣誓会场 · 党旗 · 党徽</title>
+<style>
+  :root{
+    --red:#C8102E; --red-2:#9E0B24; --red-deep:#6B0A18; --red-dark:#3A0A12;
+    --gold:#D9A94A; --gold-2:#F0D18C;
+    --ink:#22304A; --paper:#FDFAF1;
+    --stage-bg:#1d1218; --ok:#1F7A4C; --warn:#C77A15;
+    --shadow:0 18px 40px rgba(0,0,0,.28);
+    --font-cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-kai:"KaiTi","STKaiti","Kaiti SC","楷体","Kaiti TC","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--font-cjk);color:#F6EEE6;min-height:100vh;
+    background:
+      radial-gradient(1200px 620px at 12% -8%, rgba(200,16,46,.30), transparent 62%),
+      radial-gradient(900px 520px at 92% 4%, rgba(217,169,74,.16), transparent 60%),
+      linear-gradient(170deg,#2A0D14 0%,#1B0A0F 48%,#120709 100%);
+    background-attachment:fixed;
+    -webkit-text-size-adjust:100%;
+  }
+  .app{max-width:1200px;margin:0 auto;padding:16px 16px 168px}
+
+  /* ---------- HUD ---------- */
+  .hud{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin-bottom:14px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:inset 0 1px 0 rgba(255,255,255,.09);
+  }
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand h1{font-size:19px;margin:0;letter-spacing:.06em;font-weight:600;color:#FFF6EA}
+  .brand .sub{font-size:12px;color:rgba(255,240,225,.62);letter-spacing:.14em;margin-top:2px}
+  .badge{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.08em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.55);box-shadow:0 4px 14px rgba(200,16,46,.36);
+  }
+  .hud-right{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .stages{display:flex;gap:6px;padding:4px;border-radius:10px;background:rgba(0,0,0,.28);border:1px solid rgba(217,169,74,.24)}
+  .stages span{
+    font-size:12px;letter-spacing:.06em;padding:5px 10px;border-radius:7px;color:rgba(255,240,225,.55);
+    transition:background .25s ease,color .25s ease;
+  }
+  .stages span.on{background:linear-gradient(160deg,var(--red),var(--red-deep));color:#FFF3DC;box-shadow:0 3px 10px rgba(200,16,46,.35)}
+  .progress{
+    display:flex;align-items:baseline;gap:6px;padding:7px 14px;border-radius:10px;
+    background:rgba(0,0,0,.30);border:1px solid rgba(217,169,74,.30);
+    font-size:13px;color:rgba(255,244,232,.78);letter-spacing:.05em;
+  }
+  .progress b{font-size:21px;color:var(--gold-2);font-weight:700;font-variant-numeric:tabular-nums}
+  .progress.done{border-color:rgba(96,214,150,.6);background:rgba(31,122,76,.24)}
+  .progress.done b{color:#8BF0B8}
+  .btn{
+    display:inline-block;text-align:center;text-decoration:none;
+    font-family:inherit;font-size:14px;cursor:pointer;border-radius:10px;
+    padding:9px 18px;letter-spacing:.06em;
+    transition:transform .14s ease,box-shadow .2s ease,background .2s ease;
+    border:1px solid rgba(240,209,140,.45);
+  }
+  .btn:active{transform:translateY(1px) scale(.99)}
+  .btn.primary{
+    color:#FFF6E6;font-weight:700;
+    background:linear-gradient(165deg,#D3153A,#9E0B24 60%,#7A0819);
+    box-shadow:0 8px 20px rgba(200,16,46,.40),inset 0 1px 0 rgba(255,255,255,.22);
+  }
+  .btn.primary:hover{box-shadow:0 10px 26px rgba(200,16,46,.55),inset 0 1px 0 rgba(255,255,255,.28)}
+  .btn.ghost{color:#FFEFDA;background:rgba(255,255,255,.07);border-color:rgba(217,169,74,.38)}
+  .btn.ghost:hover{background:rgba(255,255,255,.13)}
+  .btn.plain{color:#4A3A2E;background:#F3E9D8;border-color:rgba(120,90,60,.25)}
+  .btn.plain:hover{background:#FFF6E6}
+  .btn.dark{color:#FFF3DC;background:#3A2C22;border-color:rgba(240,209,140,.35)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  :focus-visible{outline:2px solid var(--gold-2);outline-offset:2px}
+
+  /* ---------- 场景 ---------- */
+  .stage-wrap{position:relative}
+  .scene{
+    position:relative;width:100%;aspect-ratio:16/9;
+    border-radius:18px;overflow:hidden;background:var(--stage-bg);
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow);
+  }
+  .scene .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(122% 92% at 50% 42%, transparent 46%, rgba(24,8,10,.42) 100%)}
+  .banner{position:absolute;left:0;right:0;top:8%;height:10%;display:flex;align-items:center;justify-content:center;pointer-events:none}
+  .banner span{
+    display:block;width:100%;text-align:center;
+    font-family:var(--font-kai);font-size:clamp(10px,1.75vw,25px);letter-spacing:.4em;
+    color:#FFF0D6;text-shadow:0 2px 8px rgba(90,10,20,.55);white-space:nowrap;
+  }
+  .chapter{
+    position:absolute;left:14px;top:12px;padding:6px 11px;border-radius:8px;
+    background:rgba(24,10,14,.62);border:1px solid rgba(217,169,74,.28);
+    font-size:11px;letter-spacing:.1em;color:rgba(255,240,225,.8);pointer-events:none;
+    backdrop-filter:blur(3px);
+  }
+  .chapter em{display:block;font-style:normal;color:var(--gold-2);font-size:10px;letter-spacing:.16em;margin-bottom:2px}
+
+  /* 音响台 */
+  .console{
+    position:absolute;left:69.5%;top:78%;width:26.5%;height:17%;
+    border-radius:10px;background:linear-gradient(178deg,#4A3128,#33211B 46%,#1E1310);
+    border:1px solid rgba(217,169,74,.34);
+    box-shadow:0 14px 26px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,232,196,.16);
+    pointer-events:none;
+  }
+  .console::before{
+    content:"";position:absolute;left:6%;right:6%;bottom:7%;height:24%;border-radius:5px;
+    background:repeating-linear-gradient(90deg,rgba(0,0,0,.55) 0 1px,transparent 1px 4px),
+               linear-gradient(#2A1A14,#170D0A);
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.7);opacity:.85;
+  }
+  .console::after{
+    content:"音 响 台";position:absolute;left:50%;top:6%;transform:translateX(-50%);
+    font-size:14px;letter-spacing:.34em;color:rgba(240,209,140,.88);white-space:nowrap;
+    font-weight:700;
+  }
+
+  /* 位置 */
+  .slot{
+    position:absolute;display:block;padding:0;border-radius:10px;cursor:pointer;
+    border:1.5px dashed rgba(240,209,140,.55);background:rgba(255,240,220,.05);
+    color:#FFEFD2;font-family:inherit;
+    transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
+  }
+  .slot .slot-tag{
+    position:absolute;left:50%;bottom:calc(100% + 5px);transform:translateX(-50%);
+    font-size:10px;letter-spacing:.12em;white-space:nowrap;color:rgba(255,244,228,.82);
+    text-shadow:0 1px 4px rgba(0,0,0,.6);pointer-events:none;
+  }
+  .slot .slot-inner{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;border-radius:9px}
+  .slot .slot-inner svg,.slot .slot-inner img{display:block;width:100%;height:100%;object-fit:contain}
+  .slot[data-drop="oath"]::before{
+    content:"";position:absolute;left:-9%;right:-9%;bottom:-4px;height:7px;border-radius:4px;
+    background:linear-gradient(#7B4A28,#3A1D0D);box-shadow:0 3px 7px rgba(0,0,0,.45);
+    opacity:0;transition:opacity .3s ease;
+  }
+  .slot[data-drop="oath"].filled::before{opacity:1}
+  .slot.filled{border-color:transparent;background:transparent;box-shadow:none}
+  .slot.filled .slot-tag{opacity:0}
+  .slot.hot{border-color:var(--gold-2);background:rgba(240,209,140,.20);box-shadow:0 0 0 3px rgba(240,209,140,.22)}
+  .slot.hint{animation:pulse 1.4s ease-in-out 2}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(240,209,140,.55)}50%{box-shadow:0 0 0 7px rgba(240,209,140,0)}}
+  .slot[hidden]{display:none}
+  body:not(.phase-arrange) .slot:not(.filled){display:none}
+
+  .slot[data-drop="flag"]{left:50.2%;top:29.5%;width:20.0%;aspect-ratio:3/2;transform:translate(-50%,-50%)}
+  .slot[data-drop="oath"]{left:74%;top:48.3%;width:6.8%;aspect-ratio:2/3;transform:translate(-50%,-100%)}
+  .slot[data-drop="leader"]{left:16%;top:49%;width:11%;aspect-ratio:3/4;transform:translate(-50%,-100%)}
+  .slot[data-drop="intl"]{left:82.5%;top:89%;width:6%;aspect-ratio:1/1;transform:translate(-50%,-50%)}
+
+  /* 立牌 / 曲目牌 */
+  .oath-board{
+    width:100%;height:100%;border-radius:3px;overflow:hidden;
+    background:linear-gradient(160deg,#FFFDF6,#F2E8D6 70%,#E6DAC4);
+    border:1px solid rgba(140,20,36,.55);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    display:flex;flex-direction:column;align-items:center;padding:7% 8%;
+  }
+  .oath-board .ob-title{
+    font-family:var(--font-kai);font-size:clamp(6px,.85vw,11px);letter-spacing:.14em;color:#9E0B24;
+    border-bottom:1px solid rgba(158,11,36,.45);padding-bottom:4%;width:100%;text-align:center;
+  }
+  .oath-board .ob-lines{flex:1;width:100%;margin-top:8%;display:flex;flex-direction:column;gap:8%}
+  .oath-board .ob-lines i{display:block;height:1px;background:rgba(158,11,36,.28)}
+  .tune{
+    width:100%;height:100%;border-radius:6px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:4%;
+    background:linear-gradient(170deg,#3A2230,#231019);
+    border:1px solid rgba(240,209,140,.5);box-shadow:0 8px 16px rgba(0,0,0,.35);
+  }
+  .tune .t-ico{font-size:clamp(11px,1.5vw,20px);color:var(--gold-2);line-height:1}
+  .tune .t-name{font-size:clamp(6px,.8vw,11px);letter-spacing:.08em;color:#FFEFD8;white-space:nowrap}
+  .tune .t-sub{font-size:clamp(5px,.62vw,9px);letter-spacing:.16em;color:rgba(240,209,140,.6)}
+
+  /* 杂物 */
+  .junk{
+    position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;
+    align-items:center;gap:3px;padding:0;border:0;background:none;cursor:grab;font-family:inherit;touch-action:none;
+    transition:opacity .4s ease,transform .4s ease;
+  }
+  .junk::after{content:"";position:absolute;inset:-14px;border-radius:14px}
+  .junk .j-img{
+    display:block;width:100%;height:auto;
+    filter:drop-shadow(0 6px 9px rgba(0,0,0,.5));
+    transition:transform .2s ease,filter .2s ease;
+  }
+  .junk .j-name{
+    font-size:10px;letter-spacing:.05em;color:rgba(255,240,225,.94);white-space:nowrap;
+    padding:1px 7px;border-radius:99px;background:rgba(24,10,14,.55);
+  }
+  .junk:hover .j-img{transform:translateY(-2px) scale(1.05)}
+  .junk.selected .j-img{filter:drop-shadow(0 0 9px rgba(240,209,140,.95)) drop-shadow(0 6px 9px rgba(0,0,0,.5))}
+  .junk.gone{opacity:0;transform:translate(-50%,-50%) scale(.7);pointer-events:none}
+  .junk[data-junk="papers"]{left:43%;top:82%;width:7%}
+  .junk[data-junk="gear"]{left:57.5%;top:84.5%;width:5.6%}
+  .junk[data-junk="cup"]{left:33%;top:48.3%;width:3.6%;transform:translate(-50%,-100%)}
+  .junk[data-junk="cup"] .j-name{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:3px}
+  .junk[data-junk="cup"] .j-name{position:absolute;left:50%;top:100%;transform:translateX(-50%)}
+  .junk[data-junk="cup"].gone{transform:translate(-50%,-100%) scale(.7)}
+
+  /* ---------- 物品架 / 撤场箱 ---------- */
+  .deck{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;margin-top:14px}
+  /* 阶段互斥：默认让 stage-wrap 里所有子区块隐藏，
+     然后每个 phase 单独点亮自己的那一两个区块。
+     效果：每次切换阶段 = 页面"刷新"成新阶段的样子，不再一路往下堆。 */
+  .stage-wrap > * { display:none }
+  /* scene 里的 slots/junks 只在 arrange 阶段显示 */
+  .scene .slot, .scene .junk { display:none }
+  body.phase-arrange .scene .slot, body.phase-arrange .scene .junk { display:block }
+  /* banner / chapter 在 intro / arrange（剧情推进阶段）显示 */
+  .scene .banner, .scene .chapter, .scene .console { display:none }
+  body.phase-intro .scene .banner, body.phase-intro .scene .chapter, body.phase-intro .scene .console,
+  body.phase-arrange .scene .banner, body.phase-arrange .scene .chapter, body.phase-arrange .scene .console { display:block }
+
+  /* phase-intro：只剩场景背景 */
+  body.phase-intro .stage-wrap > .scene { display:block }
+  /* phase-arrange：场景 + 物品架/撤场箱 */
+  body.phase-arrange .stage-wrap > .scene,
+  body.phase-arrange .stage-wrap > .deck { display:block }
+  /* phase-flag / phase-choice：只剩党旗特写 */
+  body.phase-flag .stage-wrap > .flagzone,
+  body.phase-choice .stage-wrap > .flagzone { display:block }
+  /* phase-oath：**布置好的礼堂 + 誓词卡**（场景背景 + 誓词覆盖） */
+  body.phase-oath .stage-wrap > .scene,
+  body.phase-oath .stage-wrap > .oathcard { display:block }
+  body.phase-oath .scene .slot, body.phase-oath .scene .junk,
+  body.phase-oath .scene .banner, body.phase-oath .scene .chapter { display:block }
+  /* phase-wear / phase-end：只剩徽章拖拽区 */
+  body.phase-wear .stage-wrap > .wearzone,
+  body.phase-end .stage-wrap > .wearzone,
+  body.phase-end .stage-wrap > .oathcard { display:block }
+  .panel{
+    border-radius:14px;padding:14px 16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.28);
+  }
+  .panel-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:12px}
+  .panel-head h2{margin:0;font-size:15px;letter-spacing:.08em;color:#FFF3E4;font-weight:600}
+  .panel-head p{margin:0;font-size:12px;color:rgba(255,240,225,.6);letter-spacing:.04em}
+  .cards{display:flex;flex-wrap:wrap;gap:10px}
+  .card{
+    display:flex;flex-direction:column;align-items:center;gap:6px;width:106px;padding:11px 8px;
+    border-radius:12px;cursor:grab;font-family:inherit;
+    background:linear-gradient(180deg,#FFFDF6,#F1E7D6);color:#3A2C22;
+    border:1px solid rgba(120,90,60,.28);box-shadow:0 6px 14px rgba(0,0,0,.22);
+    transition:transform .16s ease,box-shadow .2s ease;
+    touch-action:none;
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,.3)}
+  .card svg{width:30px;height:30px;color:var(--red-2)}
+  .card .c-name{font-size:13px;font-weight:600;letter-spacing:.04em}
+  /* 物品标签（必需/?）在前端隐藏，代码里的 kind 保留作判定 */
+  .card .c-kind{display:none}
+  .card.selected{outline:2px solid var(--gold);outline-offset:1px;box-shadow:0 0 0 5px rgba(217,169,74,.22)}
+  .card.done{display:none}
+  .card.locked{display:none}
+  .card.dragging{opacity:.35}
+
+  .bin{
+    border-radius:14px;padding:14px 16px;text-align:center;
+    background:rgba(0,0,0,.24);border:1.5px dashed rgba(217,169,74,.45);
+    transition:background .2s ease,border-color .2s ease;
+  }
+  .bin.hot{background:rgba(217,169,74,.16);border-color:var(--gold-2)}
+  .bin h2{margin:6px 0 4px;font-size:15px;letter-spacing:.08em;color:#FFF3E4}
+  .bin p{margin:0;font-size:12px;line-height:1.7;color:rgba(255,240,225,.62)}
+  .bin .bin-ico{font-size:22px;line-height:1;color:rgba(240,209,140,.8)}
+  .bin ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+  .bin li{font-size:11px;padding:4px 9px;border-radius:20px;background:rgba(31,122,76,.24);border:1px solid rgba(96,214,150,.45);color:#B6F2CE}
+
+  /* ---------- 小关卡2 ---------- */
+  .flagzone{margin-top:14px}
+  body.phase-flag .flagzone,body.phase-choice .flagzone{display:block}
+  /* 坏结局对比图面板：默认隐藏，flagzone.compare 时显示 */
+  .flag-compare{display:none;border-radius:16px;padding:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.3)}
+  .flagzone.compare .flag-compare{display:block}
+  .flag-compare-head h2{margin:0 0 4px;font-size:15px;letter-spacing:.08em;color:#FFF3E4;font-weight:600}
+  .flag-compare-head p{margin:0 0 12px;font-size:12px;color:rgba(255,240,225,.62)}
+  .flag-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:700px){.flag-pair{grid-template-columns:1fr}}
+  .flag-pair figure{margin:0;border-radius:10px;overflow:hidden;border:1px solid rgba(217,169,74,.28);background:#FBF6E9}
+  .flag-pair figure img,.flag-pair figure svg{display:block;width:100%;height:auto}
+  .flag-pair figcaption{padding:8px 10px;font-size:12px;line-height:1.7}
+  .flag-pair figcaption.good{background:rgba(31,122,76,.14);color:#B8F2C8;border-top:1px solid rgba(96,214,150,.35)}
+  .flag-pair figcaption.bad{background:rgba(200,16,46,.14);color:#FFD0D8;border-top:1px solid rgba(255,140,150,.35)}
+  .flag-pair .stamp{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;
+    display:grid;place-items:center;font-size:18px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.3);
+    transform:rotate(8deg)}
+  .flag-pair figure{position:relative}
+  .flag-pair .stamp.ok{background:linear-gradient(135deg,#1F7A4C,#14532D)}
+  .flag-pair .stamp.bad{background:linear-gradient(135deg,#C8102E,#7A0819)}
+  .flag-pair .sk-img{filter:saturate(1)}
+  .flag-pair .sk-img.off-color{filter:saturate(.45) brightness(.92) hue-rotate(-8deg)}
+
+  .choices{display:none;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  body.phase-choice .choices{display:grid}
+  @media(max-width:760px){.choices{grid-template-columns:1fr}}
+  .choice{
+    text-align:left;padding:16px 18px;border-radius:14px;cursor:pointer;font-family:inherit;
+    background:linear-gradient(170deg,#FFFDF6,#F0E5D2);color:#3A2C22;
+    border:1px solid rgba(120,90,60,.3);box-shadow:0 8px 20px rgba(0,0,0,.26);
+    transition:transform .16s ease,box-shadow .2s ease;
+    display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;
+  }
+  .choice:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,0,0,.34)}
+  .choice .num{
+    width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(160deg,var(--red),var(--red-deep));color:#FFF3DC;
+    font-size:13px;font-weight:700;box-shadow:0 3px 10px rgba(200,16,46,.35);
+  }
+  .choice strong{display:block;font-size:15px;line-height:1.5;letter-spacing:.02em}
+  .choice small{display:block;margin-top:5px;font-size:12px;line-height:1.7;color:#7A6656}
+  .choice.excluded{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+  .choice.excluded .num{background:#9A8B7A;box-shadow:none}
+
+  /* 誓词卡 */
+  .oathcard{margin-top:14px;padding:20px 22px;border-radius:16px;
+    background:linear-gradient(170deg,#FFFDF6,#F4EBD9);color:#3A2C22;
+    border:1px solid rgba(120,90,60,.28);box-shadow:0 16px 34px rgba(0,0,0,.3);
+  }
+  body.phase-oath .oathcard,body.phase-wear .oathcard,body.phase-end .oathcard{display:block}
+  .oathcard h2{
+    margin:0 0 12px;font-family:var(--font-kai);font-size:17px;letter-spacing:.3em;color:#9E0B24;
+    text-align:center;font-weight:600;
+  }
+  .oc-text{margin:0;font-family:var(--font-kai);font-size:clamp(15px,1.9vw,19px);line-height:2.1;letter-spacing:.03em;color:#5A4A3C}
+  .oc-text span{transition:color .3s ease,background .3s ease;border-radius:4px;padding:1px 2px}
+  .oc-text span.lit{color:#8E0C20;background:rgba(200,16,46,.09);font-weight:600}
+
+  /* ---------- 小关卡3：佩戴党员徽章 ---------- */
+  .wearzone{margin-top:14px}
+  body.phase-wear .wearzone,body.phase-end .wearzone{display:block}
+  .wearcard{
+    border-radius:16px;padding:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.3);
+  }
+  .wearcard-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:12px}
+  .wearcard-head h2{margin:0;font-size:15px;letter-spacing:.08em;color:#FFF3E4;font-weight:600}
+  .wearcard-head p{margin:0;font-size:12px;color:rgba(255,240,225,.62)}
+  .wearrow{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:20px;align-items:start}
+  @media(max-width:760px){.wearrow{grid-template-columns:1fr}}
+  .wear-stage{
+    position:relative;width:100%;aspect-ratio:3/4;border-radius:10px;overflow:hidden;
+    border:1.5px solid rgba(217,169,74,.45);background:linear-gradient(180deg,#2A0E14,#1A0608);
+    user-select:none;
+  }
+  .wear-stage img.wear-person{display:block;width:100%;height:100%;object-fit:cover}
+  .wear-stage.drop-hover{box-shadow:0 0 0 3px rgba(96,214,150,.55)}
+  .wear-stage.drop-wrong{box-shadow:0 0 0 3px rgba(255,140,150,.6)}
+  /* ====== 调试虚线框（上线时把下面这两条规则替换成 display:none 即可） ====== */
+  .wear-debug{position:absolute;pointer-events:none;z-index:9}
+  .wear-debug.center-dot{
+    width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.85);
+    box-shadow:0 0 0 2px rgba(96,214,150,.55),0 0 12px rgba(96,214,150,.7);
+    transform:translate(-50%,-50%);
+  }
+  .wear-debug.tol-ring{
+    border:2px dashed rgba(96,214,150,.85);border-radius:50%;
+    transform:translate(-50%,-50%);
+    box-shadow:inset 0 0 14px rgba(96,214,150,.18);
+  }
+  /* 上线时用这条覆盖所有调试元素 */
+  .wear-debug{display:none !important}
+
+  .badge-ghost{
+    position:absolute;transform:translate(-50%,-50%);pointer-events:none;opacity:.95;
+    filter:drop-shadow(0 3px 7px rgba(0,0,0,.55));
+  }
+  .badge-palette{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px;
+    padding:10px;border-radius:10px;background:rgba(0,0,0,.22);border:1px dashed rgba(217,169,74,.35);
+  }
+  .badge-source{
+    width:49px;height:49px;border-radius:10px;background:rgba(255,255,255,.06);
+    border:1px solid rgba(217,169,74,.45);padding:4px;cursor:grab;touch-action:none;
+    display:grid;place-items:center;
+  }
+  .badge-source img{width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
+  .badge-source.dragging{cursor:grabbing;opacity:.4}
+  .wear-tip{margin:0;font-size:13px;line-height:1.9;color:rgba(255,240,225,.8)}
+  .wear-tip b{color:var(--gold-2)}
+  .wear-result{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:13px;line-height:1.85}
+  .wear-result.ok{background:rgba(31,122,76,.22);border:1px solid rgba(96,214,150,.55);color:#D8FBE6}
+  .wear-result.bad{background:rgba(200,16,46,.18);border:1px solid rgba(255,140,150,.55);color:#FFD8DE}
+  .wear-result strong{display:block;font-size:14px;margin-bottom:4px;letter-spacing:.04em}
+  .wear-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .finish-row{margin-top:14px;text-align:center}
+  .drag-ghost{
+    position:fixed;z-index:999;pointer-events:none;
+    filter:drop-shadow(0 6px 14px rgba(0,0,0,.65));
+    transform:translate(-50%,-50%);
+  }
+
+  /* ---------- 对话 ---------- */
+  .dialogue{
+    position:fixed;left:0;right:0;bottom:0;z-index:40;
+    display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+    padding:14px clamp(14px,4vw,40px);
+    background:linear-gradient(180deg,rgba(20,8,12,.86),rgba(14,6,9,.97));
+    border-top:1px solid rgba(217,169,74,.3);backdrop-filter:blur(6px);
+  }
+  .speaker{
+    flex:0 0 auto;padding:5px 13px;border-radius:8px;font-size:13px;letter-spacing:.1em;
+    background:rgba(217,169,74,.16);border:1px solid rgba(217,169,74,.45);color:var(--gold-2);
+  }
+  .speaker.zs{background:rgba(200,16,46,.22);border-color:rgba(240,209,140,.5);color:#FFD9C2}
+  .speaker.ls{background:rgba(31,122,76,.2);border-color:rgba(96,214,150,.45);color:#B6F2CE}
+  .line{flex:1 1 260px;margin:0;font-size:15px;line-height:1.72;color:#FBEFE2;letter-spacing:.01em}
+  .dlg-actions{flex:0 0 auto;display:flex;gap:8px}
+
+  /* ---------- 提示条 ---------- */
+  .feedback{
+    position:fixed;left:50%;bottom:118px;z-index:60;max-width:min(700px,92vw);
+    transform:translate(-50%,14px);opacity:0;pointer-events:none;
+    padding:11px 16px;border-radius:12px;font-size:13.5px;line-height:1.65;
+    background:rgba(30,12,16,.95);border:1px solid rgba(217,169,74,.45);
+    box-shadow:0 14px 30px rgba(0,0,0,.4);
+    transition:opacity .22s ease,transform .22s ease;
+  }
+  .feedback.show{opacity:1;transform:translate(-50%,0)}
+  .feedback.ok{border-color:rgba(96,214,150,.65);color:#D8FBE6}
+  .feedback.warn{border-color:rgba(230,160,80,.7);color:#FFE7C8}
+
+  /* ---------- 弹窗 ---------- */
+  dialog.modal{
+    width:min(920px,94vw);max-height:88vh;padding:0;border:0;border-radius:18px;
+    background:#FDFAF1;color:#2E241C;box-shadow:0 30px 70px rgba(0,0,0,.5);
+    font-family:var(--font-cjk);
+  }
+  dialog.modal::backdrop{background:rgba(12,4,7,.72);backdrop-filter:blur(3px)}
+  .modal-head{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:14px;
+    padding:18px 22px 14px;border-bottom:1px solid rgba(120,90,60,.18);
+    background:linear-gradient(180deg,#FFF9EC,#FBF3E2);border-radius:18px 18px 0 0;
+  }
+  .modal-head h2{margin:0;font-size:18px;letter-spacing:.06em;color:#8E0C20}
+  .modal-head p{margin:5px 0 0;font-size:12.5px;color:#7A6656;letter-spacing:.04em}
+  .modal-body{padding:18px 22px;overflow:auto;max-height:60vh}
+  .modal-foot{
+    display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;
+    padding:14px 22px;border-top:1px solid rgba(120,90,60,.16);background:#FBF3E2;
+    border-radius:0 0 18px 18px;
+  }
+  .modal-body h3{margin:0 0 8px;font-size:15px;color:#8E0C24;letter-spacing:.04em}
+  .modal-body p{margin:0 0 10px;font-size:13.5px;line-height:1.85;color:#3A2C22}
+  .modal-body ul{margin:0 0 12px;padding-left:20px;font-size:13.5px;line-height:1.9;color:#3A2C22}
+  .modal-body li{margin-bottom:4px}
+  .modal-body a{color:#9E0B24;text-decoration:underline;text-underline-offset:2px}
+  .k-list{display:grid;gap:10px;margin:0 0 14px}
+  .k-item{padding:12px 14px;border-radius:10px;background:#FFFCF4;border:1px solid rgba(158,11,36,.16)}
+  .k-item h4{margin:0 0 6px;font-size:13.5px;color:#8E0C24;letter-spacing:.03em}
+  .k-item p{margin:0;font-size:13px;line-height:1.8;color:#3A2C22}
+  .src{margin:14px 0 0;padding-top:12px;border-top:1px dashed rgba(120,90,60,.3);font-size:12px;line-height:1.9;color:#6B5A4A}
+  .src a{color:#9E0B24}
+
+  /* 手绘对比图 */
+  .sketch-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:16px}
+  @media(max-width:880px){.sketch-grid{grid-template-columns:1fr}}
+  .sketch{
+    position:relative;margin:0;padding:12px 12px 10px;border-radius:4px;
+    background:
+      repeating-linear-gradient(to bottom,transparent 0 23px,rgba(120,90,60,.10) 23px 24px),
+      linear-gradient(160deg,#FCF7E9,#F5EDD9);
+    border:1px solid rgba(120,90,60,.3);box-shadow:0 8px 18px rgba(0,0,0,.16);
+    transform:rotate(-.7deg);
+  }
+  .sketch:nth-child(2){transform:rotate(.9deg)}
+  .sketch:nth-child(3){transform:rotate(-.3deg)}
+  .sk-body{position:relative;border-radius:2px;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,.18)}
+  .sk-body svg,.sk-body img{display:block;width:100%;height:auto}
+  .sk-img.off-color{filter:saturate(.5) brightness(1.14) hue-rotate(-9deg)}
+  .sketch figcaption{margin-top:10px;font-size:12px;line-height:1.75;color:#4A3A2E;font-family:var(--font-kai)}
+  .sketch figcaption b{font-family:var(--font-cjk);font-size:11.5px;letter-spacing:.06em;color:#8E0C20}
+  .stamp{
+    position:absolute;right:14px;top:14px;z-index:2;transform:rotate(8deg);
+    padding:3px 9px;border-radius:4px;font-family:var(--font-kai);font-size:13px;
+    letter-spacing:.1em;border:2px solid;background:rgba(255,255,255,.82);
+  }
+  .stamp.ok{color:#1F7A4C;border-color:#1F7A4C}
+  .stamp.bad{color:#C8102E;border-color:#C8102E;transform:rotate(-8deg)}
+  .mark-circle{
+    position:absolute;left:9%;top:10%;width:26%;height:38%;border-radius:50%;
+    border:2px dashed rgba(200,16,46,.65);transform:rotate(-6deg);pointer-events:none;
+  }
+  .anno{
+    position:absolute;font-family:var(--font-kai);font-size:10.5px;color:#9E0B24;
+    letter-spacing:.04em;pointer-events:none;background:rgba(255,252,244,.7);
+    padding:0 3px;border-radius:2px;white-space:nowrap;
+  }
+  .anno.a1{left:50%;bottom:4%;transform:translateX(-50%)}
+  .anno.a2{left:34%;top:4%}
+  .anno.a3{left:5%;top:52%}
+
+  .legend{display:grid;gap:8px;margin:0 0 12px}
+  .legend div{font-size:12.5px;line-height:1.8;color:#3A2C22;padding-left:20px;position:relative}
+  .legend div::before{content:"·";position:absolute;left:6px;color:#9E0B24;font-weight:700}
+
+  .print-only{display:none}
+
+  @media (max-width:760px){
+    .app{padding:12px 12px 200px}
+    .dialogue{padding:10px 12px;gap:8px}
+    .line{font-size:13.5px;line-height:1.62}
+    .btn{padding:8px 14px;font-size:13px}
+    .hud{padding:10px 12px}
+    .brand h1{font-size:16px}
+    .progress b{font-size:18px}
+    .scene{border-radius:14px}
+    .chapter{font-size:9px;padding:4px 8px;left:8px;top:8px}
+    .console::after{font-size:7px}
+    .junk .j-name{font-size:8px}
+    .slot .slot-tag{font-size:8px}
+    .card{width:88px}
+    .feedback{bottom:150px;font-size:12.5px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  }
+  @media print{
+    body{background:#fff;color:#000}
+    .app{max-width:none;padding:0}
+    .hud,.dialogue,.deck,.choices,.flagzone,.feedback,.slot,.junk,.banner,.chapter,.console{display:none !important}
+    .scene{border:1px solid #999;box-shadow:none;max-height:60mm}
+    .print-only{display:block;margin-top:12px;color:#000;font-size:12px;line-height:1.8}
+    .print-only h2{font-size:14px;margin:12px 0 6px}
+  }
+</style>
+</head>
+<body class="phase-intro">
+
+<div class="app">
+
+  <header class="hud">
+    <div class="brand">
+      <span class="badge">关卡 14-2 ~ 14-4</span>
+      <div>
+        <h1>入党宣誓会场</h1>
+        <div class="sub">入党之路 · 角色扮演闯关</div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="stages" aria-label="关卡进度">
+        <span id="stage1" class="on">① 会场布置</span>
+        <span id="stage2">② 领取党旗</span>
+        <span id="stage3">③ 宣誓 · 徽章</span>
+      </div>
+      <div class="progress" id="hudProgress"><span>已就位</span><b id="hudFound">0</b><span>/ 6</span></div>
+      <button class="btn ghost" id="btnPoints" type="button">布置要点</button>
+      <button class="btn ghost" id="btnReplay" type="button">重看剧情</button>
+    </div>
+  </header>
+
+  <main class="stage-wrap">
+
+    <!-- ============ 场景 ============ -->
+    <section class="scene" id="scene" aria-label="入党宣誓会场">
+      <img class="bg" src="https://Lyy803.github.io/picx-images-hosting/0d27ddd87f494a63a2b7af8341d61685~tplv-jv50ctfexx-compress-v2_q90.58i6hakuiq.jpeg" alt="党员活动室内的宣誓会场：红色背景板、木质主席台、浅色地板">
+      <div class="vignette"></div>
+      <div class="banner"><span>入 党 宣 誓 仪 式</span></div>
+
+      <div class="chapter" id="chapter">
+        <em>2026年11月16日</em>
+        第一党支部党员活动室
+      </div>
+
+      <div class="console" aria-hidden="true"></div>
+
+      <!-- 位置 -->
+      <button class="slot" type="button" data-drop="flag" aria-label="党旗位">
+        <span class="slot-tag">党旗位</span><span class="slot-inner"></span>
+      </button>
+      <button class="slot" type="button" data-drop="oath" aria-label="誓词位">
+        <span class="slot-tag">誓词位</span><span class="slot-inner"></span>
+      </button>
+      <button class="slot" type="button" data-drop="leader" aria-label="领誓位">
+        <span class="slot-tag">领誓位</span><span class="slot-inner"></span>
+      </button>
+      <button class="slot" type="button" data-drop="intl" aria-label="音响台音源位">
+        <span class="slot-tag"></span><span class="slot-inner"></span>
+      </button>
+
+      <!-- 不该出现的物件 -->
+      <button class="junk" type="button" data-junk="papers" aria-label="地上揉皱的废纸团，拖进撤场箱">
+        <img class="j-img" src="https://Lyy803.github.io/picx-images-hosting/zhituan.1lcmtqa682.webp" alt="一团揉皱的废纸">
+        <span class="j-name">杂乱的废纸</span>
+      </button>
+      <button class="junk" type="button" data-junk="gear" aria-label="地上的篮球，拖进撤场箱">
+        <img class="j-img" src="https://Lyy803.github.io/picx-images-hosting/lanqiu.6wrjehiqxd.webp" alt="一只篮球">
+        <span class="j-name">运动器材</span>
+      </button>
+      <button class="junk" type="button" data-junk="cup" aria-label="主席台上的水杯，拖进撤场箱">
+        <img class="j-img" src="https://Lyy803.github.io/picx-images-hosting/beizi.2a5wdqxp8d.webp" alt="一只盛了水的玻璃杯">
+        <span class="j-name">水杯</span>
+      </button>
+    </section>
+
+    <!-- ============ 小关卡1：物品架 + 撤场箱 ============ -->
+    <div class="deck" id="deck">
+      <section class="panel">
+        <div class="panel-head">
+          <h2>物品架</h2>
+          <p>把必需的物件放到会场对应位置 · 可拖拽，也可先点物件再点位置</p>
+        </div>
+        <div class="cards" id="tray">
+          <button class="card locked" type="button" data-item="flag">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 6v29" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M10 8h21l-3.6 6 3.6 6H10z" fill="currentColor" opacity=".9"/></svg>
+            <span class="c-name">党旗</span><span class="c-kind">必需</span>
+          </button>
+          <button class="card" type="button" data-item="oath">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="9" y="7" width="22" height="26" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 14h12M14 19h12M14 24h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span class="c-name">入党誓词</span><span class="c-kind">必需</span>
+          </button>
+          <button class="card" type="button" data-item="leader">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="18" cy="12" r="5" fill="currentColor"/><path d="M10 34v-8a8 8 0 0 1 16 0v8" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M26 18l4-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="31.5" cy="9.5" r="2.8" fill="currentColor"/></svg>
+            <span class="c-name">领誓人</span><span class="c-kind">必需</span>
+          </button>
+          <button class="card" type="button" data-item="anthem">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M17 27V10l12-3v17" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="13" cy="28" r="4.4" fill="currentColor"/><circle cx="25" cy="24" r="4.4" fill="currentColor"/></svg>
+            <span class="c-name">国歌</span><span class="c-kind">必需</span>
+          </button>
+          <button class="card" type="button" data-item="intl">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="17" cy="19" r="11" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M6.5 19h21M17 8c3.6 4.6 3.6 17.4 0 22M17 8c-3.6 4.6-3.6 17.4 0 22" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="30" cy="29" r="3.4" fill="currentColor"/><path d="M33.4 29V17l4 1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span class="c-name">国际歌</span><span class="c-kind">必需</span>
+          </button>
+          <button class="card" type="button" data-item="note">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="9" y="7" width="22" height="26" rx="2" fill="#F4E3B5" stroke="#B89A5D" stroke-width="1.4"/><path d="M13 13 h14 M13 18 h14 M13 23 h10" stroke="#8A6C3B" stroke-width="1.2" stroke-linecap="round"/><path d="M24 6 q2 2 0 5" fill="none" stroke="#B89A5D" stroke-width="1.4"/></svg>
+            <span class="c-name">便签纸</span>
+          </button>
+          <button class="card" type="button" data-item="placard">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="8" width="26" height="20" rx="2" fill="#FFF8E6" stroke="#B89A5D" stroke-width="1.4"/><path d="M11 13 h18 M11 17 h14 M11 21 h18" stroke="#8A6C3B" stroke-width="1.2" stroke-linecap="round"/><rect x="18" y="28" width="4" height="6" fill="#B89A5D"/><rect x="14" y="32" width="12" height="2" rx="1" fill="#8A6C3B"/></svg>
+            <span class="c-name">主席席签</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="bin" id="bin" data-drop="bin">
+        <div class="bin-ico" aria-hidden="true">⌫</div>
+        <h2>撤场箱</h2>
+        <p>把不该出现在宣誓会场的东西拖到这里</p>
+        <ul id="binList"></ul>
+      </section>
+    </div>
+
+    <!-- ============ 小关卡2：党旗特写 ============ -->
+    <div class="flagzone" id="flagzone">
+      <!-- 坏结局时替换出来的手绘对比图面板 -->
+      <section class="flag-compare" id="flagCompare">
+        <div class="flag-compare-head">
+          <h2>两面旗并排摆桌上</h2>
+          <p>标准党旗 vs 广告公司「订做旗」——一眼就能看出问题</p>
+        </div>
+        <div class="flag-pair">
+          <figure>
+            <span class="stamp ok">✓</span>
+            <img class="sk-img" src="https://Lyy803.github.io/picx-images-hosting/dangqizhengque.2a5wmc3sdu.webp" alt="标准党旗">
+            <figcaption class="good"><b>标准党旗</b> · 正红、长宽 3∶2、党徽在左上方、党徽比例合规</figcaption>
+          </figure>
+          <figure>
+            <span class="stamp bad">✗</span>
+            <img class="sk-img" src="https://Lyy803.github.io/picx-images-hosting/dangqicuowu.45iheyg7zl.webp" alt="广告公司订做的党旗">
+            <figcaption class="bad"><b>广告公司做的</b> · 颜色发粉、党徽偏大偏中、比例失衡</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <div class="choices" id="choices">
+        <button class="choice" type="button" data-choice="1">
+          <span class="num">1</span>
+          <span>
+            <strong>联系党建工作部，按规定领取一面党旗</strong>
+            <small>支部缺旗，向党建工作部门报告，按「一个支部一面党旗」集中配备发放。</small>
+          </span>
+        </button>
+        <button class="choice" type="button" data-choice="2">
+          <span class="num">2</span>
+          <span>
+            <strong>联系广告公司，订做一面党旗</strong>
+            <small>让常给单位做物料的广告公司照着图样做一面，两天就能送到。</small>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ============ 誓词 ============ -->
+    <section class="oathcard" id="oathcard">
+      <h2>入 党 誓 词</h2>
+      <p class="oc-text" id="ocText"></p>
+    </section>
+
+    <!-- ============ 小关卡3：佩戴党员徽章 ============ -->
+    <div class="wearzone" id="wearzone">
+      <section class="wearcard">
+        <div class="wearcard-head">
+          <h2>为张三佩戴党员徽章</h2>
+          <p>宣誓完毕，由入党介绍人王五亲手为新党员张三佩戴党员徽章</p>
+        </div>
+        <div class="wearrow">
+          <div class="wear-stage" id="wearStage" aria-label="张三半身像，把党员徽章拖到左胸">
+            <img class="wear-person" id="wearPerson" src="https://Lyy803.github.io/picx-images-hosting/带徽章.2yz5xuidsu.webp" alt="张三半身像">
+            <div class="wear-debug tol-ring" id="wearTolRing" aria-hidden="true"></div>
+            <div class="wear-debug center-dot" id="wearCenterDot" aria-hidden="true"></div>
+            <div class="badge-ghost" id="placedBadge" hidden>
+              <img src="https://Lyy803.github.io/picx-images-hosting/badge.8vnnbf8ky9.png" alt="党员徽章" width="39" height="39">
+            </div>
+          </div>
+          <div class="wear-side">
+            <div class="badge-palette">
+              <span style="font-size:12px;color:rgba(244,233,206,.6);letter-spacing:.06em">党员徽章（拖到张三胸口正确位置）</span>
+              <button class="badge-source" id="badgeSource" type="button" aria-label="党员徽章，可拖拽">
+                <img src="https://Lyy803.github.io/picx-images-hosting/badge.8vnnbf8ky9.png" alt="党员徽章">
+              </button>
+            </div>
+            <p class="wear-tip" id="wearTip">把左侧徽章<b>拖到张三左胸中间位置</b>放置。</p>
+            <div class="wear-result" id="wearResult" hidden></div>
+            <div class="wear-actions">
+              <button class="btn plain" id="btnWearRetry" type="button">收回徽章重新戴</button>
+              <button class="btn plain" id="btnChangeOutfit" type="button">换一身衣服（当前：正装）</button>
+            </div>
+          </div>
+        </div>
+        <div class="finish-row" id="finishRow" hidden>
+          <button class="btn primary" id="btnFinish" type="button">查看通关解析 ▸</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <section class="print-only">
+    <h2>小关卡 1 · 入党宣誓会场布置</h2>
+    <p>必需：党旗（主席台正中）、入党誓词、领誓人、国歌、国际歌；撤走：杂乱的废纸、运动器材、水杯。会场要庄重、简朴、整洁。</p>
+    <h2>小关卡 2 · 差一面党旗怎么办</h2>
+    <p>会场没有党旗就不能宣誓。党徽党旗按《中国共产党党徽党旗条例》由党建工作部门集中配备发放，任何单位和个人未经批准不得擅自制作，不能自己找广告公司订做。</p>
+    <h2>小关卡 3 · 佩戴党员徽章</h2>
+    <p>党员徽章佩戴在外衣左胸中间位置，置于其他徽章之上；不得使用破损、污损、褪色或者不符合制作规定的党员徽章。</p>
+  </section>
+</div>
+
+<!-- ============ 对话 ============ -->
+<footer class="dialogue" id="dialogue">
+  <div class="speaker" id="speaker">旁白</div>
+  <p class="line" id="line">正在载入……</p>
+  <div class="dlg-actions">
+    <button class="btn primary" id="btnNext" type="button">继续 ▸</button>
+  </div>
+</footer>
+
+<div class="feedback" id="feedback" role="status" aria-live="polite"><span id="fbText"></span></div>
+
+<!-- ============ 弹窗：布置要点 ============ -->
+<dialog class="modal" id="modalPoints" aria-labelledby="pointsTitle">
+  <div class="modal-head">
+    <div>
+      <h2 id="pointsTitle">入党宣誓会场 · 布置要点</h2>
+      <p>庄重、简朴、整洁；主席台正中悬挂党旗</p>
+    </div>
+    <button class="btn plain" data-close type="button">关闭</button>
+  </div>
+  <div class="modal-body">
+    <div class="k-list">
+      <div class="k-item">
+        <h4>一、必须有党旗，且置于显著位置</h4>
+        <p>《中国共产党党徽党旗条例》第九条规定，举行新党员入党宣誓仪式、组织党员重温入党誓词，应当使用党旗。会场布置中，党旗挂在主席台正中，不能没有党旗就宣誓。</p>
+      </div>
+      <div class="k-item">
+        <h4>二、誓词、领誓人、仪式用曲要齐备</h4>
+        <p>宣誓人面向党旗，举右手握拳过肩，由领誓人逐句领读誓词，宣誓人齐声跟读；读完誓词后，领誓人说“宣誓人”，宣誓人各报姓名。仪式程序一般为：奏（唱）《国际歌》—党组织负责人致辞—宣布参加宣誓的新党员名单—宣誓—新党员代表发言—党组织负责人讲话—宣布仪式结束；不少单位也会在仪式开始奏唱《国歌》，按本单位党组织安排执行。</p>
+      </div>
+      <div class="k-item">
+        <h4>三、会场要干净、整齐，不放无关物品</h4>
+        <p>宣誓仪式在严肃、庄重的场所举行。废纸杂物、运动器材、水杯饮料这类东西不该出现在主席台和会场里，主席台只放仪式用品。</p>
+      </div>
+    </div>
+    <p class="src">
+      依据：<a href="https://www.gov.cn/zhengce/2021-06/28/content_5621310.htm" target="_blank" rel="noopener noreferrer">中国政府网《中国共产党党徽党旗条例》</a> ·
+      <a href="https://www.12371.cn/special/dhdq/" target="_blank" rel="noopener noreferrer">共产党员网·党徽党旗</a> ·
+      <a href="https://www.12371.cn/2023/11/28/STUD1701138145409179.shtml" target="_blank" rel="noopener noreferrer">共产党员网·入党誓词</a>
+    </p>
+  </div>
+  <div class="modal-foot">
+    <button class="btn dark" data-close type="button">知道了</button>
+  </div>
+</dialog>
+
+<!-- ============ 弹窗：手绘对比图 ============ -->
+<dialog class="modal" id="modalSketch" aria-labelledby="sketchTitle">
+  <div class="modal-head">
+    <div>
+      <h2 id="sketchTitle">党旗长什么样，才算“那面旗”</h2>
+      <p>手绘对比：一面标准党旗，两种常见的“不合规”</p>
+    </div>
+    <button class="btn plain" data-close type="button">关闭</button>
+  </div>
+  <div class="modal-body">
+    <div class="sketch-grid">
+      <figure class="sketch">
+        <span class="stamp ok">✓ 标准</span>
+        <div class="sk-body" id="skGood">
+          <span class="mark-circle" aria-hidden="true"></span>
+          <span class="anno a1">长 ∶ 宽 = 3 ∶ 2</span>
+          <span class="anno a2">党徽切于 8×8 方格</span>
+          <span class="anno a3">距上边 3 格 · 距左边 4 格</span>
+        </div>
+        <figcaption><b>标准党旗</b><br>旗面红色、长宽三比二，左上方四分之一处缀金黄色党徽；党徽切于 8×8 方格，距旗上边 3 格、距左边 4 格。</figcaption>
+      </figure>
+      <figure class="sketch">
+        <span class="stamp bad">✗ 不合规</span>
+        <div class="sk-body" id="skColor"></div>
+        <figcaption><b>颜色不合规</b><br>旗面发粉发浅、党徽发暗发土黄——不是标准红与金黄。这种旗挂上去，第一眼就不对。</figcaption>
+      </figure>
+      <figure class="sketch">
+        <span class="stamp bad">✗ 不合规</span>
+        <div class="sk-body" id="skEmblem"></div>
+        <figcaption><b>党徽比例不合规</b><br>党徽被放大近一倍，位置也从左上角挪到了旗面中部。党徽的大小和位置都有规定，不能“看着差不多就行”。</figcaption>
+      </figure>
+    </div>
+    <div class="legend">
+      <div>《中国共产党党徽党旗条例》第十四条：不得使用破损、污损、褪色的党徽党旗，不得制作使用任何不符合条例所附制法说明的党徽党旗。</div>
+      <div>第十八条：党徽党旗按照条例所附制法说明制作，制作企业由省级党委组织部门在有生产资质的企业中确定；任何单位和个人，未经批准不得擅自制作党徽党旗。</div>
+      <div>第十九条：党徽党旗原则上应当集中配备发放，做到一个党委有一枚党徽、一个支部有一面党旗，所需经费可以从党费中列支。</div>
+    </div>
+    <p class="src">
+      依据：<a href="https://www.gov.cn/zhengce/2021-06/28/content_5621310.htm" target="_blank" rel="noopener noreferrer">中国政府网《中国共产党党徽党旗条例》</a> ·
+      <a href="https://cpc.people.com.cn/GB/64162/71380/71382/71383/4844517.html" target="_blank" rel="noopener noreferrer">中国共产党新闻网·党旗制法说明</a>
+    </p>
+  </div>
+  <div class="modal-foot">
+    <button class="btn dark" data-close type="button">我明白了</button>
+  </div>
+</dialog>
+
+<!-- ============ 弹窗：过关 ============ -->
+<dialog class="modal" id="modalEnd" aria-labelledby="endTitle">
+  <div class="modal-head">
+    <div>
+      <h2 id="endTitle">预备党员转正 · 下一关预告</h2>
+      <p>会场布置合格，党旗按规定领取，誓词宣誓完成，党员徽章佩戴正确</p>
+    </div>
+    <button class="btn plain" data-close type="button">回看会场</button>
+  </div>
+  <div class="modal-body">
+    <div class="k-list">
+      <div class="k-item">
+        <h4>一、会场：庄重、简朴、整洁</h4>
+        <p>主席台正中悬挂党旗，党旗上方可设“入党宣誓仪式”横标；誓词、领誓人、仪式用曲要齐备；废纸杂物、运动器材、水杯饮料一律清出会场。</p>
+      </div>
+      <div class="k-item">
+        <h4>二、党旗：没有旗，会场就不算布置完</h4>
+        <p>《中国共产党党徽党旗条例》第九条规定，举行新党员入党宣誓仪式、组织党员重温入党誓词，应当使用党旗，并且要置于显著位置。主席台正中的党旗位空着，这个会场就不能用来宣誓。</p>
+      </div>
+      <div class="k-item">
+        <h4>三、来源：集中配备发放，不能自行制作</h4>
+        <p>会场缺旗，正确做法是向党建工作部门报告、按规定领取。党徽党旗按条例所附制法说明制作，制作企业由省级党委组织部门在有资质的企业中确定，任何单位和个人未经批准不得擅自制作（第十八条）；党徽党旗原则上集中配备发放，做到一个支部有一面党旗（第十九条）。所以不能自己找广告公司订做。</p>
+      </div>
+      <div class="k-item">
+        <h4>四、宣誓：面向党旗，举右拳，逐句跟读</h4>
+        <p>预备党员必须面向党旗进行入党宣誓，宣誓仪式一般由基层党委或党支部（党总支）组织进行。宣誓人举右手握拳过肩，由领誓人逐句领读誓词，宣誓人齐声跟读；读完誓词后，领誓人说“宣誓人”，宣誓人各自报出姓名。</p>
+      </div>
+      <div class="k-item">
+        <h4>五、党员徽章：外衣左胸中间，置于其他徽章之上</h4>
+        <p>党员徽章应当佩戴在外衣左胸中间位置；如同时佩戴其他徽章，应将党员徽章置于其他徽章之上。不得使用破损、污损、褪色或者不符合制作规定的党员徽章。</p>
+      </div>
+      <div class="k-item">
+        <h4>六、还有最后一关：转正与党龄起算</h4>
+        <p>张三的预备期到 2027 年 7 月 29 日届满。按期转正的程序、党龄到底从哪天起算——这是最容易写错的知识点。<b>下一关就是最终关</b>。</p>
+      </div>
+    </div>
+    <p class="src">
+      依据：<a href="https://www.gov.cn/zhengce/2021-06/28/content_5621310.htm" target="_blank" rel="noopener noreferrer">中国政府网《中国共产党党徽党旗条例》</a> ·
+      <a href="https://www.12371.cn/special/dhdq/" target="_blank" rel="noopener noreferrer">共产党员网·党徽党旗</a> ·
+      <a href="https://www.12371.cn/2023/11/28/STUD1701138145409179.shtml" target="_blank" rel="noopener noreferrer">共产党员网·入党誓词</a> ·
+      <a href="https://www.12371.cn/2019/02/18/ARTI1550474263196777.shtml" target="_blank" rel="noopener noreferrer">共产党员网·党员徽章佩戴规范</a>
+    </p>
+  </div>
+  <div class="modal-foot">
+    <a class="btn primary" href="党建知识闯关_关卡15_预备党员转正.html">继续闯关 · 关卡 15 最终关 ▸</a>
+    <button class="btn plain" id="btnSketch3" type="button">再看手绘对比图</button>
+    <button class="btn dark" id="btnRestart" type="button">重新挑战本关</button>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ================= 工具 ================= */
+  function $(id){ return document.getElementById(id); }
+  function qsa(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  var LEADER_SRC = "https://Lyy803.github.io/picx-images-hosting/lingshiren.4g5azjeyf9.webp";
+  var FLAG_SRC = "https://Lyy803.github.io/picx-images-hosting/pingpudangqi.7ehl319fuj.webp";
+
+  /* ================= 党旗 =================
+     标准党旗用一张实拍图；
+     「错误版」党旗由标准图就地派生：党徽放大用“先盖住原党徽、再把同一张图放大裁切贴回去”，保证同源。 */
+
+  /* 党徽被放大到 1.7 倍、并挪向旗面中部 */
+  function flagWrongEmblemSVG(){
+    return '<svg viewBox="0 0 580 386" role="img" aria-label="错误党旗：党徽过大，位置偏到旗面中部">'
+      + '<defs>'
+      + '<clipPath id="coverEm"><rect x="58" y="42" width="141" height="141"/></clipPath>'
+      + '<clipPath id="bigEm"><rect x="150" y="60" width="214" height="214"/></clipPath>'
+      + '</defs>'
+      + '<image href="' + FLAG_SRC + '" width="580" height="386"/>'
+      + '<g clip-path="url(#coverEm)"><image href="' + FLAG_SRC + '" width="580" height="386" transform="translate(-234,-158)"/></g>'
+      + '<g clip-path="url(#bigEm)"><image href="' + FLAG_SRC + '" width="580" height="386" transform="translate(150,60) scale(1.7) translate(-66,-50)"/></g>'
+      + '</svg>';
+  }
+
+  /* ================= 数据 ================= */
+  var ITEMS = {
+    flag:   { name:"党旗",     kind:"in",  where:"主席台正中的背景板" },
+    oath:   { name:"入党誓词", kind:"in",  where:"主席台右侧的誓词位" },
+    leader: { name:"领誓人",   kind:"in",  where:"会场左侧的领誓位" },
+    intl:   { name:"国际歌",   kind:"in",  where:"音响台上的音源位" },
+    papers: { name:"杂乱的废纸", kind:"out" },
+    gear:   { name:"运动器材",   kind:"out" },
+    cup:    { name:"水杯",       kind:"out" },
+    note:   { name:"便签纸",     kind:"trick" },
+    placard:{ name:"主席席签",   kind:"trick" },
+    anthem: { name:"国歌",       kind:"trick" }
+  };
+  var TOTAL = 7;          // 党旗到位后，会场里需要归位的总件数
+  var TOTAL_FIRST = 6;    // 第一轮没有党旗，最多只能归位 6 件
+  var flagUnlocked = false;
+  var OK_TEXT = {
+    flag:   "党旗挂上主席台正中。举行新党员入党宣誓仪式应当使用党旗，而且要置于显著位置。",
+    oath:   "入党誓词立牌摆好。宣誓人面向党旗、逐句跟读，誓词要放在看得清的地方。",
+    leader: "领誓人到位。领誓人一般由党组织负责人或党龄较长的党员担任，站在宣誓人一侧，与宣誓人同举右拳。",
+    anthem: "《国歌》音源就位。按支部的仪式安排，仪式开始全体起立，奏唱国歌。",
+    intl:   "《国际歌》音源就位。入党宣誓仪式的传统程序里，仪式结束奏《国际歌》。",
+    papers: "地上一堆废纸、旧材料清走了。会场要整洁，宣誓仪式不能在杂乱的环境里举行。",
+    gear:   "哑铃、篮球搬回活动室。运动器材摆在宣誓会场，既不协调，也谈不上庄重。",
+    cup:    "主席台上的玻璃杯撤走。宣誓仪式的主席台只放仪式用品，一只玻璃杯就显出随意。"
+  };
+
+  var placed = {}, removed = {};
+  var selected = null, doneCount = 0, finished = false;
+  var busy = false;
+
+  var scene = $("scene"), speakerEl = $("speaker"), lineEl = $("line"), btnNext = $("btnNext");
+  var hudFound = $("hudFound"), hudProgress = $("hudProgress");
+  var feedback = $("feedback"), fbText = $("fbText");
+  var tray = $("tray"), bin = $("bin"), binList = $("binList");
+
+  /* ================= 提示 ================= */
+  var fbTimer = null;
+  function say(type, text){
+    fbText.textContent = text;
+    feedback.className = "feedback show " + (type || "");
+    clearTimeout(fbTimer);
+    fbTimer = setTimeout(function(){ feedback.className = "feedback " + (type || ""); }, 4200);
+  }
+
+  /* ================= 剧情 ================= */
+  var queue = [], qi = 0, onQueueDone = null;
+
+  function setSpeaker(sp){
+    speakerEl.textContent = sp || "旁白";
+    speakerEl.className = "speaker" + (sp === "张三" ? " zs" : (sp === "领誓人" ? " ls" : ""));
+  }
+  function renderStep(){
+    var s = queue[qi];
+    setSpeaker(s.sp);
+    lineEl.textContent = s.text;
+    if(s.act){ try { s.act(); } catch(e){} }
+    btnNext.textContent = (qi === queue.length - 1) ? (s.end || "继续 ▸") : "继续 ▸";
+    btnNext.hidden = false;
+  }
+  function runSteps(steps, done){
+    queue = steps; qi = 0; onQueueDone = done || null;
+    renderStep();
+  }
+  btnNext.addEventListener("click", function(){
+    if(busy) return;
+    if(qi < queue.length - 1){ qi++; renderStep(); }
+    else if(onQueueDone){ var f = onQueueDone; onQueueDone = null; f(); }
+  });
+
+  /* ================= 阶段切换 ================= */
+  function setPhase(p){
+    document.body.className = "phase-" + p;
+    $("stage1").className = (p === "intro" || p === "arrange") ? "on" : "";
+    $("stage2").className = (p === "flag" || p === "choice") ? "on" : "";
+    $("stage3").className = (p === "oath" || p === "wear" || p === "end") ? "on" : "";
+    // 每次阶段切换都滚回顶部，制造"页面刷新"的体感
+    try { window.scrollTo({ top:0, behavior:"smooth" }); } catch(e){}
+  }
+
+  /* ================= 小关卡1：布置 ================= */
+  function placeContent(id, box){
+    var html = "";
+    if(id === "flag"){ html = '<img src="' + FLAG_SRC + '" alt="党旗">'; }
+    else if(id === "oath"){
+      html = '<div class="oath-board"><div class="ob-title">入党誓词</div>'
+           + '<div class="ob-lines"><i></i><i></i><i></i><i></i><i></i></div></div>';
+    }
+    else if(id === "leader"){ html = '<img src="' + LEADER_SRC + '" alt="领誓人面向党旗举右拳">'; }
+    else if(id === "anthem"){
+      html = '<div class="tune"><span class="t-ico">♪</span><span class="t-name">国歌</span><span class="t-sub">音源</span></div>';
+    }
+    else if(id === "intl"){
+      html = '<div class="tune"><span class="t-ico">♪</span><span class="t-name">国际歌</span><span class="t-sub">音源</span></div>';
+    }
+    box.innerHTML = html;
+  }
+
+  function updateHud(){
+    var total = flagUnlocked ? TOTAL : TOTAL_FIRST;
+    hudFound.textContent = String(doneCount);
+    hudProgress.lastChild.textContent = "/ " + total;
+    if(flagUnlocked && doneCount >= TOTAL){
+      hudProgress.classList.add("done");
+      hudProgress.firstChild.textContent = "✔ 全部就位";
+    }
+  }
+
+  function setHud(label, value, total, done){
+    hudFound.textContent = String(value);
+    hudProgress.classList.toggle("done", !!done);
+    hudProgress.firstChild.textContent = label;
+    hudProgress.lastChild.textContent = "/ " + total;
+  }
+
+  function clearSelect(){
+    selected = null;
+    qsa(".card.selected,.junk.selected").forEach(function(n){ n.classList.remove("selected"); });
+  }
+
+  function selectCard(id, node){
+    if(selected === id){ clearSelect(); return; }
+    clearSelect();
+    selected = id;
+    node.classList.add("selected");
+    var it = ITEMS[id];
+    if(it.kind === "trick"){
+      if(id === "anthem"){
+        say("warn", "「国歌」不是这个场景要布置的——此仪式只摆《国际歌》的音源。");
+      } else {
+        say("warn", "物品架里东西不少，只摆宣誓仪式真正要用到的那几样。");
+      }
+      return;
+    }
+    say("", it.kind === "in"
+      ? "已选「" + it.name + "」——点一下会场里它该在的位置。"
+      : "已选「" + it.name + "」——点一下撤场箱，把它清出去。");
+  }
+
+  function attempt(itemId, target){
+    var it = ITEMS[itemId];
+    if(!it || it.done) return;
+
+    if(it.kind === "trick"){
+      if(itemId === "anthem"){
+        say("warn", "「国歌」不是这个场景要布置的。此仪式只摆《国际歌》的音源，国歌按传统是仪式当场全体起立奏唱，不用提前摆音源。");
+      } else {
+        say("warn", "先摆好必需的那几样吧。");
+      }
+      clearSelect();
+      return;
+    }
+
+    if(it.kind === "in"){
+      if(target === "bin"){
+        say("warn", "「" + it.name + "」是宣誓仪式必需的东西，不能撤。");
+        return;
+      }
+      if(target === "scene"){
+        say("warn", "这里不是它的位置。「" + it.name + "」要放到" + it.where + "。");
+        return;
+      }
+      if(target !== itemId){
+        say("warn", "位置不对。「" + it.name + "」不放这儿，它该在" + it.where + "。");
+        return;
+      }
+      // 正确
+      var slot = document.querySelector('.slot[data-drop="' + itemId + '"]');
+      if(!slot) return;
+      placeContent(itemId, slot.querySelector(".slot-inner"));
+      slot.classList.add("filled");
+      slot.classList.remove("hot");
+      it.done = true;
+      placed[itemId] = true;
+      var card = document.querySelector('.card[data-item="' + itemId + '"]');
+      if(card) card.classList.add("done");
+      clearSelect();
+      doneCount++; updateHud();
+      say("ok", "✓ " + OK_TEXT[itemId]);
+      afterPlaced();
+    } else {
+      if(target === "bin"){
+        var node = document.querySelector('.junk[data-junk="' + itemId + '"]');
+        if(node) node.classList.add("gone");
+        it.done = true;
+        removed[itemId] = true;
+        binList.appendChild(Object.assign(document.createElement("li"), { textContent: it.name }));
+        clearSelect();
+        doneCount++; updateHud();
+        say("ok", "✓ " + OK_TEXT[itemId]);
+        afterPlaced();
+      } else if(target === "scene"){
+        say("warn", "「" + it.name + "」还留在会场里。把它拖进撤场箱。");
+      } else {
+        say("warn", "「" + it.name + "」不是仪式用品，它该被撤走——拖到撤场箱。");
+      }
+    }
+  }
+
+  /* ---------- 拖拽 ---------- */
+  var drag = null;
+
+  function startDrag(e, id, node){
+    if(ITEMS[id] && ITEMS[id].done) return;
+    if(!document.body.classList.contains("phase-arrange")) return;
+    e.preventDefault();
+    var r = node.getBoundingClientRect();
+    drag = {
+      id: id, node: node,
+      dx: e.clientX - r.left, dy: e.clientY - r.top,
+      w: r.width, h: r.height,
+      sx: e.clientX, sy: e.clientY,
+      moved: false, ghost: null
+    };
+    try { node.setPointerCapture(e.pointerId); } catch(err){}
+  }
+
+  function moveDrag(e){
+    if(!drag) return;
+    if(!drag.moved && Math.abs(e.clientX - drag.sx) + Math.abs(e.clientY - drag.sy) > 7){
+      drag.moved = true;
+      var g = drag.node.cloneNode(true);
+      g.classList.add("ghost");
+      g.style.cssText = "position:fixed;left:0;top:0;width:" + drag.w + "px;height:" + drag.h
+        + "px;margin:0;z-index:200;pointer-events:none;opacity:.95;transform:translate("
+        + (e.clientX - drag.dx) + "px," + (e.clientY - drag.dy) + "px) rotate(-2deg);";
+      document.body.appendChild(g);
+      drag.ghost = g;
+      drag.node.classList.add("dragging");
+    }
+    if(drag.moved && drag.ghost){
+      drag.ghost.style.transform = "translate(" + (e.clientX - drag.dx) + "px,"
+        + (e.clientY - drag.dy) + "px) rotate(-2deg)";
+      var under = document.elementFromPoint(e.clientX, e.clientY);
+      var drop = under ? under.closest("[data-drop]") : null;
+      qsa(".slot.hot,.bin.hot").forEach(function(n){ n.classList.remove("hot"); });
+      if(drop) drop.classList.add("hot");
+    }
+  }
+
+  function endDrag(e){
+    if(!drag) return;
+    var d = drag; drag = null;
+    if(d.ghost) d.ghost.remove();
+    d.node.classList.remove("dragging");
+    qsa(".slot.hot,.bin.hot").forEach(function(n){ n.classList.remove("hot"); });
+    if(!d.moved){
+      selectCard(d.id, d.node);
+      return;
+    }
+    var under = document.elementFromPoint(e.clientX, e.clientY);
+    var drop = under ? under.closest("[data-drop]") : null;
+    if(drop){ attempt(d.id, drop.getAttribute("data-drop")); }
+    else { attempt(d.id, "scene"); }
+  }
+
+  function bindDrag(node, id){
+    node.addEventListener("pointerdown", function(e){
+      if(e.button != null && e.button !== 0) return;
+      startDrag(e, id, node);
+    });
+    node.addEventListener("pointermove", moveDrag);
+    node.addEventListener("pointerup", endDrag);
+    node.addEventListener("pointercancel", function(){
+      if(drag){ if(drag.ghost) drag.ghost.remove(); drag.node.classList.remove("dragging"); drag = null; }
+      qsa(".slot.hot,.bin.hot").forEach(function(n){ n.classList.remove("hot"); });
+    });
+    // 键盘 / 点击选中
+    node.addEventListener("click", function(e){
+      if(e.detail === 0){ selectCard(id, node); }
+    });
+  }
+
+  qsa(".card", tray).forEach(function(n){ bindDrag(n, n.getAttribute("data-item")); });
+  qsa(".junk", scene).forEach(function(n){ bindDrag(n, n.getAttribute("data-junk")); });
+
+  qsa("[data-drop]").forEach(function(t){
+    t.addEventListener("click", function(e){
+      if(!selected) return;
+      var target = t.getAttribute("data-drop");
+      attempt(selected, target);
+      e.stopPropagation();
+    });
+  });
+  scene.addEventListener("click", function(e){
+    if(!selected) return;
+    if(e.target.closest(".junk,.slot")) return;
+    attempt(selected, "scene");
+  });
+
+  /* ================= 剧情脚本 ================= */
+  var INTRO = [
+    { sp:"旁白", text:"2026年11月16日，星期一。第一党支部党员活动室。" },
+    { sp:"旁白", text:"张三的预备党员批复上月底到了，支部把入党宣誓仪式定在这周五上午九点。会场布置的活儿，落到了他头上。" },
+    { sp:"预备党员张三", text:"书记只交代了一句：会场不用花哨，但要庄重、简朴、整洁。我原以为摆摆桌子、挂条横幅就完事，真动起手来才发现，这里头的讲究不少。" },
+    { sp:"旁白", text:"桌椅摆好了，横标也挂上了。物品架上有三样必需的东西还没归位；而台前台后，还散着三样不该出现在宣誓会场里的物件。" },
+    { sp:"旁白", text:"【小关卡 1 · 会场布置】把物品架上必需的三样东西放到会场对应的位置，把不该出现的三样东西清进撤场箱。", end:"开始布置 ▸" }
+  ];
+
+  var SHORTAGE = [
+    { sp:"旁白", text:"誓词立牌、领誓位、音源都到位，三样杂物也清了出去。张三退到台下，从头看了一遍会场。" },
+    { sp:"预备党员张三", text:"主席台正中间，空着一块。" },
+    { sp:"旁白", text:"宣誓要面向党旗。《中国共产党党徽党旗条例》规定，举行新党员入党宣誓仪式应当面向党旗，而且要置于显著位置。缺了这一面旗，会场就不算布置完成。" },
+    { sp:"旁白", text:"可活动室里找不到党旗。张三掏出手机，翻到两个联系方式——一个是党建工作部，一个是常给单位做物料的广告公司。" }
+  ];
+
+  var FINAL = [
+    { sp:"旁白", text:"七样东西，各归各位。会场安静下来——横幅、党旗、誓词、领誓位、音源，一样不多，一样不少。" },
+    { sp:"预备党员张三", text:"站在台下往上看，忽然觉得心里有点发紧。宣誓仪式上，我要对着这面旗，把誓词一个字一个字念出来。" }
+  ];
+
+  function enterArrange(){
+    setPhase("arrange");
+    runSteps([{ sp:"布置提示", text:"点一下物品，再点会场里对应的位置；也可以直接把物品拖过去。物品架上的东西都归位，会场才算布置完成。" }], null);
+    btnNext.hidden = true;
+    say("", "先看看「布置要点」，再动手。");
+  }
+
+  function afterPlaced(){
+    if(!flagUnlocked){
+      if(doneCount >= TOTAL_FIRST) setTimeout(flagShortage, 900);
+    } else if(doneCount >= TOTAL){
+      setTimeout(finishArrange, 900);
+    }
+  }
+
+  /* 其它东西都摆好了，才发现还缺一面党旗 */
+  function flagShortage(){
+    if(flagUnlocked || finished) return;
+    setPhase("arrange");
+    runSteps(SHORTAGE, showChoices);
+  }
+
+  /* 党旗领到了，重新回到布置会场：物品架里这才出现党旗 */
+  function enterArrangeAgain(){
+    flagUnlocked = true;
+    var card = document.querySelector('.card[data-item="flag"]');
+    if(card) card.classList.remove("locked");
+    setPhase("arrange");
+    updateHud();
+    runSteps([{ sp:"旁白", text:"新党旗拿回来了。把它挂到主席台正中，旗面要正、要展，不能垂着角。", end:"继续布置 ▸" }], null);
+    btnNext.hidden = true;
+    say("ok", "张三拿到了一面新党旗——把它放到主席台正中。");
+  }
+
+  function finishArrange(){
+    if(finished) return;
+    finished = true;
+    setPhase("arrange");
+    runSteps(FINAL, enterOath);
+  }
+
+  function showChoices(){
+    setPhase("choice");
+    btnNext.hidden = true;
+    qsa(".choice", $("choices")).forEach(function(b){ b.style.display = ""; });
+    lineEl.textContent = "会场就差主席台正中这一面党旗。这面旗，该从哪里获取？";
+    setSpeaker("旁白");
+  }
+
+  /* ---------- 选择 ---------- */
+  qsa(".choice", $("choices")).forEach(function(btn){
+    btn.addEventListener("click", function(){
+      if(btn.classList.contains("excluded")) return;
+      var v = btn.getAttribute("data-choice");
+      if(v === "2") wrongChoice(btn);
+      else rightChoice();
+    });
+  });
+
+  function wrongChoice(btn){
+    btn.classList.add("excluded");
+    btn.querySelector("small").textContent = "广告公司订做的方案：两天就能送到。";
+    setPhase("flag");
+    btnNext.hidden = false;
+    runSteps([
+      { sp:"旁白", text:"张三给常给单位做物料的广告公司打了电话，让他们照着网上的「标准图样」做一面，两天就能送到。" },
+      { sp:"旁白", text:"第三天清晨，快递到了。包装很工整，可是旗面一展开，张三的眉头就皱起来了。" },
+      { sp:"预备党员张三", text:"这旗……颜色发粉，红得不正。党徽也比图样里大了一圈，位置好像也偏到了旗面中部。" },
+      { sp:"旁白", text:"他把两面旗并排摆在桌上——标准旗鲜红、党徽在左上角、长宽三比二；这面「订做旗」发白发浅、党徽偏大偏中、比例也不对。", act:function(){ $("flagzone").classList.add("compare"); } },
+      { sp:"旁白", text:"支部书记来检查会场，一眼就看出这面旗有问题：「这种旗绝对不能挂。党徽党旗要按规定集中配备，未经批准不得擅自制作。」" },
+      { sp:"旁白", text:"旗作废，钱白花，离开仪式只剩两天。这条路走不通。", act:function(){ $("flagzone").classList.remove("compare"); }, end:"回到选择题重新来过 ▸" }
+    ], showChoicesBadEnding);
+  }
+
+  function showChoicesBadEnding(){
+    setPhase("choice");
+    btnNext.hidden = true;
+    $("flagzone").classList.remove("compare");
+    lineEl.textContent = "这条获取党旗的路走不通———该怎么办？";
+    setSpeaker("旁白");
+    qsa(".choice", $("choices")).forEach(function(cb){ cb.classList.remove("excluded"); cb.querySelector("small").textContent = cb.getAttribute("data-choice") === "1"
+      ? "支部缺旗，向党建工作部门报告，按「一个支部一面党旗」集中配备发放。"
+      : "让常给单位做物料的广告公司照着图样做一面，两天就能送到。"; });
+    say("warn", "坏结局：广告公司做不出「那面旗」。重新选吧。");
+  }
+
+  function rightChoice(){
+    qsa(".choice", $("choices")).forEach(function(b){ b.style.display = "none"; });
+    setPhase("flag");
+    btnNext.hidden = false;
+    runSteps([
+      { sp:"旁白", text:"张三把缺旗的情况报给党建工作部，对方答复很干脆：明天就把旗送过来。" },
+      { sp:"预备党员张三", text:"（心里）广告公司订做看着快，可颜色、比例、党徽的位置，差一点就不是那面旗了。" },
+      { sp:"旁白", text:"第二天上午，新党旗送到。旗面展开——正红、长宽三比二，左上方缀着金黄的党徽，和标准图样一模一样。" },
+      { sp:"旁白", text:"旗有了，会场还差最后一步：把它挂到主席台正中。", end:"回到会场 ▸" }
+    ], enterArrangeAgain);
+  }
+
+  function enterOath(){
+    setPhase("oath");
+    setHud("已答", 1, 1, true);
+    runSteps([
+      { sp:"旁白", text:"周五上午九点。全体党员起立，国际歌奏响。张三站在党旗前，右手握拳过肩。", act:function(){ highlightOath(0); var ch = $("chapter"); if(ch) ch.innerHTML = "<em>2026年11月20日</em>入党宣誓仪式"; } },
+      { sp:"领誓人李四", text:"我志愿加入中国共产党——" },
+      { sp:"入党宣誓人张三", text:"我志愿加入中国共产党……", act:function(){ highlightOath(6); } },
+      { sp:"旁白", text:"誓词念完，他报出自己的名字。会场很静，只有窗外的风。那面党旗在面前，红得干净。", act:function(){ highlightOath(12); }, end:"为新党员佩戴徽章 ▸" }
+    ], enterWear);
+  }
+
+  /* ---------- 誓词 ---------- */
+  var OATH = ["我志愿加入中国共产党，","拥护党的纲领，","遵守党的章程，","履行党员义务，","执行党的决定，","严守党的纪律，","保守党的秘密，","对党忠诚，","积极工作，","为共产主义奋斗终身，","随时准备为党和人民牺牲一切，","永不叛党。"];
+  function buildOath(){
+    var box = $("ocText");
+    if(box.dataset.built) return;
+    box.innerHTML = OATH.map(function(t){ return "<span>" + t + "</span>"; }).join("");
+    box.dataset.built = "1";
+  }
+  function highlightOath(n){
+    buildOath();
+    qsa("span", $("ocText")).forEach(function(sp, i){ sp.className = i < n ? "lit" : ""; });
+  }
+
+  /* ---------- 小关卡3：佩戴党员徽章 ---------- */
+  var WEAR_STEPS = [
+    { sp:"旁白", text:"宣誓完毕。支部书记示意王五上前——按支部安排，由张三的入党介绍人王五，亲手为新党员佩戴党员徽章。" },
+    { sp:"支部干事王五", text:"来，张三。徽章我给你戴上——位置可不能戴错。" },
+    { sp:"旁白", text:"请你在人物图上点击正确的位置：党员徽章应当佩戴在外衣左胸中间位置，置于其他徽章之上。", end:"开始佩戴 ▸" }
+  ];
+
+  var wearStage = $("wearStage"), placedBadge = $("placedBadge"), wearResult = $("wearResult"),
+      wearTip = $("wearTip"), finishRow = $("finishRow"), badgeSource = $("badgeSource"),
+      wearPerson = $("wearPerson"), btnChangeOutfit = $("btnChangeOutfit");
+  /* ====== 三套衣服各自的判定范围（px/py 为 0..1 归一化坐标，tol 为归一化容错半径）======
+     每套衣服单独校准：用页面上的调试虚线框观察，逐套调整 px / py / tol。 */
+  var OUTFITS = [
+    { id:"suit",  name:"正装",   img:"https://Lyy803.github.io/picx-images-hosting/带徽章.2yz5xuidsu.webp",
+      px:0.78,  py:0.75,  tol:0.025 },
+    { id:"polo",  name:"Polo衫", img:"https://Lyy803.github.io/picx-images-hosting/polologo.9ddsccdg48.webp",
+      px:0.74,  py:0.71,  tol:0.04 },
+    { id:"shirt", name:"衬衫",   img:"https://Lyy803.github.io/picx-images-hosting/chenshan.4g5b5m1r6s.webp",
+      px:0.74,  py:0.74,  tol:0.04 }
+  ];
+  var outfitIdx = 0;
+  function curOutfit(){ return OUTFITS[outfitIdx]; }
+  function applyOutfit(){
+    var o = curOutfit();
+    wearPerson.src = o.img;
+    btnChangeOutfit.textContent = "换一身衣服（当前：" + o.name + "）";
+    setupWearDebug();
+  }
+  var wearAnswered = false;
+
+  /* ====== 调试虚线框位置/尺寸计算 ======
+     根据当前衣服的 px/py（归一化坐标）和 tol（归一化半径）在像素坐标系里画椭圆：
+     - tol-ring 宽 = tol*2*stageWidth，高 = tol*2*stageHeight
+     - center-dot 放在 (px*stageWidth, py*stageHeight)
+     上线时删除本函数 + HTML 里的两个 wear-debug 元素 + CSS 里的 wear-debug 规则即可。 */
+  function setupWearDebug(){
+    var stage = wearStage;
+    if(!stage) return;
+    var r = stage.getBoundingClientRect();
+    if(!r.width || !r.height) return;
+    var o = curOutfit();
+    var cx = o.px * r.width, cy = o.py * r.height;
+    var rx = o.tol * 2 * r.width, ry = o.tol * 2 * r.height;
+    var ring = $("wearTolRing"), dot = $("wearCenterDot");
+    if(dot){ dot.style.left = cx + "px"; dot.style.top = cy + "px"; }
+    if(ring){
+      ring.style.left = cx + "px"; ring.style.top = cy + "px";
+      ring.style.width = rx + "px"; ring.style.height = ry + "px";
+      ring.style.borderRadius = (rx/2) + "px / " + (ry/2) + "px";
+    }
+  }
+  window.addEventListener("resize", setupWearDebug);
+
+  function enterWear(){
+    setPhase("wear");
+    setHud("已佩戴", 0, 1, false);
+    runSteps(WEAR_STEPS, function(){
+      btnNext.hidden = true;
+      try { $("wearzone").scrollIntoView({ behavior:"smooth", block:"center" }); } catch(e){}
+      setupWearDebug();
+    });
+    say("", "把党员徽章拖到张三左胸中间。");
+    resetWearState();
+  }
+
+  function resetWearState(){
+    wearAnswered = false;
+    placedBadge.hidden = true;
+    wearResult.hidden = true;
+    finishRow.hidden = true;
+    badgeSource.hidden = false;
+    wearTip.innerHTML = "把左侧徽章<b>拖到张三左胸中间位置</b>放置。";
+  }
+
+  function insideStage(px, py){
+    var r = wearStage.getBoundingClientRect();
+    return px >= r.left && px <= r.right && py >= r.top && py <= r.bottom;
+  }
+  function toRel(px, py){
+    var r = wearStage.getBoundingClientRect();
+    return { x:(px - r.left) / r.width, y:(py - r.top) / r.height };
+  }
+  function scoreRel(x, y){
+    // 0..1 归一化的相对坐标，落在当前衣服 px/py 半径内算正确
+    var o = curOutfit();
+    var dx = (x - o.px), dy = (y - o.py);
+    return Math.sqrt(dx*dx + dy*dy);
+  }
+
+  /* ---- 拖拽 ---- */
+  var drag = null;
+  function startBadgeDrag(ev){
+    if(wearAnswered) return;
+    if(!document.body.classList.contains("phase-wear")) return;
+    ev.preventDefault();
+    var g = document.createElement("img");
+    g.className = "drag-ghost";
+    g.src = "https://Lyy803.github.io/picx-images-hosting/badge.8vnnbf8ky9.png";
+    g.alt = "党员徽章（拖拽中）";
+    g.style.width = "47px"; g.style.height = "47px";
+    document.body.appendChild(g);
+    drag = { ghost:g, x:ev.clientX, y:ev.clientY };
+    badgeSource.classList.add("dragging");
+    try { badgeSource.setPointerCapture(ev.pointerId); } catch(e){}
+  }
+  function moveBadgeDrag(ev){
+    if(!drag) return;
+    drag.ghost.style.left = ev.clientX + "px";
+    drag.ghost.style.top = ev.clientY + "px";
+    if(insideStage(ev.clientX, ev.clientY)) wearStage.classList.add("drop-hover");
+    else wearStage.classList.remove("drop-hover");
+  }
+  function endBadgeDrag(ev){
+    if(!drag) return;
+    var g = drag.ghost; drag = null;
+    badgeSource.classList.remove("dragging");
+    wearStage.classList.remove("drop-hover","drop-wrong");
+    if(g && g.parentNode) g.parentNode.removeChild(g);
+
+    if(wearAnswered) return;
+    if(!insideStage(ev.clientX, ev.clientY)){
+      say("warn", "徽章没放进人物图，再试试。");
+      return;
+    }
+    var rel = toRel(ev.clientX, ev.clientY);
+    var dist = scoreRel(rel.x, rel.y);
+    var o = curOutfit();
+    var r = wearStage.getBoundingClientRect();
+    var gx = ev.clientX - r.left;
+    var gy = ev.clientY - r.top;
+    placedBadge.hidden = false;
+    placedBadge.style.left = gx + "px";
+    placedBadge.style.top = gy + "px";
+
+    if(dist <= o.tol){
+      wearAnswered = true;
+      badgeSource.hidden = true;
+      wearResult.className = "wear-result ok";
+      wearResult.hidden = false;
+      wearResult.innerHTML = "<strong>✓ 佩戴正确</strong>党员徽章佩戴在<b>外衣左胸中间位置</b>，置于其他徽章之上。张三，从今天起，你的政治生日开始了。";
+      wearTip.innerHTML = "<b>✓ 位置正确</b>：外衣左胸中间。";
+      setHud("已佩戴", 1, 1, true);
+      say("ok", "佩戴正确！");
+      setTimeout(function(){ finishRow.hidden = false; }, 500);
+    } else {
+      wearStage.classList.add("drop-wrong");
+      setTimeout(function(){ wearStage.classList.remove("drop-wrong"); }, 600);
+      var dx = (rel.x < o.px - o.tol) ? "太靠左——那是右胸"
+            : (rel.x > o.px + o.tol) ? "太靠右" : "";
+      var dy = (rel.y < o.py - o.tol) ? "太靠上"
+            : (rel.y > o.py + o.tol) ? "太靠下" : "";
+      var tip = "位置不对";
+      if(dx || dy) tip += "（" + [dx,dy].filter(Boolean).join("，") + "）";
+      wearResult.className = "wear-result bad";
+      wearResult.hidden = false;
+      wearResult.innerHTML = "<strong>✗ " + tip + "</strong>党员徽章应佩戴在<b>外衣左胸中间位置</b>。试试拖到人物衣服左胸那一带。";
+      say("warn", tip + "，再试一次。");
+      // 失败就让徽章留在那当视觉反馈，但允许重新拖
+      badgeSource.hidden = false;
+    }
+  }
+
+  badgeSource.addEventListener("pointerdown", startBadgeDrag);
+  badgeSource.addEventListener("pointermove", moveBadgeDrag);
+  badgeSource.addEventListener("pointerup", endBadgeDrag);
+  badgeSource.addEventListener("pointercancel", endBadgeDrag);
+
+  $("btnWearRetry").addEventListener("click", function(){ resetWearState(); say("", "重新拖一次。"); });
+  btnChangeOutfit.addEventListener("click", function(){
+    outfitIdx = (outfitIdx + 1) % OUTFITS.length;
+    resetWearState();
+    applyOutfit();
+    say("", "给张三换上了" + curOutfit().name + "。位置可能有变化，再找找左胸中间。");
+  });
+  $("btnFinish").addEventListener("click", function(){ setPhase("end"); openDialog("modalEnd"); });
+
+  /* ================= 弹窗 ================= */
+  function openDialog(id){
+    var d = $(id);
+    if(!d) return;
+    if(typeof d.showModal === "function"){ if(!d.open) d.showModal(); }
+    else { d.setAttribute("open", ""); }
+  }
+  qsa("[data-close]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var d = b.closest("dialog");
+      if(d && d.close) d.close();
+    });
+  });
+  $("btnPoints").addEventListener("click", function(){ openDialog("modalPoints"); });
+  $("btnSketch3").addEventListener("click", function(){ openDialog("modalSketch"); });
+  $("btnRestart").addEventListener("click", function(){
+    var d = $("modalEnd"); if(d && d.close) d.close();
+    location.reload();
+  });
+
+  $("btnReplay").addEventListener("click", function(){
+    if(document.body.classList.contains("phase-intro") || document.body.classList.contains("phase-arrange")){
+      runSteps(INTRO, enterArrange);
+    } else {
+      say("", "本关剧情：先布置会场，发现差一面党旗，按规定领到后再挂上，最后宣誓、佩戴徽章。");
+    }
+  });
+
+  /* ================= 初始化 ================= */
+  function init(){
+    // 手绘对比图里的三面旗（modal）
+    var good = $("skGood");
+    if(good){
+      good.insertAdjacentHTML("afterbegin", '<img class="sk-img" src="' + FLAG_SRC + '" alt="标准党旗：旗面正红，左上方缀金黄色党徽">');
+    }
+    var c = $("skColor");
+    if(c){
+      c.innerHTML = '<img class="sk-img off-color" src="' + FLAG_SRC + '" alt="颜色不合规的党旗：旗面发粉发浅，党徽发暗">';
+    }
+    var em = $("skEmblem");
+    if(em){
+      em.innerHTML = flagWrongEmblemSVG();
+    }
+    setPhase("intro");
+    runSteps(INTRO, enterArrange);
+  }
+
+  try { init(); }
+  catch(err){
+    lineEl.textContent = "页面交互未能启动，请刷新重试。会场布置要求：党旗、入党誓词、领誓人、国歌、国际歌；撤走废纸、运动器材、水杯。";
+    if(window.console) console.error(err);
+  }
+})();
+</script>
+</body>
+</html>

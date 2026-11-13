@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>入党之路 · 关卡12：接收预备党员大会</title>
+<style>
+  :root{
+    --red:#C8102E;--red-2:#9E0B24;--red-deep:#6B0A18;
+    --gold:#D9A94A;--gold-2:#F0D18C;
+    --stage-bg:#1d1218;--ok:#1F7A4C;
+    --shadow:0 18px 40px rgba(0,0,0,.28);
+    --font-cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-kai:"KaiTi","STKaiti","Kaiti SC","楷体","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--font-cjk);color:#F6EEE6;
+    background:
+      radial-gradient(1200px 620px at 12% -8%,rgba(200,16,46,.30),transparent 62%),
+      radial-gradient(900px 520px at 92% 4%,rgba(217,169,74,.16),transparent 60%),
+      linear-gradient(170deg,#2A0D14 0%,#1B0A0F 48%,#120709 100%);
+    background-attachment:fixed;min-height:100vh;-webkit-text-size-adjust:100%;
+  }
+  .app{max-width:1200px;margin:0 auto;padding:16px 16px 34px}
+  body.phase-quiz .app{padding-bottom:118px}
+
+  .hud{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin-bottom:14px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand h1{font-size:19px;margin:0;letter-spacing:.06em;font-weight:600;color:#FFF6EA}
+  .brand .sub{font-size:12px;color:rgba(255,240,225,.62);letter-spacing:.14em;margin-top:2px}
+  .badge{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.08em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.55);box-shadow:0 4px 14px rgba(200,16,46,.36)}
+  .hud-right{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .progress{display:flex;align-items:baseline;gap:6px;padding:7px 14px;border-radius:10px;
+    background:rgba(0,0,0,.30);border:1px solid rgba(217,169,74,.30);
+    font-size:13px;color:rgba(255,244,232,.78);letter-spacing:.05em}
+  .progress b{font-size:21px;color:var(--gold-2);font-weight:700;font-variant-numeric:tabular-nums}
+  .progress.done{border-color:rgba(96,214,150,.6);background:rgba(31,122,76,.24)}
+  .progress.done b{color:#8BF0B8}
+
+  .btn{font-family:inherit;font-size:14px;cursor:pointer;border-radius:10px;
+    padding:9px 18px;letter-spacing:.06em;transition:transform .14s ease,box-shadow .2s ease,background .2s ease;
+    border:1px solid rgba(240,209,140,.45);text-decoration:none;display:inline-block}
+  .btn:active{transform:translateY(1px) scale(.99)}
+  .btn.primary{color:#FFF6E6;font-weight:700;
+    background:linear-gradient(165deg,#D3153A,#9E0B24 60%,#7A0819);
+    box-shadow:0 8px 20px rgba(200,16,46,.40),inset 0 1px 0 rgba(255,255,255,.22)}
+  .btn.primary:hover{box-shadow:0 10px 26px rgba(200,16,46,.55),inset 0 1px 0 rgba(255,255,255,.28)}
+  .btn.ghost{color:#FFEFDA;background:rgba(255,255,255,.07);border-color:rgba(217,169,74,.38)}
+  .btn.ghost:hover{background:rgba(255,255,255,.13)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  .scene-wrap{position:relative}
+  .scene{position:relative;width:100%;aspect-ratio:16/9;max-height:min(55vh,500px);
+    border-radius:18px;overflow:hidden;background:var(--stage-bg);
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .scene .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(122% 90% at 50% 44%,transparent 42%,rgba(24,8,10,.5) 100%)}
+  .actor{position:absolute;pointer-events:none;user-select:none}
+  .actor-li{right:5%;bottom:0;height:98%;width:auto;transform-origin:50% 100%;
+    transform:translateY(5%) scale(.99);opacity:0;
+    transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s ease-out}
+  .actor-li.show{opacity:1;transform:translateY(0) scale(1)}
+  .actor-wang-stand{left:28%;bottom:0;height:90%;width:auto;transform-origin:50% 100%;
+    transform:translateY(5%) scale(.99);opacity:0;
+    transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s ease-out}
+  .actor-wang-stand.show{opacity:1;transform:translateY(0) scale(1)}
+
+  .chapter{position:absolute;left:0;right:0;bottom:0;padding:18px 22px;
+    background:linear-gradient(0deg,rgba(12,4,6,.86),rgba(12,4,6,0));
+    display:flex;flex-direction:column;gap:3px;pointer-events:none;transition:opacity .5s ease}
+  .chapter em{font-style:normal;font-size:clamp(12px,1.5vw,16px);letter-spacing:.3em;color:var(--gold-2)}
+  .chapter strong{font-weight:600;font-size:clamp(13px,1.7vw,19px);letter-spacing:.1em;color:#FFF3E2}
+  .chapter.hide{opacity:0}
+
+  .dialogue{position:relative;margin-top:14px;padding:16px 18px 18px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.30);box-shadow:var(--shadow);
+    display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .speaker{flex:0 0 auto;padding:6px 14px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.14em;
+    color:#FFEFD6;background:linear-gradient(160deg,#8E0C20,#5E0A16);border:1px solid rgba(240,209,140,.4)}
+  .speaker.li{background:linear-gradient(160deg,#7A5A12,#4A3608);border-color:rgba(240,209,140,.5)}
+  .speaker.wang{background:linear-gradient(160deg,#1E6B5A,#0F4034);border-color:rgba(140,230,200,.42)}
+  .line{flex:1 1 320px;margin:0;font-size:16px;line-height:1.85;color:#F7EFE6;letter-spacing:.03em;min-width:0}
+  .dlg-actions{flex:0 0 auto;display:flex;gap:10px;align-items:center}
+
+  .quiz{display:none}
+  body.phase-quiz .quiz{display:block}
+  body.phase-quiz .scene,body.phase-quiz .dialogue{display:none}
+  body.phase-quiz .chapter{opacity:0}
+
+  .quiz-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin:14px 0;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32)}
+  .hint{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#F6E9D8;letter-spacing:.04em;line-height:1.7;flex:1 1 420px;min-width:0}
+  .hint .dot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;background:var(--red);margin-top:6px;
+    box-shadow:0 0 0 4px rgba(200,16,46,.22)}
+  .hint b{color:var(--gold-2);font-size:19px;font-variant-numeric:tabular-nums}
+  .bar-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+  .quiz-body{display:flex;gap:16px;align-items:flex-start}
+  .quiz-main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:14px}
+
+  .qcard{padding:18px 20px 20px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:var(--shadow)}
+  .qcard.done{border-color:rgba(96,214,150,.45)}
+  .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+  .qno{flex:0 0 auto;padding:5px 11px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.12em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.5)}
+  .qhead h3{margin:2px 0 0;font-size:16.5px;line-height:1.6;letter-spacing:.03em;color:#FFF6EA;font-weight:600}
+
+  .qtext{margin:0 0 18px;font-size:15.5px;line-height:2.2;color:#F6EFE4;letter-spacing:.03em;
+    padding:18px 22px;border-radius:10px;background:rgba(0,0,0,.24);border:1px dashed rgba(217,169,74,.42);
+    font-family:var(--font-kai)}
+  .qtext .fill{display:inline-block;min-width:180px;margin:0 2px;padding:2px 10px;border-radius:5px;
+    border:1px dashed rgba(240,209,140,.55);background:rgba(0,0,0,.28);
+    font-family:var(--font-cjk);color:var(--gold-2);font-weight:600;font-size:15px;
+    text-align:center;vertical-align:baseline}
+  .qtext .fill.short{min-width:60px}
+  .qtext .fill.med{min-width:100px}
+
+  .fill-row{display:flex;flex-direction:column;gap:14px;margin-bottom:14px}
+  .fill-item{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;padding:14px 18px;border-radius:12px;
+    background:rgba(0,0,0,.22);border:1px solid rgba(217,169,74,.28)}
+  .fill-item .fidx{flex:0 0 auto;padding:4px 10px;border-radius:6px;font-size:12.5px;font-weight:700;letter-spacing:.1em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));border:1px solid rgba(240,209,140,.4);
+    align-self:center}
+  .fill-item .fbody{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:8px}
+  .fill-item .fdesc{font-size:13.5px;color:rgba(255,244,232,.8);line-height:1.75;letter-spacing:.03em}
+  .fill-item .finputs{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .fill-item .finputs .lbl{font-size:13px;color:rgba(255,240,225,.55);letter-spacing:.06em}
+
+  .qinput{font-family:var(--font-cjk);font-size:15px;letter-spacing:.06em;
+    padding:8px 12px;border-radius:8px;border:1px solid rgba(217,169,74,.5);
+    background:rgba(255,255,255,.09);color:#FFF6EA;outline:none;
+    transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;min-width:140px}
+  .qinput::placeholder{color:rgba(255,240,225,.28)}
+  .qinput:focus{border-color:rgba(240,209,140,.85);box-shadow:0 0 0 4px rgba(217,169,74,.16);background:rgba(255,255,255,.14)}
+  .qinput[disabled]{opacity:.6;background:rgba(0,0,0,.2)}
+  .qinput.correct{border-color:rgba(96,214,150,.75);background:rgba(31,122,76,.18);color:#D8FFE9}
+  .qinput.wrong{border-color:rgba(255,140,150,.75);background:rgba(200,16,46,.16);color:#FFE6EA}
+
+  .dbox{display:flex;align-items:center;gap:4px}
+  .dbox input{font-family:var(--font-cjk);font-size:14px;letter-spacing:.06em;
+    padding:7px 10px;border-radius:7px;border:1px solid rgba(217,169,74,.5);
+    background:rgba(255,255,255,.09);color:#FFF6EA;outline:none;width:70px;text-align:center;
+    transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+  .dbox input:focus{border-color:rgba(240,209,140,.85);box-shadow:0 0 0 4px rgba(217,169,74,.16)}
+  .dbox input[disabled]{opacity:.6;background:rgba(0,0,0,.2)}
+  .dbox input.correct{border-color:rgba(96,214,150,.75);background:rgba(31,122,76,.18);color:#D8FFE9}
+  .dbox input.wrong{border-color:rgba(255,140,150,.75);background:rgba(200,16,46,.16);color:#FFE6EA}
+  .dbox.y input{width:82px}
+  .dbox span{font-size:13px;color:rgba(255,240,225,.55)}
+
+  .fill-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
+
+  .verdict{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:14px;padding:12px 16px;border-radius:11px;
+    font-size:14.5px;line-height:1.75;letter-spacing:.03em}
+  .verdict.ok{background:linear-gradient(160deg,rgba(31,122,76,.30),rgba(31,122,76,.10));border:1px solid rgba(96,214,150,.5);color:#D8FFE9}
+  .verdict.ok b{color:#8BF0B8}
+  .verdict.bad{background:linear-gradient(160deg,rgba(200,16,46,.26),rgba(200,16,46,.08));border:1px solid rgba(255,140,150,.45);color:#FFE6EA}
+  .verdict.bad b{color:#FF9AA8}
+
+  .reveal{margin-top:12px;padding:16px 18px 17px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.17),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5);
+    animation:unfold .46s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes unfold{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .reveal .rv-lbl{font-size:12px;letter-spacing:.22em;color:#FFD98F;font-weight:700}
+  .reveal .rv-ans{margin:7px 0 13px;font-size:20px;font-weight:700;letter-spacing:.05em;color:#FFF6E2;line-height:1.35}
+  .reveal h4{margin:14px 0 6px;font-size:15px;color:#FFD98F;letter-spacing:.06em}
+  .reveal h4:first-of-type{margin-top:10px}
+  .reveal p{margin:0 0 10px;font-size:14px;line-height:1.9;color:rgba(255,246,234,.9);letter-spacing:.02em}
+  .reveal p:last-child{margin-bottom:0}
+  .reveal p b{color:#FFD98F}
+  .reveal .quote{margin:0 0 11px;padding:11px 15px;border-left:3px solid rgba(240,209,140,.72);
+    background:rgba(0,0,0,.22);border-radius:0 8px 8px 0;
+    font-family:var(--font-kai);font-size:14.5px;line-height:1.9;color:#FFF3E2;letter-spacing:.02em}
+  .reveal .quote i{display:block;margin-top:6px;font-style:normal;font-size:12.5px;letter-spacing:.08em;color:rgba(255,240,225,.6)}
+
+  .finish-row{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-top:2px}
+  .finish-row[hidden]{display:none}
+
+  .side{flex:0 0 296px;display:flex;flex-direction:column;gap:14px}
+  .side-card{padding:16px 16px 18px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .side-card h3{margin:0 0 10px;font-size:14px;letter-spacing:.16em;color:var(--gold-2);font-weight:700}
+  .side-card p{margin:0 0 10px;font-size:13.5px;line-height:1.75;color:rgba(255,244,232,.82)}
+  .side-card p b{color:#FFD98F}
+  .side-tip{font-size:12.5px !important;color:rgba(255,240,225,.62) !important;line-height:1.85 !important}
+
+  .roster{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+  .roster th,.roster td{padding:5px 8px;text-align:left;border-bottom:1px solid rgba(217,169,74,.22);color:rgba(255,244,232,.82)}
+  .roster th{font-weight:600;color:var(--gold-2);letter-spacing:.06em;font-size:12px}
+  .roster td.status-ok{color:#8BF0B8}
+  .roster td.status-bad{color:#FF9AA8}
+  .roster td.status-pre{color:#FFD98F}
+
+  .feedback{position:fixed;left:0;right:0;bottom:0;z-index:45;padding:26px 16px 14px;
+    background:linear-gradient(0deg,rgba(14,5,8,.95),rgba(14,5,8,.78) 62%,rgba(14,5,8,0));
+    opacity:0;transform:translateY(14px);pointer-events:none;
+    transition:opacity .28s ease,transform .28s ease}
+  .feedback.show{opacity:1;transform:none}
+  .fb-inner{max-width:1200px;margin:0 auto;display:flex;gap:11px;align-items:flex-start;
+    font-size:14.5px;line-height:1.72;color:#FFF3E4;letter-spacing:.02em}
+  .fb-icon{flex:0 0 auto;font-size:16px;line-height:1.6}
+  .feedback.ok .fb-icon{color:#8BF0B8}.feedback.warn .fb-icon{color:#FFD98F}.feedback.bad .fb-icon{color:#FF9AA8}
+
+  .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;
+    background:rgba(16,6,9,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal.open{display:flex;animation:fadein .28s ease-out both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .modal-card{width:100%;max-width:860px;max-height:88vh;overflow:auto;
+    background:linear-gradient(180deg,#FFFDF7,#F7F0E2);
+    color:#2C2118;border-radius:18px;border:1px solid rgba(217,169,74,.6);
+    box-shadow:0 30px 70px rgba(0,0,0,.5);animation:rise .34s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+  .modal-head{padding:20px 24px 16px;border-bottom:1px solid rgba(150,110,60,.22);
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(200,16,46,.07),transparent)}
+  .modal-head h2{margin:0;font-size:20px;letter-spacing:.1em;color:#8E0C20}
+  .modal-head p{margin:4px 0 0;font-size:13px;color:#6B5A48;letter-spacing:.05em}
+  .modal-body{padding:18px 24px 24px}
+  .ans{display:grid;grid-template-columns:38px 1fr;gap:0 14px;
+    padding:16px 0;border-bottom:1px dashed rgba(150,110,60,.28)}
+  .ans:last-child{border-bottom:0}
+  .ans .no{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:15px;color:#fff;background:linear-gradient(160deg,#D3153A,#8E0C20);
+    box-shadow:0 4px 12px rgba(200,16,46,.3)}
+  .ans h4{margin:2px 0 10px;font-size:15.5px;letter-spacing:.06em;color:#8E0C20}
+  .ans .row{display:flex;gap:10px;font-size:14px;line-height:1.8;margin-bottom:6px;align-items:flex-start;flex-wrap:wrap}
+  .ans .row .lbl{flex:0 0 auto;font-size:12px;padding:2px 8px;border-radius:6px;margin-top:3px;letter-spacing:.08em}
+  .lbl.bad{background:rgba(200,16,46,.12);color:#9E0B24;border:1px solid rgba(200,16,46,.28)}
+  .lbl.good{background:rgba(31,122,76,.12);color:#15623C;border:1px solid rgba(31,122,76,.28)}
+  .lbl.why{background:rgba(217,169,74,.18);color:#7A5A12;border:1px solid rgba(217,169,74,.45)}
+  .ans .row .txt{flex:1 1 auto;color:#3A2C22}
+  .summary{margin-top:20px;padding:16px 18px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.14),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5)}
+  .summary h3{margin:0 0 8px;font-size:15px;color:#7A5A12;letter-spacing:.1em}
+  .summary ul{margin:0;padding-left:20px}
+  .summary li{font-size:14px;line-height:1.9;color:#4A3A2A}
+  .next-lv{margin-top:14px;padding:14px 18px;border-radius:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    background:rgba(200,16,46,.06);border:1px dashed rgba(200,16,46,.35)}
+  .next-lv strong{font-size:14px;color:#8E0C20;letter-spacing:.06em}
+  .next-lv span{font-size:13px;color:#6B5A48}
+  .srcs{margin-top:14px;padding:14px 18px;border-radius:12px;
+    background:rgba(34,48,74,.05);border:1px solid rgba(34,48,74,.16)}
+  .srcs strong{display:block;font-size:13px;letter-spacing:.1em;color:#3A4A66;margin-bottom:8px}
+  .srcs ul{margin:0;padding-left:18px}
+  .srcs li{font-size:12.5px;line-height:1.9;color:#5A5040}
+  .srcs a{color:#8E0C20;text-decoration:underline;text-underline-offset:2px}
+  .modal-foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding:0 24px 22px}
+  .btn.dark{color:#fff;background:linear-gradient(165deg,#8E0C20,#5E0A16);border-color:rgba(240,209,140,.4)}
+  .btn.plain{color:#6B5A48;background:#fff;border-color:rgba(150,110,60,.35)}
+  .btn.plain:hover{background:#FBF6EC}
+  .clear-flag{display:none;margin-bottom:14px;padding:14px 18px;border-radius:14px;align-items:center;gap:12px;
+    background:linear-gradient(160deg,rgba(31,122,76,.24),rgba(31,122,76,.08));
+    border:1px solid rgba(96,214,150,.5);color:#D8FFE9;font-size:15px;letter-spacing:.06em}
+  body.cleared .clear-flag{display:flex}
+
+  @media (max-width:880px){.quiz-body{flex-direction:column}.side{flex:1 1 auto;width:100%;flex-direction:row;flex-wrap:wrap}.side-card{flex:1 1 260px}}
+  @media (max-width:640px){
+    .app{padding:10px 10px 26px}
+    body.phase-quiz .app{padding-bottom:132px}
+    .brand h1{font-size:16px}.line{font-size:15px}
+    .hud,.quiz-bar{padding:10px 12px}.progress b{font-size:18px}.hint{font-size:13px}
+    .ans{grid-template-columns:30px 1fr;gap:0 10px}
+    .modal-body{padding:14px 16px 20px}.modal-head{padding:16px}.modal-foot{padding:0 16px 18px}
+    .qtext{font-size:14.5px;line-height:2}
+    .fill-item{padding:12px 14px}
+    .qinput{min-width:110px;font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="hud">
+    <div class="brand">
+      <span class="badge">关卡 12</span>
+      <div>
+        <h1>接收预备党员大会</h1>
+        <div class="sub">入党之路 · 角色扮演闯关</div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="progress" id="hudProgress"><span>答对</span><b id="hudRight">0</b><span>/ 6</span></div>
+      <button class="btn ghost" id="btnReplay" type="button">重看剧情</button>
+    </div>
+  </header>
+
+  <div class="clear-flag" id="clearFlag"><span>✔ 六个空全部填写完成。</span></div>
+
+  <main class="stage-wrap">
+    <section class="scene" id="scene">
+      <img class="bg" src="https://Lyy803.github.io/picx-images-hosting/bg.6bhvnx5ygv.webp" alt="第一党支部">
+      <div class="vignette"></div>
+      <img class="actor actor-li" id="li" src="https://Lyy803.github.io/picx-images-hosting/li_half.1vzgizh8c5.webp" alt="支部书记李四">
+      <img class="actor actor-wang-stand" id="wang" src="https://Lyy803.github.io/picx-images-hosting/wang_half.2a5w9upjh9.webp" alt="支部干事王五">
+      <div class="chapter" id="chapter">
+        <em>2026年7月</em>
+        <strong>第一党支部 · 接收预备大会前夕</strong>
+      </div>
+    </section>
+
+    <section class="quiz" id="quiz" aria-hidden="true">
+      <div class="quiz-bar">
+        <div class="hint">
+          <span class="dot" aria-hidden="true"></span>
+          <span>支部干事王五在准备接收预备党员大会的材料，请你帮他核对以下六个数据。全部填完后点"提交判定"，自动给出对错和解析。</span>
+        </div>
+        <div class="bar-actions">
+          <button class="btn ghost" id="btnReset" type="button">重新开始</button>
+        </div>
+      </div>
+
+      <div class="quiz-body">
+        <div class="quiz-main">
+
+          <article class="qcard">
+            <div class="qhead">
+              <span class="qno">填空题组</span>
+              <h3>接收预备党员大会程序核对</h3>
+            </div>
+
+            <div class="qtext">
+              第一党支部最迟于 <span class="fill short" id="f0slot">____</span> 前，召开党员大会讨论接收张三为预备党员。
+              若全员到会，大会应到会 <span class="fill short" id="f1slot">____</span> 人，实际到会
+              <span class="fill short" id="f2slot">____</span> 人，其中有表决权党员
+              <span class="fill short" id="f3slot">____</span> 人。
+              大会以 <span class="fill med" id="f4slot">________</span> 方式表决，赞成票数超过
+              <span class="fill short" id="f5slot">____</span> 票，才能通过接收张三为预备党员的决议。
+            </div>
+
+            <div class="fill-row">
+              <div class="fill-item">
+                <span class="fidx">①</span>
+                <div class="fbody">
+                  <div class="fdesc">最迟应在什么日期前召开党员大会？（党委预审合格后一个月内）</div>
+                  <div class="finputs">
+                    <span class="dbox y"><input id="f0y" type="text" inputmode="numeric" maxlength="4" autocomplete="off"></span><span class="lbl">年</span>
+                    <span class="dbox"><input id="f0m" type="text" inputmode="numeric" maxlength="2" autocomplete="off"></span><span class="lbl">月</span>
+                    <span class="dbox"><input id="f0d" type="text" inputmode="numeric" maxlength="2" autocomplete="off"></span><span class="lbl">日</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fill-item">
+                <span class="fidx">②</span>
+                <div class="fbody">
+                  <div class="fdesc">大会应到会多少人？（支部有党员 6 名，张三需参会）</div>
+                  <div class="finputs">
+                    <input class="qinput" id="f1" type="text" inputmode="numeric" placeholder="请输入数字">
+                    <span class="lbl">人</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fill-item">
+                <span class="fidx">③</span>
+                <div class="fbody">
+                  <div class="fdesc">实际到会多少人？（全员到会）</div>
+                  <div class="finputs">
+                    <input class="qinput" id="f2" type="text" inputmode="numeric" placeholder="请输入数字">
+                    <span class="lbl">人</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fill-item">
+                <span class="fidx">④</span>
+                <div class="fbody">
+                  <div class="fdesc">有表决权的正式党员多少人？</div>
+                  <div class="finputs">
+                    <input class="qinput" id="f3" type="text" inputmode="numeric" placeholder="请输入数字">
+                    <span class="lbl">人</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fill-item">
+                <span class="fidx">⑤</span>
+                <div class="fbody">
+                  <div class="fdesc">表决方式是什么？（请填入完整五字答案）</div>
+                  <div class="finputs">
+                    <input class="qinput" id="f4" type="text" placeholder="请输入五字方式">
+                  </div>
+                </div>
+              </div>
+
+              <div class="fill-item">
+                <span class="fidx">⑥</span>
+                <div class="fbody">
+                  <div class="fdesc">赞成票至少几票才能通过？（须超过应到会有表决权党员的半数）</div>
+                  <div class="finputs">
+                    <input class="qinput" id="f5" type="text" inputmode="numeric" placeholder="请输入数字">
+                    <span class="lbl">票</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="fill-actions">
+              <button class="btn ghost" id="btnClear" type="button">清空重填</button>
+              <button class="btn primary" id="btnSubmit" type="button">提交判定 ▸</button>
+            </div>
+
+            <div class="verdict" id="v" hidden></div>
+            <div class="reveal" id="r" hidden></div>
+          </article>
+
+          <div class="finish-row" id="finishRow" hidden>
+            <button class="btn primary" id="btnFinish" type="button">查看本关完整解析 ▸</button>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="side-card">
+            <h3>第一党支部党员名册</h3>
+            <table class="roster">
+              <thead><tr><th>姓名</th><th>身份</th><th>表决权</th></tr></thead>
+              <tbody>
+                <tr><td>李四</td><td>正式（书记）</td><td class="status-ok">有</td></tr>
+                <tr><td>王五</td><td>正式（干事）</td><td class="status-ok">有</td></tr>
+                <tr><td>孙七</td><td>正式（组织委员）</td><td class="status-ok">有</td></tr>
+                <tr><td>钱十</td><td>正式（宣传委员）</td><td class="status-ok">有</td></tr>
+                <tr><td>赵六</td><td>正式（留党察看）</td><td class="status-bad">无</td></tr>
+                <tr><td>周八</td><td>预备党员</td><td class="status-pre">无</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="side-card">
+            <h3>本关关键考点</h3>
+            <p class="side-tip">① 党委预审通过后，支部应在<b>一个月内</b>召开接收大会；<br>② 有表决权党员：正式党员中排除受留党察看处分者；<br>③ 赞成票须<b>超过</b>（≥半数 + 1）应到会有表决权党员的半数。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dialogue" id="dialogue">
+    <div class="speaker" id="speaker">旁白</div>
+    <p class="line" id="line"></p>
+    <div class="dlg-actions">
+      <button class="btn primary" id="btnNext" type="button">继续 ▸</button>
+    </div>
+  </footer>
+</div>
+
+<div class="feedback" id="feedback" role="status" aria-live="polite">
+  <div class="fb-inner"><span class="fb-icon" id="fbIcon" aria-hidden="true">◆</span><span id="fbText"></span></div>
+</div>
+
+<div class="modal" id="modalAnswer" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><h2>关卡 12 通过 · 接收预备党员大会全解析</h2><p>时间 · 人数 · 表决权 · 表决方式 · 通过门槛</p></div>
+      <button class="btn plain" data-close="modalAnswer" type="button">回看题目</button>
+    </div>
+    <div class="modal-body" id="answerBody"></div>
+    <div class="modal-foot">
+      <button class="btn plain" id="btnRetry" type="button">重新挑战本关</button>
+      <button class="btn dark" data-close="modalAnswer" type="button">关闭，回看题目</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function el(id){ return document.getElementById(id); }
+  function digitsOf(s){ return String(s || "").replace(/\D/g,""); }
+
+  /* ================= 反馈 ================= */
+  var AC = null;
+  function blip(freq){
+    try{
+      var Ctx = window.AudioContext || window.webkitAudioContext; if(!Ctx) return;
+      AC = AC || new Ctx(); if(AC.state === "suspended" && AC.resume) AC.resume();
+      var t = AC.currentTime; var notes = typeof freq === "number" ? [freq] : freq;
+      for(var i = 0; i < notes.length; i++){
+        var o = AC.createOscillator(), g = AC.createGain(); o.type = "sine"; o.frequency.value = notes[i];
+        var at = t + i * 0.09;
+        g.gain.setValueAtTime(0.0001, at);
+        g.gain.exponentialRampToValueAtTime(0.16, at + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.22);
+        o.connect(g); g.connect(AC.destination); o.start(at); o.stop(at + 0.26);
+      }
+    }catch(e){}
+  }
+  var fb = el("feedback"), fbIcon = el("fbIcon"), fbText = el("fbText"), fbTimer = null;
+  function say(kind, text){
+    fb.classList.remove("ok","warn","bad");
+    fb.classList.add(kind === "ok" ? "ok" : (kind === "bad" ? "bad" : "warn"));
+    fbIcon.textContent = kind === "ok" ? "✔" : (kind === "bad" ? "✕" : "◆");
+    fbText.textContent = text;
+    fb.classList.add("show");
+    if(fbTimer) clearTimeout(fbTimer);
+    fbTimer = setTimeout(function(){ fb.classList.remove("show"); }, kind === "ok" ? 2800 : 5000);
+  }
+  function hideFeedback(){ if(fbTimer){ clearTimeout(fbTimer); fbTimer = null; } fb.classList.remove("show"); }
+
+  /* ================= 弹窗 ================= */
+  function closeModals(){ var ms = document.querySelectorAll(".modal"); for(var i = 0; i < ms.length; i++) ms[i].classList.remove("open"); }
+  function openModal(id){ el(id).classList.add("open"); }
+  document.addEventListener("click", function(e){
+    var t = e.target;
+    if(t && t.getAttribute && t.getAttribute("data-close")) closeModals();
+    if(t && t.classList && t.classList.contains("modal")) closeModals();
+  });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModals(); });
+
+  /* ================= 立绘 ================= */
+  var li = el("li"), wang = el("wang");
+  function switchActor(who){
+    if(li) li.classList.remove("show");
+    if(wang) wang.classList.remove("show");
+    if(who === "li"){ if(li) li.classList.add("show"); }
+    else if(who === "wang"){ if(wang) wang.classList.add("show"); }
+  }
+  function hardReset(node, cls){
+    if(!node) return;
+    node.style.transition = "none";
+    node.className = cls;
+    void node.offsetWidth;
+    node.style.transition = "";
+  }
+
+  /* ================= 剧情 ================= */
+  var chapter = el("chapter"), speaker = el("speaker"), lineEl = el("line"), btnNext = el("btnNext");
+
+  var STEPS = [
+    { who:"旁白", cls:"", text:"2026年6月24日，公司党委预审通过张三的发展对象接收申请。按照规定，党支部应当在预审通过后一个月内召开党员大会讨论接收预备党员。",
+      fx:function(){ switchActor("wang"); } },
+    { who:"支部干事王五", cls:"wang", text:"书记，我正在准备接收预备党员大会的材料。有些数据我拿不准——应到多少人？有表决权的几人？表决方式是什么？您帮我核对一下。",
+      fx:function(){ switchActor("wang"); } },
+    { who:"支部书记李四", cls:"li", text:"好。党员名册、表决权资格、时间期限、表决门槛——每一项都不能错。你先自己填一填，我来帮你核对。",
+      fx:function(){ switchActor("li"); } },
+    { who:"旁白", cls:"", text:"请你根据右侧党员名册和题干，填写以下六个空。全部填完后点「提交判定」。",
+      fx:function(){ switchActor(null); } },
+  ];
+
+  var stepIdx = 0;
+  function renderStep(){
+    var s = STEPS[stepIdx];
+    speaker.textContent = s.who;
+    speaker.className = "speaker" + (s.cls ? " " + s.cls : "");
+    lineEl.textContent = s.text;
+    btnNext.textContent = (stepIdx === STEPS.length - 1) ? "开始填写 ▸" : "继续 ▸";
+    if(s.fx) s.fx();
+  }
+  function nextStep(){
+    if(stepIdx >= STEPS.length - 1){ enterQuiz(); return; }
+    stepIdx++; renderStep(); blip("tick");
+  }
+  btnNext.addEventListener("click", nextStep);
+
+  /* ================= 填空 ================= */
+  /* 6 个空：f0(日期:y/m/d) f1 f2 f3 f4 f5 */
+  /* 正确答案：
+     f0: 2026/07/24  （6月24+1月）
+     f1: 7           （6名党员+张三）
+     f2: 7           （全员到会）
+     f3: 4           （李四/王五/孙七/钱十；赵六留党察看无表决权，周八预备无表决权）
+     f4: 无记名投票
+     f5: 3           （应到有表决权4人，半数是2，超过2即≥3）
+  */
+
+  var BLANKS = [
+    { key:"date", correct:{y:"2026",m:"07",d:"24"}, isDate:true, label:"最迟日期" },
+    { key:"f1",   correct:"7",  isDate:false, label:"应到会人数" },
+    { key:"f2",   correct:"7",  isDate:false, label:"实际到会人数" },
+    { key:"f3",   correct:"4",  isDate:false, label:"有表决权党员" },
+    { key:"f4",   correct:"无记名投票", isDate:false, label:"表决方式" },
+    { key:"f5",   correct:"3",  isDate:false, label:"赞成票门槛" }
+  ];
+  var submitted = false;
+
+  function digitsOfNode(node, max){
+    node.value = digitsOf(node.value).slice(0, max);
+  }
+
+  /* 绑定输入限制 */
+  el("f0y").addEventListener("input", function(){ digitsOfNode(this, 4); });
+  el("f0m").addEventListener("input", function(){ digitsOfNode(this, 2); });
+  el("f0d").addEventListener("input", function(){ digitsOfNode(this, 2); });
+  el("f1").addEventListener("input", function(){ digitsOfNode(this, 3); });
+  el("f2").addEventListener("input", function(){ digitsOfNode(this, 3); });
+  el("f3").addEventListener("input", function(){ digitsOfNode(this, 3); });
+  el("f5").addEventListener("input", function(){ digitsOfNode(this, 3); });
+
+  function enterQuiz(){
+    if(document.body.classList.contains("phase-quiz")) return;
+    document.body.classList.add("phase-quiz");
+    chapter.classList.add("hide");
+    el("quiz").setAttribute("aria-hidden","false");
+    say("warn", "请填写六个空，全部填完后点「提交判定」。");
+    setTimeout(function(){ try{ el("quiz").scrollIntoView({ behavior:"smooth", block:"start" }); }catch(e){ window.scrollTo(0, Math.max(0, el("quiz").offsetTop - 12)); } }, 280);
+  }
+
+  function getValues(){
+    return {
+      date: { y: el("f0y").value.trim(), m: el("f0m").value.trim(), d: el("f0d").value.trim() },
+      f1: el("f1").value.trim(),
+      f2: el("f2").value.trim(),
+      f3: el("f3").value.trim(),
+      f4: el("f4").value.trim(),
+      f5: el("f5").value.trim()
+    };
+  }
+
+  function checkVals(v){
+    var results = {};
+    /* 日期：按数值比较，允许 7/24 与 07/24 两种写法 */
+    results.date = (Number(v.date.y) === 2026 && Number(v.date.m) === 7 && Number(v.date.d) === 24);
+    /* 数字：按数值比较，允许前导零（如 07） */
+    results.f1 = (Number(v.f1) === 7);
+    results.f2 = (Number(v.f2) === 7);
+    results.f3 = (Number(v.f3) === 4);
+    /* 文字：无记名投票（允许无顿号） */
+    results.f4 = (v.f4 === "无记名投票" || v.f4.replace(/[、.\s]/g,"") === "无记名投票");
+    /* 赞成票门槛：超过应到有表决权党员(4)的半数(2)，即至少3票 */
+    results.f5 = (Number(v.f5) === 3);
+    return results;
+  }
+
+  function applyStyles(results){
+    /* 日期 */
+    var allDateOk = results.date;
+    [el("f0y"), el("f0m"), el("f0d")].forEach(function(n){ n.disabled = true; n.classList.add(allDateOk ? "correct" : "wrong"); });
+    /* 数字 + 文字 */
+    [ ["f1", el("f1")], ["f2", el("f2")], ["f3", el("f3")], ["f4", el("f4")], ["f5", el("f5")] ].forEach(function(arr){
+      var node = arr[1];
+      node.disabled = true;
+      node.classList.add(results[arr[0]] ? "correct" : "wrong");
+    });
+  }
+
+  el("btnSubmit").addEventListener("click", function(){
+    if(submitted) return;
+    var v = getValues();
+    /* 检查是否全填 */
+    var dateOk = v.date.y && v.date.m && v.date.d;
+    if(!dateOk || !v.f1 || !v.f2 || !v.f3 || !v.f4 || !v.f5){
+      say("warn", "还有空没填哦，请把六个空都填上再提交。");
+      return;
+    }
+    submitted = true;
+    var results = checkVals(v);
+    applyStyles(results);
+
+    /* 统计对了几个 */
+    var right = Object.values(results).filter(Boolean).length;
+    var total = Object.keys(results).length;
+    var allRight = right === total;
+
+    var vEl = el("v");
+    vEl.hidden = false;
+    if(allRight){
+      vEl.className = "verdict ok";
+      vEl.innerHTML = "<b>✔ 全部正确</b><span>" + total + " 个空全对，大会程序核对到位！</span>";
+      say("ok", "全部正确！接收大会的时间、人数、表决权、表决方式、通过门槛——全对！");
+      blip([660, 990]);
+    } else {
+      vEl.className = "verdict bad";
+      vEl.innerHTML = "<b>✗ 对了 " + right + "/" + total + " 个</b><span>还有 " + (total - right) + " 处需要纠正。</span>";
+      say("bad", "对了 " + right + " 个，还有 " + (total - right) + " 处需要纠正——解析马上给你。");
+      blip([320, 210]);
+    }
+
+    reveal(results, v);
+    document.body.classList.add("cleared");
+    el("hudProgress").classList.add("done");
+    el("hudRight").textContent = String(right);
+    el("finishRow").hidden = false;
+  });
+
+  el("btnClear").addEventListener("click", function(){
+    var nodes = [el("f0y"), el("f0m"), el("f0d"), el("f1"), el("f2"), el("f3"), el("f4"), el("f5")];
+    nodes.forEach(function(n){ n.value = ""; n.disabled = false; n.classList.remove("correct","wrong"); });
+    el("v").hidden = true; el("v").innerHTML = ""; el("v").className = "verdict";
+    el("r").hidden = true; el("r").innerHTML = "";
+    el("finishRow").hidden = true;
+    document.body.classList.remove("cleared");
+    el("hudProgress").classList.remove("done");
+    el("hudRight").textContent = "0";
+    submitted = false;
+    nodes[0].focus();
+  });
+
+  function reveal(results, v){
+    var r = el("r");
+    var rightAnswer = (results.date ? "✔" : "✗") + " ① 最迟日期：<b>2026年7月24日</b>（你填：" + (v.date.y||"?")+"/"+(v.date.m||"?")+"/"+(v.date.d||"?")+")<br>" +
+                      (results.f1 ? "✔" : "✗") + " ② 应到会：<b>7</b> 人（你填：" + (v.f1||"?") + "）<br>" +
+                      (results.f2 ? "✔" : "✗") + " ③ 实际到会：<b>7</b> 人（你填：" + (v.f2||"?") + "）<br>" +
+                      (results.f3 ? "✔" : "✗") + " ④ 有表决权：<b>4</b> 人（你填：" + (v.f3||"?") + "）<br>" +
+                      (results.f4 ? "✔" : "✗") + " ⑤ 表决方式：<b>无记名投票</b>（你填：" + (v.f4||"?") + "）<br>" +
+                      (results.f5 ? "✔" : "✗") + " ⑥ 赞成票门槛：<b>至少 3 票（超过 2 票）</b>（你填：" + (v.f5||"?") + "）";
+
+    r.innerHTML =
+      '<div class="rv-lbl">正 确 答 案</div>' +
+      '<div class="rv-ans">六个空的正确答案</div>' +
+      '<p>' + rightAnswer + '</p>' +
+      '<h4>逐项解析</h4>' +
+      '<p><b>① 最迟日期 2026年7月24日</b>：6月24日党委预审合格，党支部应在<b>一个月内</b>（即7月24日前）提交党员大会讨论。《细则》第十七条规定：支部委员会应当对发展对象进行严格审查，经集体讨论认为合格后，报具有审批权限的基层党委预审。党委预审通过后，支部应及时召开党员大会。</p>' +
+      '<p><b>② 应到会 7 人</b>：支部有正式党员 5 名 + 预备党员 1 名 + 发展对象张三本人 = 6 名党员 + 1 名发展对象 = 7 人。接收大会需要发展对象本人到场汇报。</p>' +
+      '<p><b>③ 实际到会 7 人</b>：题干设定全员到会，所以也是 7 人。</p>' +
+      '<p><b>④ 有表决权党员 4 人</b>：支部正式党员 5 名中，赵六受<b>留党察看</b>处分、在处分期间没有表决权；预备党员周八也没有表决权。因此有表决权的正式党员为 <b>4 人</b>（李四、王五、孙七、钱十）。</p>' +
+      '<p><b>⑤ 表决方式：无记名投票</b>：接收预备党员大会的表决，必须采用<b>无记名投票</b>方式，不能举手表决。这是发展党员工作中的硬性要求。</p>' +
+      '<p><b>⑥ 赞成票至少 3 票</b>：召开大会时，实际到会有表决权的党员人数必须<b>超过</b>应到会有表决权党员人数的半数（即超过 2 人，至少 3 人到会）。赞成票数也必须<b>超过</b>应到会有表决权党员的半数，即 <b>超过 2 票</b>，也就是至少 <b>3 票</b>赞成才能通过。</p>' +
+      '<p class="quote">召开讨论接收预备党员的支部大会，有表决权的到会人数必须超过应到会有表决权人数的半数。<br>赞成人数超过应到会有表决权的正式党员的半数，才能通过接收预备党员的决议。<i>——《中国共产党发展党员工作细则》第二十条、第二十一条</i></p>';
+    r.hidden = false;
+  }
+
+  /* ================= 完整解析弹窗 ================= */
+  function buildAnswer(){
+    var html = "";
+    var items = [
+      { label:"最迟日期", correct:"2026年7月24日", explain:"6月24日党委预审合格后一个月内。" },
+      { label:"应到会人数", correct:"7 人", explain:"6名党员 + 张三本人。" },
+      { label:"实际到会", correct:"7 人", explain:"题干设定全员到会。" },
+      { label:"有表决权党员", correct:"4 人", explain:"李四、王五、孙七、钱十。赵六留党察看、周八预备均无表决权。" },
+      { label:"表决方式", correct:"无记名投票", explain:"接收预备党员大会必须采用无记名投票。" },
+      { label:"赞成票门槛", correct:"至少 3 票（超过 2 票）", explain:"应到有表决权4人，赞成票须超过半数(2)即至少3票。" }
+    ];
+    for(var k = 0; k < items.length; k++){
+      html += '<div class="ans"><div class="no">' + (k+1) + '</div><div>' +
+        '<h4>' + items[k].label + '</h4>' +
+        '<div class="row"><span class="lbl good">正确答案</span><span class="txt">' + items[k].correct + '</span></div>' +
+        '<div class="row"><span class="lbl why">解析</span><span class="txt">' + items[k].explain + '</span></div>' +
+        '</div></div>';
+    }
+
+    html += '<div class="summary"><h3>本关知识点小结</h3><ul>' +
+      '<li><b>时间期限</b>：党委预审通过后，支部应在 <b>一个月内</b> 召开接收预备党员大会。</li>' +
+      '<li><b>表决权资格</b>：<b>正式党员</b>才有表决权；预备党员、受留党察看处分者在处分期间均<b>无表决权</b>。</li>' +
+      '<li><b>到会门槛</b>：有表决权的到会人数必须<b>超过</b>应到会有表决权人数的半数（≥半数+1）。</li>' +
+      '<li><b>通过门槛</b>：赞成票数必须<b>超过</b>应到会有表决权正式党员的半数（≥半数+1）。</li>' +
+      '<li><b>表决方式</b>：接收预备党员大会必须采用<b>无记名投票</b>，不能举手表决。</li>' +
+      '</ul></div>';
+
+    html += '<div class="next-lv"><strong>继续闯关 · 关卡 13</strong>' +
+      '<span>支部大会通过了，接下来是党委审批——预备期起止时间、审批前谈话、集体讨论表决，每一项都要经得起核对。</span>' +
+      '<a class="btn dark" href="党建知识闯关_关卡13_预备期的起算与党委审批.html">进入关卡 13 ▸</a></div>';
+
+    html += '<div class="srcs"><strong>本关判定依据（可点击查阅原文）</strong><ul>' +
+      '<li>《中国共产党发展党员工作细则》第十七条（支部审查、党委预审）、第二十条、第二十一条（接收大会程序与表决要求）—— <a href="https://www.gov.cn/zhengce/201406/content_7032534.htm" target="_blank" rel="noopener noreferrer">中国政府网</a></li>' +
+      '<li>《中国共产党发展党员工作细则》（2026年修订）第十七条、第二十条、第二十一条 —— <a href="https://www.gov.cn/zhengce/202605/content_7069304.htm" target="_blank" rel="noopener noreferrer">中国政府网</a></li>' +
+      '<li>《中国共产党章程》第四条（党员权利：表决权、选举权和被选举权）—— <a href="https://www.12371.cn/special/zggcdzc/" target="_blank" rel="noopener noreferrer">共产党员网</a></li>' +
+      '</ul></div>';
+
+    el("answerBody").innerHTML = html;
+  }
+  function finish(){ buildAnswer(); openModal("modalAnswer"); }
+
+  el("btnFinish").addEventListener("click", finish);
+
+  /* ================= 重置 ================= */
+  function resetRun(){
+    closeModals();
+    hideFeedback();
+    stepIdx = 0; submitted = false;
+
+    document.body.classList.remove("phase-quiz","cleared");
+    chapter.classList.remove("hide");
+    el("quiz").setAttribute("aria-hidden","true");
+    el("hudProgress").classList.remove("done");
+    el("hudRight").textContent = "0";
+
+    var inputs = [el("f0y"), el("f0m"), el("f0d"), el("f1"), el("f2"), el("f3"), el("f4"), el("f5")];
+    inputs.forEach(function(n){ n.value = ""; n.disabled = false; n.classList.remove("correct","wrong"); });
+    el("v").hidden = true; el("v").innerHTML = ""; el("v").className = "verdict";
+    el("r").hidden = true; el("r").innerHTML = "";
+    el("finishRow").hidden = true;
+
+    renderStep();
+    window.scrollTo(0, 0);
+  }
+
+  el("btnReset").addEventListener("click", resetRun);
+  el("btnRetry").addEventListener("click", resetRun);
+  el("btnReplay").addEventListener("click", function(){
+    closeModals();
+    hideFeedback();
+    hardReset(li, "actor actor-li");
+    hardReset(wang, "actor actor-wang-stand");
+    resetRun();
+    say("warn", "已回到场景开头。");
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

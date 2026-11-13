@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>入党之路 · 关卡8：发展对象公示的审查</title>
+<style>
+  :root{
+    --red:#C8102E;--red-2:#9E0B24;--red-deep:#6B0A18;
+    --gold:#D9A94A;--gold-2:#F0D18C;
+    --stage-bg:#1d1218;--ok:#1F7A4C;
+    --shadow:0 18px 40px rgba(0,0,0,.28);
+    --font-cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-kai:"KaiTi","STKaiti","Kaiti SC","楷体","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--font-cjk);color:#F6EEE6;
+    background:
+      radial-gradient(1200px 620px at 12% -8%,rgba(200,16,46,.30),transparent 62%),
+      radial-gradient(900px 520px at 92% 4%,rgba(217,169,74,.16),transparent 60%),
+      linear-gradient(170deg,#2A0D14 0%,#1B0A0F 48%,#120709 100%);
+    background-attachment:fixed;min-height:100vh;-webkit-text-size-adjust:100%;
+  }
+  .app{max-width:1200px;margin:0 auto;padding:16px 16px 34px}
+  body.phase-quiz .app{padding-bottom:118px}
+
+  .hud{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin-bottom:14px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand h1{font-size:19px;margin:0;letter-spacing:.06em;font-weight:600;color:#FFF6EA}
+  .brand .sub{font-size:12px;color:rgba(255,240,225,.62);letter-spacing:.14em;margin-top:2px}
+  .badge{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.08em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.55);box-shadow:0 4px 14px rgba(200,16,46,.36)}
+  .hud-right{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .progress{display:flex;align-items:baseline;gap:6px;padding:7px 14px;border-radius:10px;
+    background:rgba(0,0,0,.30);border:1px solid rgba(217,169,74,.30);
+    font-size:13px;color:rgba(255,244,232,.78);letter-spacing:.05em}
+  .progress b{font-size:21px;color:var(--gold-2);font-weight:700;font-variant-numeric:tabular-nums}
+  .progress.done{border-color:rgba(96,214,150,.6);background:rgba(31,122,76,.24)}
+  .progress.done b{color:#8BF0B8}
+
+  .btn{font-family:inherit;font-size:14px;cursor:pointer;border-radius:10px;
+    padding:9px 18px;letter-spacing:.06em;transition:transform .14s ease,box-shadow .2s ease,background .2s ease;
+    border:1px solid rgba(240,209,140,.45)}
+  .btn:active{transform:translateY(1px) scale(.99)}
+  .btn.primary{color:#FFF6E6;font-weight:700;
+    background:linear-gradient(165deg,#D3153A,#9E0B24 60%,#7A0819);
+    box-shadow:0 8px 20px rgba(200,16,46,.40),inset 0 1px 0 rgba(255,255,255,.22)}
+  .btn.primary:hover{box-shadow:0 10px 26px rgba(200,16,46,.55),inset 0 1px 0 rgba(255,255,255,.28)}
+  .btn.ghost{color:#FFEFDA;background:rgba(255,255,255,.07);border-color:rgba(217,169,74,.38)}
+  .btn.ghost:hover{background:rgba(255,255,255,.13)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  .scene-wrap{position:relative}
+  .scene{position:relative;width:100%;aspect-ratio:16/9;max-height:min(55vh,500px);
+    border-radius:18px;overflow:hidden;background:var(--stage-bg);
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .scene .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(122% 90% at 50% 44%,transparent 42%,rgba(24,8,10,.5) 100%)}
+  .actor{position:absolute;pointer-events:none;user-select:none}
+  .actor-li{right:5%;bottom:0;height:98%;width:auto;transform-origin:50% 100%;
+    transform:translateY(5%) scale(.99);opacity:0;
+    transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s ease-out}
+  .actor-li.show{opacity:1;transform:translateY(0) scale(1)}
+  .actor-wang-stand{left:28%;bottom:0;height:90%;width:auto;transform-origin:50% 100%;
+    transform:translateY(5%) scale(.99);opacity:0;
+    transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s ease-out}
+  .actor-wang-stand.show{opacity:1;transform:translateY(0) scale(1)}
+
+  .chapter{position:absolute;left:0;right:0;bottom:0;padding:18px 22px;
+    background:linear-gradient(0deg,rgba(12,4,6,.86),rgba(12,4,6,0));
+    display:flex;flex-direction:column;gap:3px;pointer-events:none;transition:opacity .5s ease}
+  .chapter em{font-style:normal;font-size:clamp(12px,1.5vw,16px);letter-spacing:.3em;color:var(--gold-2)}
+  .chapter strong{font-weight:600;font-size:clamp(13px,1.7vw,19px);letter-spacing:.1em;color:#FFF3E2}
+  .chapter.hide{opacity:0}
+
+  .dialogue{position:relative;margin-top:14px;padding:16px 18px 18px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.30);box-shadow:var(--shadow);
+    display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .speaker{flex:0 0 auto;padding:6px 14px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.14em;
+    color:#FFEFD6;background:linear-gradient(160deg,#8E0C20,#5E0A16);border:1px solid rgba(240,209,140,.4)}
+  .speaker.li{background:linear-gradient(160deg,#7A5A12,#4A3608);border-color:rgba(240,209,140,.5)}
+  .speaker.wang{background:linear-gradient(160deg,#1E6B5A,#0F4034);border-color:rgba(140,230,200,.42)}
+  .line{flex:1 1 320px;margin:0;font-size:16px;line-height:1.85;color:#F7EFE6;letter-spacing:.03em;min-width:0}
+  .dlg-actions{flex:0 0 auto;display:flex;gap:10px;align-items:center}
+
+  .quiz{display:none}
+  body.phase-quiz .quiz{display:block}
+  body.phase-quiz .scene,body.phase-quiz .dialogue{display:none}
+  body.phase-quiz .chapter{opacity:0}
+
+  .quiz-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin:14px 0;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32)}
+  .hint{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#F6E9D8;letter-spacing:.04em;line-height:1.7;flex:1 1 420px;min-width:0}
+  .hint .dot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;background:var(--red);margin-top:6px;
+    box-shadow:0 0 0 4px rgba(200,16,46,.22)}
+  .hint b{color:var(--gold-2);font-size:19px;font-variant-numeric:tabular-nums}
+  .bar-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+  .quiz-body{display:flex;gap:16px;align-items:flex-start}
+  .quiz-main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:14px}
+
+  .case{padding:18px 22px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:var(--shadow)}
+  .case-label{font-size:12px;letter-spacing:.2em;color:var(--gold-2);font-weight:700;margin-bottom:10px}
+  .case p{margin:0;font-size:15.5px;line-height:2;color:#F6EFE4;letter-spacing:.02em}
+
+  .qcard{padding:18px 20px 20px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:var(--shadow)}
+  .qcard.done{border-color:rgba(96,214,150,.45)}
+  .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:6px}
+  .qno{flex:0 0 auto;padding:5px 11px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.12em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.5)}
+  .qhead h3{margin:2px 0 0;font-size:16.5px;line-height:1.6;letter-spacing:.03em;color:#FFF6EA;font-weight:600}
+  .qnote{margin:0 0 13px;font-size:12.5px;letter-spacing:.08em;color:rgba(255,240,225,.6)}
+  .qrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .num-input{width:72px;font-family:inherit;font-size:28px;font-weight:700;letter-spacing:.1em;font-variant-numeric:tabular-nums;
+    text-align:center;color:#FFF6EA;padding:10px 8px;border-radius:11px;background:rgba(0,0,0,.34);
+    border:1px solid rgba(217,169,74,.42);outline:none;transition:border-color .2s ease,box-shadow .2s ease;
+    -webkit-user-select:text;user-select:text}
+  .num-input:focus{border-color:rgba(240,209,140,.85);box-shadow:0 0 0 4px rgba(217,169,74,.16)}
+  .num-input[disabled]{opacity:.7}
+
+  .verdict{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:14px;padding:12px 16px;border-radius:11px;
+    font-size:14.5px;line-height:1.75;letter-spacing:.03em}
+  .verdict.ok{background:linear-gradient(160deg,rgba(31,122,76,.30),rgba(31,122,76,.10));border:1px solid rgba(96,214,150,.5);color:#D8FFE9}
+  .verdict.ok b{color:#8BF0B8}
+  .verdict.bad{background:linear-gradient(160deg,rgba(200,16,46,.26),rgba(200,16,46,.08));border:1px solid rgba(255,140,150,.45);color:#FFE6EA}
+  .verdict.bad b{color:#FF9AA8}
+
+  .reveal{margin-top:12px;padding:16px 18px 17px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.17),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5);
+    animation:unfold .46s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes unfold{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .reveal .rv-lbl{font-size:12px;letter-spacing:.22em;color:#FFD98F;font-weight:700}
+  .reveal .rv-ans{margin:7px 0 13px;font-size:26px;font-weight:700;letter-spacing:.05em;color:#FFF6E2;line-height:1.35}
+  .reveal h4{margin:14px 0 6px;font-size:15px;color:#FFD98F;letter-spacing:.06em}
+  .reveal h4:first-of-type{margin-top:10px}
+  .reveal p{margin:0 0 10px;font-size:14px;line-height:1.9;color:rgba(255,246,234,.9);letter-spacing:.02em}
+  .reveal p:last-child{margin-bottom:0}
+  .reveal p b{color:#FFD98F}
+  .reveal .quote{margin:0 0 11px;padding:11px 15px;border-left:3px solid rgba(240,209,140,.72);
+    background:rgba(0,0,0,.22);border-radius:0 8px 8px 0;
+    font-family:var(--font-kai);font-size:14.5px;line-height:1.9;color:#FFF3E2;letter-spacing:.02em}
+  .reveal .quote i{display:block;margin-top:6px;font-style:normal;font-size:12.5px;letter-spacing:.08em;color:rgba(255,240,225,.6)}
+  .reveal .calc{margin:2px 0 11px;padding:13px 15px;border-radius:10px;background:rgba(0,0,0,.26);
+    border:1px dashed rgba(217,169,74,.45);font-size:14px;line-height:2;color:#FFF3E2;
+    font-variant-numeric:tabular-nums;letter-spacing:.03em}
+  .reveal .calc b{color:#FFD98F}
+  .reveal .diff{margin:0 0 12px;padding:10px 14px;border-radius:8px;
+    background:rgba(200,16,46,.14);border:1px dashed rgba(255,140,150,.4);color:#FFE6EA;font-size:13.5px;line-height:1.8}
+  .reveal .diff b{color:#FFD9DE}
+
+  .finish-row{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-top:2px}
+
+  .side{flex:0 0 296px;display:flex;flex-direction:column;gap:14px}
+  .side-card{padding:16px 16px 18px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .side-card h3{margin:0 0 10px;font-size:14px;letter-spacing:.16em;color:var(--gold-2);font-weight:700}
+  .side-card p{margin:0 0 10px;font-size:13.5px;line-height:1.75;color:rgba(255,244,232,.82)}
+  .side-card p b{color:#FFD98F}
+  .side-tip{font-size:12.5px !important;color:rgba(255,240,225,.62) !important;line-height:1.85 !important}
+  .mini-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:auto 1fr;gap:7px 12px}
+  .mini-list .k{font-size:12.5px;color:rgba(255,240,225,.55);letter-spacing:.08em}
+  .mini-list .v{margin:0;font-size:13.5px;color:#FFF3E4}
+
+  .feedback{position:fixed;left:0;right:0;bottom:0;z-index:45;padding:26px 16px 14px;
+    background:linear-gradient(0deg,rgba(14,5,8,.95),rgba(14,5,8,.78) 62%,rgba(14,5,8,0));
+    opacity:0;transform:translateY(14px);pointer-events:none;
+    transition:opacity .28s ease,transform .28s ease}
+  .feedback.show{opacity:1;transform:none}
+  .fb-inner{max-width:1200px;margin:0 auto;display:flex;gap:11px;align-items:flex-start;
+    font-size:14.5px;line-height:1.72;color:#FFF3E4;letter-spacing:.02em}
+  .fb-icon{flex:0 0 auto;font-size:16px;line-height:1.6}
+  .feedback.ok .fb-icon{color:#8BF0B8}.feedback.warn .fb-icon{color:#FFD98F}.feedback.bad .fb-icon{color:#FF9AA8}
+
+  .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;
+    background:rgba(16,6,9,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal.open{display:flex;animation:fadein .28s ease-out both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .modal-card{width:100%;max-width:860px;max-height:88vh;overflow:auto;
+    background:linear-gradient(180deg,#FFFDF7,#F7F0E2);
+    color:#2C2118;border-radius:18px;border:1px solid rgba(217,169,74,.6);
+    box-shadow:0 30px 70px rgba(0,0,0,.5);animation:rise .34s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+  .modal-head{padding:20px 24px 16px;border-bottom:1px solid rgba(150,110,60,.22);
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(200,16,46,.07),transparent)}
+  .modal-head h2{margin:0;font-size:20px;letter-spacing:.1em;color:#8E0C20}
+  .modal-head p{margin:4px 0 0;font-size:13px;color:#6B5A48;letter-spacing:.05em}
+  .modal-body{padding:18px 24px 24px}
+  .ans{display:grid;grid-template-columns:38px 1fr;gap:0 14px;
+    padding:16px 0;border-bottom:1px dashed rgba(150,110,60,.28)}
+  .ans:last-child{border-bottom:0}
+  .ans .no{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:15px;color:#fff;background:linear-gradient(160deg,#D3153A,#8E0C20);
+    box-shadow:0 4px 12px rgba(200,16,46,.3)}
+  .ans h4{margin:2px 0 10px;font-size:15.5px;letter-spacing:.06em;color:#8E0C20}
+  .ans .row{display:flex;gap:10px;font-size:14px;line-height:1.8;margin-bottom:6px;align-items:flex-start}
+  .ans .row .lbl{flex:0 0 auto;font-size:12px;padding:2px 8px;border-radius:6px;margin-top:3px;letter-spacing:.08em}
+  .lbl.bad{background:rgba(200,16,46,.12);color:#9E0B24;border:1px solid rgba(200,16,46,.28)}
+  .lbl.good{background:rgba(31,122,76,.12);color:#15623C;border:1px solid rgba(31,122,76,.28)}
+  .lbl.why{background:rgba(217,169,74,.18);color:#7A5A12;border:1px solid rgba(217,169,74,.45)}
+  .ans .row .txt{flex:1 1 auto;color:#3A2C22}
+  .summary{margin-top:20px;padding:16px 18px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.14),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5)}
+  .summary h3{margin:0 0 8px;font-size:15px;color:#7A5A12;letter-spacing:.1em}
+  .summary ul{margin:0;padding-left:20px}
+  .summary li{font-size:14px;line-height:1.9;color:#4A3A2A}
+  .next-lv{margin-top:14px;padding:14px 18px;border-radius:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    background:rgba(200,16,46,.06);border:1px dashed rgba(200,16,46,.35)}
+  .next-lv strong{font-size:14px;color:#8E0C20;letter-spacing:.06em}
+  .next-lv span{font-size:13px;color:#6B5A48}
+  .srcs{margin-top:14px;padding:14px 18px;border-radius:12px;
+    background:rgba(34,48,74,.05);border:1px solid rgba(34,48,74,.16)}
+  .srcs strong{display:block;font-size:13px;letter-spacing:.1em;color:#3A4A66;margin-bottom:8px}
+  .srcs ul{margin:0;padding-left:18px}
+  .srcs li{font-size:12.5px;line-height:1.9;color:#5A5040}
+  .srcs a{color:#8E0C20;text-decoration:underline;text-underline-offset:2px}
+  .modal-foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding:0 24px 22px}
+  .btn.dark{color:#fff;background:linear-gradient(165deg,#8E0C20,#5E0A16);border-color:rgba(240,209,140,.4)}
+  .btn.plain{color:#6B5A48;background:#fff;border-color:rgba(150,110,60,.35)}
+  .btn.plain:hover{background:#FBF6EC}
+  .clear-flag{display:none;margin-bottom:14px;padding:14px 18px;border-radius:14px;align-items:center;gap:12px;
+    background:linear-gradient(160deg,rgba(31,122,76,.24),rgba(31,122,76,.08));
+    border:1px solid rgba(96,214,150,.5);color:#D8FFE9;font-size:15px;letter-spacing:.06em}
+  body.cleared .clear-flag{display:flex}
+
+  @media (max-width:880px){.quiz-body{flex-direction:column}.side{flex:1 1 auto;width:100%;flex-direction:row;flex-wrap:wrap}.side-card{flex:1 1 260px}}
+  @media (max-width:640px){
+    .app{padding:10px 10px 26px}
+    body.phase-quiz .app{padding-bottom:132px}
+    .brand h1{font-size:16px}.line{font-size:15px}
+    .hud,.quiz-bar{padding:10px 12px}.progress b{font-size:18px}.hint{font-size:13px}
+    .ans{grid-template-columns:30px 1fr;gap:0 10px}
+    .modal-body{padding:14px 16px 20px}.modal-head{padding:16px}.modal-foot{padding:0 16px 18px}
+    .fb-inner{font-size:13.5px}.num-input{font-size:22px;width:62px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="hud">
+    <div class="brand">
+      <span class="badge">关卡 8</span>
+      <div>
+        <h1>发展对象公示的审查</h1>
+        <div class="sub">入党之路 · 角色扮演闯关</div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="progress" id="hudProgress"><span>已提交</span><b id="hudRight">0</b><span>/ 1</span></div>
+      <button class="btn ghost" id="btnProfile" type="button">人物档案</button>
+      <button class="btn ghost" id="btnReplay" type="button">重看剧情</button>
+    </div>
+  </header>
+
+  <div class="clear-flag" id="clearFlag"><span>✔ 答案已提交，本关通过。</span></div>
+
+  <main class="stage-wrap">
+    <section class="scene" id="scene">
+      <img class="bg" src="https://Lyy803.github.io/picx-images-hosting/bg.6bhvnx5ygv.webp" alt="第一党支部办公室">
+      <div class="vignette"></div>
+      <img class="actor actor-li" id="li" src="https://Lyy803.github.io/picx-images-hosting/li_half.1vzgizh8c5.webp" alt="支部书记李四">
+      <img class="actor actor-wang-stand" id="wang" src="https://Lyy803.github.io/picx-images-hosting/wang_half.2a5w9upjh9.webp" alt="支部干事王五站立">
+      <div class="chapter" id="chapter">
+        <em>2026年5月10日</em>
+        <strong>下午 · 第一党支部办公室</strong>
+      </div>
+    </section>
+
+    <section class="quiz" id="quiz" aria-hidden="true">
+      <div class="quiz-bar">
+        <div class="hint">
+          <span class="dot" aria-hidden="true"></span>
+          <span>下面这段发展对象程序叙述里，共有 <b>?</b> 处不符合规定的地方。</span>
+        </div>
+        <div class="bar-actions">
+          <button class="btn ghost" id="btnReset" type="button">重新开始</button>
+        </div>
+      </div>
+
+      <div class="quiz-body">
+        <div class="quiz-main">
+          <div class="case">
+            <div class="case-label">案 例 叙 述</div>
+            <p>张三自2025年5月10日被确定为入党积极分子以来，经过一年以上培养教育和考察。2026年5月10日，党支部会议研究拟将其列为发展对象，2026年5月29日至6月5日在单位公示；公示无异议后，报公司党委审批。公司党委于2026年6月8日批复同意。</p>
+          </div>
+
+          <article class="qcard" id="qcard">
+            <div class="qhead">
+              <span class="qno">问 1</span>
+              <h3>这段话里共有几处不符合《中国共产党发展党员工作细则》的规定？</h3>
+            </div>
+            <p class="qnote">只用填数字</p>
+            <div class="qrow">
+              <input class="num-input" id="q1n" type="text" inputmode="numeric" maxlength="2" autocomplete="off" aria-label="错误点数量">
+              <button class="btn primary" id="q1go" type="button">提交</button>
+            </div>
+            <div class="verdict" id="q1v" hidden></div>
+            <div class="reveal" id="q1r" hidden></div>
+          </article>
+
+          <div class="finish-row" id="finishRow" hidden>
+            <button class="btn primary" id="btnFinish" type="button">查看本关完整解析 ▸</button>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="side-card">
+            <h3>本关时间线</h3>
+            <ul class="mini-list">
+              <li class="k">2025-05-10</li><li class="v">确定为入党积极分子</li>
+              <li class="k">2026-05-10</li><li class="v">支部会议研究拟列为发展对象</li>
+              <li class="k">2026-05-29</li><li class="v">支部先行公示（案例叙述）</li>
+              <li class="k">2026-06-05</li><li class="v">公示结束（案例叙述）</li>
+              <li class="k">2026-06-08</li><li class="v">公司党委批复同意</li>
+            </ul>
+            <p class="side-tip">对照时间线，思考两个方向：① 张三是共青团员，推优环节去哪了？② 支部先公示、党委后批复——这个顺序对吗？</p>
+          </div>
+          <div class="side-card">
+            <h3>关键词提示</h3>
+            <p class="side-tip">共青团员 → <b>团组织推优</b> 是必经环节；发展对象公示 → 须在<b>上级党委同意</b>拟列为发展对象之后方可进行。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dialogue" id="dialogue">
+    <div class="speaker" id="speaker">旁白</div>
+    <p class="line" id="line"></p>
+    <div class="dlg-actions">
+      <button class="btn primary" id="btnNext" type="button">继续 ▸</button>
+    </div>
+  </footer>
+</div>
+
+<div class="feedback" id="feedback" role="status" aria-live="polite">
+  <div class="fb-inner"><span class="fb-icon" id="fbIcon" aria-hidden="true">◆</span><span id="fbText"></span></div>
+</div>
+
+<div class="modal" id="modalProfile" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><h2>人物档案 · 第一党支部</h2><p>关卡8 场景设定：发展对象程序审查</p></div>
+      <button class="btn plain" data-close="modalProfile" type="button">关闭</button>
+    </div>
+    <div class="modal-body">
+      <div class="ans" style="grid-template-columns:1fr">
+        <div>
+          <h4>张三</h4>
+          <p style="margin:0;font-size:14px;line-height:1.9;color:#3A2C22">
+            男，2002年2月出生，<b>共青团员</b>。<br>
+            2024年9月20日递交入党申请书，2025年5月10日经支部委员会研究确定为入党积极分子，2025年6月15日公司党委备案批复同意。截至2026年5月10日，已满一年培养考察期。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn dark" data-close="modalProfile" type="button">知道了</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modalAnswer" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><h2>关卡 8 通过 · 两处错误全解析</h2><p>团组织推优 + 公示程序顺序</p></div>
+      <button class="btn plain" data-close="modalAnswer" type="button">回看题目</button>
+    </div>
+    <div class="modal-body" id="answerBody"></div>
+    <div class="modal-foot">
+      <button class="btn plain" id="btnRetry" type="button">重新挑战本关</button>
+      <button class="btn dark" data-close="modalAnswer" type="button">关闭，回看题目</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function el(id){ return document.getElementById(id); }
+
+  /* ================= 反馈 ================= */
+  var AC = null;
+  function blip(freq){
+    try{
+      var Ctx = window.AudioContext || window.webkitAudioContext; if(!Ctx) return;
+      AC = AC || new Ctx(); if(AC.state === "suspended" && AC.resume) AC.resume();
+      var t = AC.currentTime; var notes = typeof freq === "number" ? [freq] : freq;
+      for(var i = 0; i < notes.length; i++){
+        var o = AC.createOscillator(), g = AC.createGain(); o.type = "sine"; o.frequency.value = notes[i];
+        var at = t + i * 0.09;
+        g.gain.setValueAtTime(0.0001, at);
+        g.gain.exponentialRampToValueAtTime(0.16, at + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.22);
+        o.connect(g); g.connect(AC.destination); o.start(at); o.stop(at + 0.26);
+      }
+    }catch(e){}
+  }
+  var fb = el("feedback"), fbIcon = el("fbIcon"), fbText = el("fbText"), fbTimer = null;
+  function say(kind, text){
+    fb.classList.remove("ok","warn","bad");
+    fb.classList.add(kind === "ok" ? "ok" : (kind === "bad" ? "bad" : "warn"));
+    fbIcon.textContent = kind === "ok" ? "✔" : (kind === "bad" ? "✕" : "◆");
+    fbText.textContent = text;
+    fb.classList.add("show");
+    if(fbTimer) clearTimeout(fbTimer);
+    fbTimer = setTimeout(function(){ fb.classList.remove("show"); }, kind === "ok" ? 3400 : 5600);
+  }
+
+  /* ================= 弹窗工具 ================= */
+  function closeModals(){ var ms = document.querySelectorAll(".modal"); for(var i = 0; i < ms.length; i++) ms[i].classList.remove("open"); }
+  function openModal(id){ el(id).classList.add("open"); }
+  document.addEventListener("click", function(e){
+    var t = e.target;
+    if(t && t.getAttribute && t.getAttribute("data-close")) closeModals();
+    if(t && t.classList && t.classList.contains("modal")) closeModals();
+  });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModals(); });
+
+  /* ================= 立绘控制 ================= */
+  var li = el("li"), wang = el("wang");
+  function switchActor(who){
+    if(li) li.classList.remove("show");
+    if(wang) wang.classList.remove("show");
+    if(who === "li"){ if(li) li.classList.add("show"); }
+    else if(who === "wang"){ if(wang) wang.classList.add("show"); }
+  }
+  function hardReset(node, cls){
+    if(!node) return;
+    node.style.transition = "none";
+    node.className = cls;
+    void node.offsetWidth;
+    node.style.transition = "";
+  }
+
+  /* ================= 剧情 ================= */
+  var chapter = el("chapter"), speaker = el("speaker"), lineEl = el("line"), btnNext = el("btnNext");
+
+  var STEPS = [
+    { who:"旁白", cls:"", text:"2026年5月10日下午，第一党支部办公室。距离张三被确定为入党积极分子，刚好满一年。一年里他每季度交思想汇报，培养联系人定期反馈，支部每半年填一次《培养考察登记表》——程序都走齐了。",
+      fx:function(){ switchActor("wang"); } },
+    { who:"支部书记李四", cls:"li", text:"王五同志，支部今天开了党员大会，一致同意把张三列为发展对象。接下来要报公司党委审批，还要公示。你把程序走对了。",
+      fx:function(){ switchActor("li"); } },
+    { who:"支部干事王五", cls:"wang", text:"书记放心！我算好了——5月10日支部研究，5月29日到6月5日公示，6月8日党委批复同意。公示完了再报党委，顺序也对……等等，我再捋捋？",
+      fx:function(){ switchActor("wang"); } },
+    { who:"旁白", cls:"", text:"王五把自己安排的程序在纸上列了一遍，总觉得哪里不对。还有——张三是共青团员，推优环节呢？接下来请你判断这段叙述里究竟有几处错误。",
+      fx:function(){ switchActor(null); } },
+  ];
+
+  var stepIdx = 0;
+  function renderStep(){
+    var s = STEPS[stepIdx];
+    speaker.textContent = s.who;
+    speaker.className = "speaker" + (s.cls ? " " + s.cls : "");
+    lineEl.textContent = s.text;
+    btnNext.textContent = (stepIdx === STEPS.length - 1) ? "填答案 ▸" : "继续 ▸";
+    if(s.fx) s.fx();
+  }
+  function nextStep(){
+    if(stepIdx >= STEPS.length - 1){ enterQuiz(); return; }
+    stepIdx++; renderStep(); blip("tick");
+  }
+  btnNext.addEventListener("click", nextStep);
+
+  function enterQuiz(){
+    if(document.body.classList.contains("phase-quiz")) return;
+    document.body.classList.add("phase-quiz");
+    chapter.classList.add("hide");
+    var q = el("quiz"); q.setAttribute("aria-hidden","false");
+    say("warn", "仔细读这段叙述，数清楚一共几处不符合规定。");
+    setTimeout(function(){ try{ q.scrollIntoView({ behavior:"smooth", block:"start" }); }catch(e){ window.scrollTo(0, Math.max(0, q.offsetTop - 12)); } }, 280);
+  }
+
+  /* ================= 答题 ================= */
+  var CORRECT = 2;
+  var submitted = false;
+
+  el("q1go").addEventListener("click", function(){
+    if(submitted) return;
+    var raw = el("q1n").value.replace(/[^0-9]/g, "");
+    if(!raw){ say("warn", "请填一个数字。"); return; }
+    var n = +raw;
+    if(isNaN(n) || n < 0 || n > 99){ say("warn", "数字范围不对。"); return; }
+
+    submitted = true;
+    var isCorrect = (n === CORRECT);
+    var ids = ["q1n","q1go"];
+    for(var i = 0; i < ids.length; i++) el(ids[i]).disabled = true;
+
+    var v = el("q1v");
+    v.className = "verdict " + (isCorrect ? "ok" : "bad");
+    v.innerHTML = isCorrect
+      ? "<b>✔ 回答正确</b><span>你填的是 " + n + "。</span>"
+      : "<b>✗ 回答有误</b><span>你填的是 " + n + "，再对照时间线和提示想一想。</span>";
+    v.hidden = false;
+    el("qcard").classList.add("done");
+    document.body.classList.add("cleared");
+    el("hudProgress").classList.add("done");
+
+    blip(isCorrect ? [660, 990] : [320, 210]);
+    say(isCorrect ? "ok" : "bad", isCorrect ? "答对了！两个错误点——团组织推优 + 公示顺序。" : "没关系，答案和依据马上给你。");
+
+    setTimeout(function(){ revealAnswer(n); }, 700);
+  });
+
+  function revealAnswer(my){
+    var r = el("q1r");
+    var hintExtra = "";
+    if(my === 1){ hintExtra = '<div class="diff">⚠ 容易漏算：你只找到了其中一处。仔细想想——张三是共青团员，<b>团组织推优</b>环节有没有出现？</div>'; }
+    else if(my >= 3){ hintExtra = '<div class="diff">⚠ 容易多算：叙述中的日期（5月10日支部研究、6月8日党委批复）本身没有错，错的是<b>缺了推优</b>和<b>公示顺序反了</b>这两处。</div>'; }
+    else if(my === 0){ hintExtra = '<div class="diff">⚠ 叙述有两处明显问题：<b>缺了团组织推优</b> + <b>支部先公示党委后批复（顺序反了）</b>。</div>'; }
+
+    r.innerHTML =
+      '<div class="rv-lbl">正 确 答 案</div>' +
+      '<div class="rv-ans">2 处</div>' +
+      hintExtra +
+      '<h4>错误一：未经团组织推优</h4>' +
+      '<p>张三是共青团员，党支部确定其为发展对象前<b>必须通过团组织推优</b>。对经过1年以上培养教育和考察、基本具备党员条件的入党积极分子，由所在单位团组织召开<b>"推优"大会</b>产生党的发展对象推荐人选，并在一定范围内进行不少于5个工作日的公示。</p>' +
+      '<p>案例叙述中，从"经过一年以上培养教育和考察"直接跳到"党支部会议研究拟将其列为发展对象"，<b>团组织推优环节完全缺失</b>。</p>' +
+      '<h4>错误二：发展对象公示程序顺序错误</h4>' +
+      '<div class="calc">' +
+        '<b>正确顺序：</b>支部会议研究讨论 → 报上级党委<b>同意拟列为发展对象</b> → 在工作、学习单位或者居住地<b>公示不少于5个工作日</b> → 公示无异议后正式列为发展对象<br>' +
+        '<b>案例中的顺序：</b>支部5月10日研究 → 5月29日<b>先行公示</b> → 6月8日党委才批复同意<br>' +
+        '→ <b>公示发生在党委批复之前，程序顺序颠倒</b>。党委尚未同意拟列为发展对象，支部不得先行公示。' +
+      '</div>' +
+      '<p class="quote">' +
+        '党支部委员会会议研究讨论并报上级党委同意拟列为发展对象的，在工作、学习单位或者居住地进行公示，公示期不少于五个工作日。' +
+        '<i>——《中国共产党发展党员工作细则》</i>' +
+      '</p>';
+    r.hidden = false;
+    el("finishRow").hidden = false;
+  }
+
+  /* ================= 通关弹窗 ================= */
+  var ANSWERS = [
+    { n:1, key:"未经团组织推优",
+      bad:"叙述中从积极分子直接到发展对象，跳过了团组织推优",
+      good:"应补充：团组织推优大会推荐 + 不少于5个工作日的公示",
+      why:"根据《中国共产党发展党员工作细则》，对经过一年以上培养教育和考察、基本具备党员条件的入党积极分子，在听取党小组、培养联系人、党员和群众意见的基础上，支部委员会应当讨论提出同意其列为发展对象的意见，并报上级党委同意。<b>团员发展对象，必须经过团组织推优</b>——由所在单位团组织召开推优大会，产生党的发展对象推荐人选，并进行不少于5个工作日的公示。案例叙述中，推优环节完全缺失。" },
+    { n:2, key:"发展对象公示顺序颠倒",
+      bad:"支部5月29日先行公示，而党委6月8日才批复同意",
+      good:"应改为：党委同意拟列为发展对象后，再进行公示",
+      why:"根据《细则》，发展对象公示的正确程序是：党支部会议研究讨论并报上级党委<b>同意拟列为发展对象</b>后，方可在工作、学习单位或者居住地进行公示，公示期不少于5个工作日。案例中党委尚未批复（6月8日），支部即于5月29日先行公示，程序顺序错误。正确顺序应为：5月10日支部研究 → 报党委同意 → 党委同意后 → 公示5月29日至6月5日 → 公示无异议后正式列为发展对象。" }
+  ];
+
+  function buildAnswer(){
+    var myNum = +(el("q1n").value.replace(/[^0-9]/g, "") || 0);
+    var html = "";
+    html += '<div class="ans"><div class="no">?</div><div>' +
+      '<h4>你填写的错误点数量</h4>' +
+      '<div class="row"><span class="lbl ' + (myNum === CORRECT ? "good" : "bad") + '">你的答案</span>' +
+        '<span class="txt ' + (myNum === CORRECT ? "good" : "bad") + '">' + (myNum || "（未作答）") + ' 处</span></div>' +
+      '<div class="row"><span class="lbl good">正确答案</span><span class="txt good">2 处</span></div>' +
+      '</div></div>';
+    for(var i = 0; i < ANSWERS.length; i++){
+      var a = ANSWERS[i];
+      html += '<div class="ans"><div class="no">' + a.n + '</div>' +
+        '<div><h4>' + a.key + '</h4>' +
+        '<div class="row"><span class="lbl bad">案例叙述</span><span class="txt bad">' + a.bad + '</span></div>' +
+        '<div class="row"><span class="lbl good">正确做法</span><span class="txt good">' + a.good + '</span></div>' +
+        '<div class="row"><span class="lbl why">解析</span><span class="txt">' + a.why + '</span></div>' +
+        '</div></div>';
+    }
+    html += '<div class="summary"><h3>本关知识点小结</h3><ul>' +
+      '<li>确定发展对象前，团员必须经过<b>团组织推优</b>（推优大会 + 不少于5个工作日公示）。</li>' +
+      '<li>发展对象公示必须在<b>上级党委同意拟列为发展对象之后</b>方可进行。</li>' +
+      '<li>公示期不少于<b>5个工作日</b>，公示无异议后正式列为发展对象。</li>' +
+      '<li>完整发展路径：申请 → 谈话 → 确定积极分子 → 培养考察 → <b>推优 + 支部研究 + 党委同意 + 公示</b>（本关）→ 接收预备党员 → 转正。</li>' +
+      '</ul></div>';
+    html += '<div class="next-lv"><strong>继续闯关 · 关卡 9</strong>' +
+      '<span>张三正式列为发展对象，支部要给他确定两名入党介绍人——赵六、孙七真的都符合资格吗？</span>' +
+      '<a class="btn dark" href="党建知识闯关_关卡9_入党介绍人的资格审查.html">进入关卡 9 ▸</a></div>';
+    html += '<div class="srcs"><strong>本关判定依据（可点击查阅原文）</strong><ul>' +
+      '<li>《中国共产党发展党员工作细则》（2026年修订）第九条 —— <a href="https://www.gov.cn/zhengce/202605/content_7069304.htm" target="_blank" rel="noopener">中国政府网</a></li>' +
+      '<li>中办印发《中国共产党发展党员工作细则》权威解读 —— <a href="http://cpc.people.com.cn/n1/2026/0519/c64387-40722562.html" target="_blank" rel="noopener">中国共产党新闻网</a></li>' +
+      '</ul></div>';
+    el("answerBody").innerHTML = html;
+  }
+
+  function finish(){ buildAnswer(); openModal("modalAnswer"); }
+
+  /* ================= 绑定 ================= */
+  el("btnProfile").addEventListener("click", function(){ openModal("modalProfile"); });
+  el("btnFinish").addEventListener("click", finish);
+
+  function resetRun(){
+    closeModals();
+    submitted = false; stepIdx = 0;
+    chapter.classList.remove("hide");
+    document.body.classList.remove("phase-quiz", "cleared");
+    el("quiz").setAttribute("aria-hidden", "true");
+    el("hudProgress").classList.remove("done");
+    el("q1n").value = ""; el("q1n").disabled = false;
+    el("q1go").disabled = false;
+    el("q1v").hidden = true; el("q1v").innerHTML = "";
+    el("q1r").hidden = true; el("q1r").innerHTML = "";
+    el("qcard").classList.remove("done");
+    el("finishRow").hidden = true;
+    renderStep();
+    say("warn", "已回到场景开头。");
+    window.scrollTo(0, 0);
+  }
+  el("btnReset").addEventListener("click", resetRun);
+  el("btnRetry").addEventListener("click", resetRun);
+  el("btnReplay").addEventListener("click", function(){
+    closeModals();
+    hideFeedback();
+    hardReset(li, "actor actor-li");
+    hardReset(wang, "actor actor-wang-stand");
+    resetRun();
+  });
+  function hideFeedback(){ if(fbTimer){ clearTimeout(fbTimer); fbTimer = null; } fb.classList.remove("show"); }
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

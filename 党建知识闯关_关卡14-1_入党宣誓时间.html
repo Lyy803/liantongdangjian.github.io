@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>入党之路 · 关卡14-1：入党宣誓时间</title>
+<style>
+  :root{
+    --red:#C8102E;--red-2:#9E0B24;--red-deep:#6B0A18;
+    --gold:#D9A94A;--gold-2:#F0D18C;
+    --stage-bg:#1d1218;--ok:#1F7A4C;
+    --shadow:0 18px 40px rgba(0,0,0,.28);
+    --font-cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --font-kai:"KaiTi","STKaiti","Kaiti SC","楷体","Songti SC",serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--font-cjk);color:#F6EEE6;
+    background:
+      radial-gradient(1200px 620px at 12% -8%,rgba(200,16,46,.30),transparent 62%),
+      radial-gradient(900px 520px at 92% 4%,rgba(217,169,74,.16),transparent 60%),
+      linear-gradient(170deg,#2A0D14 0%,#1B0A0F 48%,#120709 100%);
+    background-attachment:fixed;min-height:100vh;-webkit-text-size-adjust:100%;
+  }
+  .app{max-width:1200px;margin:0 auto;padding:16px 16px 34px}
+  body.phase-quiz .app{padding-bottom:118px}
+
+  .hud{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin-bottom:14px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand h1{font-size:19px;margin:0;letter-spacing:.06em;font-weight:600;color:#FFF6EA}
+  .brand .sub{font-size:12px;color:rgba(255,240,225,.62);letter-spacing:.14em;margin-top:2px}
+  .badge{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    padding:7px 12px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.08em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.55);box-shadow:0 4px 14px rgba(200,16,46,.36)}
+  .hud-right{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .progress{display:flex;align-items:baseline;gap:6px;padding:7px 14px;border-radius:10px;
+    background:rgba(0,0,0,.30);border:1px solid rgba(217,169,74,.30);
+    font-size:13px;color:rgba(255,244,232,.78);letter-spacing:.05em}
+  .progress b{font-size:21px;color:var(--gold-2);font-weight:700;font-variant-numeric:tabular-nums}
+  .progress.done{border-color:rgba(96,214,150,.6);background:rgba(31,122,76,.24)}
+  .progress.done b{color:#8BF0B8}
+
+  .btn{font-family:inherit;font-size:14px;cursor:pointer;border-radius:10px;
+    padding:9px 18px;letter-spacing:.06em;transition:transform .14s ease,box-shadow .2s ease,background .2s ease;
+    border:1px solid rgba(240,209,140,.45);text-decoration:none;display:inline-block}
+  .btn:active{transform:translateY(1px) scale(.99)}
+  .btn.primary{color:#FFF6E6;font-weight:700;
+    background:linear-gradient(165deg,#D3153A,#9E0B24 60%,#7A0819);
+    box-shadow:0 8px 20px rgba(200,16,46,.40),inset 0 1px 0 rgba(255,255,255,.22)}
+  .btn.primary:hover{box-shadow:0 10px 26px rgba(200,16,46,.55),inset 0 1px 0 rgba(255,255,255,.28)}
+  .btn.ghost{color:#FFEFDA;background:rgba(255,255,255,.07);border-color:rgba(217,169,74,.38)}
+  .btn.ghost:hover{background:rgba(255,255,255,.13)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  .scene-wrap{position:relative}
+  .scene{position:relative;width:100%;aspect-ratio:16/9;max-height:min(55vh,500px);
+    border-radius:18px;overflow:hidden;background:var(--stage-bg);
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .scene .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(122% 90% at 50% 44%,transparent 42%,rgba(24,8,10,.5) 100%)}
+  .actor{position:absolute;pointer-events:none;user-select:none}
+  .actor-li{right:5%;bottom:0;height:98%;width:auto;transform-origin:50% 100%;
+    transform:translateY(5%) scale(.99);opacity:0;
+    transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s ease-out}
+  .actor-li.show{opacity:1;transform:translateY(0) scale(1)}
+  .actor-wang-stand{left:28%;bottom:0;height:90%;width:auto;transform-origin:50% 100%;
+    transform:translateY(5%) scale(.99);opacity:0;
+    transition:transform .8s cubic-bezier(.2,.8,.3,1),opacity .8s ease-out}
+  .actor-wang-stand.show{opacity:1;transform:translateY(0) scale(1)}
+
+  .chapter{position:absolute;left:0;right:0;bottom:0;padding:18px 22px;
+    background:linear-gradient(0deg,rgba(12,4,6,.86),rgba(12,4,6,0));
+    display:flex;flex-direction:column;gap:3px;pointer-events:none;transition:opacity .5s ease}
+  .chapter em{font-style:normal;font-size:clamp(12px,1.5vw,16px);letter-spacing:.3em;color:var(--gold-2)}
+  .chapter strong{font-weight:600;font-size:clamp(13px,1.7vw,19px);letter-spacing:.1em;color:#FFF3E2}
+  .chapter.hide{opacity:0}
+
+  .dialogue{position:relative;margin-top:14px;padding:16px 18px 18px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.30);box-shadow:var(--shadow);
+    display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+  .speaker{flex:0 0 auto;padding:6px 14px;border-radius:9px;font-size:13px;font-weight:700;letter-spacing:.14em;
+    color:#FFEFD6;background:linear-gradient(160deg,#8E0C20,#5E0A16);border:1px solid rgba(240,209,140,.4)}
+  .speaker.li{background:linear-gradient(160deg,#7A5A12,#4A3608);border-color:rgba(240,209,140,.5)}
+  .speaker.wang{background:linear-gradient(160deg,#1E6B5A,#0F4034);border-color:rgba(140,230,200,.42)}
+  .line{flex:1 1 320px;margin:0;font-size:16px;line-height:1.85;color:#F7EFE6;letter-spacing:.03em;min-width:0}
+  .dlg-actions{flex:0 0 auto;display:flex;gap:10px;align-items:center}
+
+  .quiz{display:none}
+  body.phase-quiz .quiz{display:block}
+  body.phase-quiz .scene,body.phase-quiz .dialogue{display:none}
+  body.phase-quiz .chapter{opacity:0}
+
+  .quiz-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    padding:12px 16px;margin:14px 0;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32)}
+  .hint{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#F6E9D8;letter-spacing:.04em;line-height:1.7;flex:1 1 420px;min-width:0}
+  .hint .dot{flex:0 0 auto;width:11px;height:11px;border-radius:50%;background:var(--red);margin-top:6px;
+    box-shadow:0 0 0 4px rgba(200,16,46,.22)}
+  .hint b{color:var(--gold-2);font-size:19px;font-variant-numeric:tabular-nums}
+  .bar-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+  .quiz-body{display:flex;gap:16px;align-items:flex-start}
+  .quiz-main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:14px}
+
+  .qcard{padding:18px 20px 20px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+    border:1px solid rgba(217,169,74,.32);box-shadow:var(--shadow)}
+  .qcard.done{border-color:rgba(96,214,150,.45)}
+  .qcard.locked{opacity:.62}
+  .qcard[hidden]{display:none}
+  .qhead{display:flex;gap:12px;align-items:flex-start;margin-bottom:6px}
+  .qno{flex:0 0 auto;padding:5px 11px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:.12em;
+    color:#FFF3DC;background:linear-gradient(160deg,var(--red),var(--red-deep));
+    border:1px solid rgba(240,209,140,.5)}
+  .qhead h3{margin:2px 0 0;font-size:16.5px;line-height:1.6;letter-spacing:.03em;color:#FFF6EA;font-weight:600}
+  .qstem{margin:0 0 14px;font-size:15px;line-height:1.95;color:#F6EFE4;letter-spacing:.02em;
+    padding:12px 16px;border-radius:10px;background:rgba(0,0,0,.24);border:1px dashed rgba(217,169,74,.42)}
+  .qstem .date{color:var(--gold-2);font-weight:600;margin-right:4px}
+
+  .opts{display:flex;gap:12px;flex-wrap:wrap}
+  .opt{font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;
+    padding:13px 22px;border-radius:12px;font-size:15.5px;letter-spacing:.05em;
+    color:#FFF3E2;background:rgba(255,255,255,.07);
+    border:1px solid rgba(217,169,74,.42);
+    transition:background .18s ease,border-color .18s ease,transform .14s ease,box-shadow .2s ease}
+  .opt:hover:not([disabled]){background:rgba(255,255,255,.14);border-color:rgba(240,209,140,.7);
+    transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.28)}
+  .opt:active:not([disabled]){transform:translateY(0) scale(.99)}
+  .opt .key{flex:0 0 auto;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:700;background:rgba(0,0,0,.34);
+    border:1px solid rgba(217,169,74,.42)}
+  .opt[disabled]{cursor:default}
+  .opt.picked-right{border-color:rgba(96,214,150,.85);background:linear-gradient(160deg,rgba(31,122,76,.36),rgba(31,122,76,.14));
+    box-shadow:0 0 0 3px rgba(96,214,150,.16)}
+  .opt.picked-wrong{border-color:rgba(255,140,150,.8);background:linear-gradient(160deg,rgba(200,16,46,.32),rgba(200,16,46,.10));
+    box-shadow:0 0 0 3px rgba(200,16,46,.14)}
+  .opt.tip{border-color:rgba(240,209,140,.72);background:rgba(217,169,74,.13)}
+
+  .verdict{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-top:14px;padding:12px 16px;border-radius:11px;
+    font-size:14.5px;line-height:1.75;letter-spacing:.03em}
+  .verdict.ok{background:linear-gradient(160deg,rgba(31,122,76,.30),rgba(31,122,76,.10));border:1px solid rgba(96,214,150,.5);color:#D8FFE9}
+  .verdict.ok b{color:#8BF0B8}
+  .verdict.bad{background:linear-gradient(160deg,rgba(200,16,46,.26),rgba(200,16,46,.08));border:1px solid rgba(255,140,150,.45);color:#FFE6EA}
+  .verdict.bad b{color:#FF9AA8}
+
+  /* ====== 填空题样式 ====== */
+  .fill-area{margin-top:14px;padding:16px 18px;background:rgba(20,8,10,.55);border:1px solid rgba(217,169,74,.25);border-radius:12px}
+  .fill-row{display:flex;flex-direction:column;gap:12px}
+  .fill-row label{font-size:13px;color:var(--gold-2);letter-spacing:.08em}
+  .fill-inputs{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .fill-inputs .lbl{font-size:15px;color:#E9D8A8}
+  .dbox{display:inline-flex;background:#140A0B;border:1px solid rgba(217,169,74,.4);border-radius:8px;padding:0 10px}
+  .dbox.y{width:110px}
+  .dbox{width:78px}
+  .dbox input{all:unset;width:100%;height:36px;font-size:16px;color:#fff;text-align:center}
+  .dbox input::placeholder{color:rgba(217,169,74,.45)}
+  .dbox input:focus{border-color:rgba(240,209,140,.85)}
+  .fill-inputs .ok-fill{box-shadow:0 0 0 2px rgba(31,122,76,.5)}
+  .fill-inputs .bad-fill{box-shadow:0 0 0 2px rgba(200,16,46,.6)}
+  .fill-submit{margin-top:6px}
+
+  .reveal{margin-top:12px;padding:16px 18px 17px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.17),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5);
+    animation:unfold .46s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes unfold{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .reveal .rv-lbl{font-size:12px;letter-spacing:.22em;color:#FFD98F;font-weight:700}
+  .reveal .rv-ans{margin:7px 0 13px;font-size:22px;font-weight:700;letter-spacing:.05em;color:#FFF6E2;line-height:1.35}
+  .reveal h4{margin:14px 0 6px;font-size:15px;color:#FFD98F;letter-spacing:.06em}
+  .reveal h4:first-of-type{margin-top:10px}
+  .reveal p{margin:0 0 10px;font-size:14px;line-height:1.9;color:rgba(255,246,234,.9);letter-spacing:.02em}
+  .reveal p:last-child{margin-bottom:0}
+  .reveal p b{color:#FFD98F}
+  .reveal .quote{margin:0 0 11px;padding:11px 15px;border-left:3px solid rgba(240,209,140,.72);
+    background:rgba(0,0,0,.22);border-radius:0 8px 8px 0;
+    font-family:var(--font-kai);font-size:14.5px;line-height:1.9;color:#FFF3E2;letter-spacing:.02em}
+  .reveal .quote i{display:block;margin-top:6px;font-style:normal;font-size:12.5px;letter-spacing:.08em;color:rgba(255,240,225,.6)}
+
+  .step-row{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .step-row[hidden]{display:none}
+  .finish-row{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-top:2px}
+  .finish-row[hidden]{display:none}
+
+  .side{flex:0 0 296px;display:flex;flex-direction:column;gap:14px}
+  .side-card{padding:16px 16px 18px;border-radius:14px;
+    background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+    border:1px solid rgba(217,169,74,.28);box-shadow:var(--shadow)}
+  .side-card h3{margin:0 0 10px;font-size:14px;letter-spacing:.16em;color:var(--gold-2);font-weight:700}
+  .side-card p{margin:0 0 10px;font-size:13.5px;line-height:1.75;color:rgba(255,244,232,.82)}
+  .side-card p b{color:#FFD98F}
+  .side-tip{font-size:12.5px !important;color:rgba(255,240,225,.62) !important;line-height:1.85 !important}
+
+  .feedback{position:fixed;left:0;right:0;bottom:0;z-index:45;padding:26px 16px 14px;
+    background:linear-gradient(0deg,rgba(14,5,8,.95),rgba(14,5,8,.78) 62%,rgba(14,5,8,0));
+    opacity:0;transform:translateY(14px);pointer-events:none;
+    transition:opacity .28s ease,transform .28s ease}
+  .feedback.show{opacity:1;transform:none}
+  .fb-inner{max-width:1200px;margin:0 auto;display:flex;gap:11px;align-items:flex-start;
+    font-size:14.5px;line-height:1.72;color:#FFF3E4;letter-spacing:.02em}
+  .fb-icon{flex:0 0 auto;font-size:16px;line-height:1.6}
+  .feedback.ok .fb-icon{color:#8BF0B8}.feedback.warn .fb-icon{color:#FFD98F}.feedback.bad .fb-icon{color:#FF9AA8}
+
+  .modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;
+    background:rgba(16,6,9,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal.open{display:flex;animation:fadein .28s ease-out both}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .modal-card{width:100%;max-width:860px;max-height:88vh;overflow:auto;
+    background:linear-gradient(180deg,#FFFDF7,#F7F0E2);
+    color:#2C2118;border-radius:18px;border:1px solid rgba(217,169,74,.6);
+    box-shadow:0 30px 70px rgba(0,0,0,.5);animation:rise .34s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+  .modal-head{padding:20px 24px 16px;border-bottom:1px solid rgba(150,110,60,.22);
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,rgba(200,16,46,.07),transparent)}
+  .modal-head h2{margin:0;font-size:20px;letter-spacing:.1em;color:#8E0C20}
+  .modal-head p{margin:4px 0 0;font-size:13px;color:#6B5A48;letter-spacing:.05em}
+  .modal-body{padding:18px 24px 24px}
+  .ans{display:grid;grid-template-columns:38px 1fr;gap:0 14px;
+    padding:16px 0;border-bottom:1px dashed rgba(150,110,60,.28)}
+  .ans:last-child{border-bottom:0}
+  .ans .no{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:15px;color:#fff;background:linear-gradient(160deg,#D3153A,#8E0C20);
+    box-shadow:0 4px 12px rgba(200,16,46,.3)}
+  .ans h4{margin:2px 0 10px;font-size:15.5px;letter-spacing:.06em;color:#8E0C20}
+  .ans .row{display:flex;gap:10px;font-size:14px;line-height:1.8;margin-bottom:6px;align-items:flex-start;flex-wrap:wrap}
+  .ans .row .lbl{flex:0 0 auto;font-size:12px;padding:2px 8px;border-radius:6px;margin-top:3px;letter-spacing:.08em}
+  .lbl.bad{background:rgba(200,16,46,.12);color:#9E0B24;border:1px solid rgba(200,16,46,.28)}
+  .lbl.good{background:rgba(31,122,76,.12);color:#15623C;border:1px solid rgba(31,122,76,.28)}
+  .lbl.why{background:rgba(217,169,74,.18);color:#7A5A12;border:1px solid rgba(217,169,74,.45)}
+  .ans .row .txt{flex:1 1 auto;color:#3A2C22}
+  .summary{margin-top:20px;padding:16px 18px;border-radius:12px;
+    background:linear-gradient(180deg,rgba(217,169,74,.14),rgba(217,169,74,.05));
+    border:1px solid rgba(217,169,74,.5)}
+  .summary h3{margin:0 0 8px;font-size:15px;color:#7A5A12;letter-spacing:.1em}
+  .summary ul{margin:0;padding-left:20px}
+  .summary li{font-size:14px;line-height:1.9;color:#4A3A2A}
+  .next-lv{margin-top:14px;padding:14px 18px;border-radius:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    background:rgba(200,16,46,.06);border:1px dashed rgba(200,16,46,.35)}
+  .next-lv strong{font-size:14px;color:#8E0C20;letter-spacing:.06em}
+  .next-lv span{font-size:13px;color:#6B5A48}
+  .srcs{margin-top:14px;padding:14px 18px;border-radius:12px;
+    background:rgba(34,48,74,.05);border:1px solid rgba(34,48,74,.16)}
+  .srcs strong{display:block;font-size:13px;letter-spacing:.1em;color:#3A4A66;margin-bottom:8px}
+  .srcs ul{margin:0;padding-left:18px}
+  .srcs li{font-size:12.5px;line-height:1.9;color:#5A5040}
+  .srcs a{color:#8E0C20;text-decoration:underline;text-underline-offset:2px}
+  .modal-foot{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;padding:0 24px 22px}
+  .btn.dark{color:#fff;background:linear-gradient(165deg,#8E0C20,#5E0A16);border-color:rgba(240,209,140,.4)}
+  .btn.plain{color:#6B5A48;background:#fff;border-color:rgba(150,110,60,.35)}
+  .btn.plain:hover{background:#FBF6EC}
+  .clear-flag{display:none;margin-bottom:14px;padding:14px 18px;border-radius:14px;align-items:center;gap:12px;
+    background:linear-gradient(160deg,rgba(31,122,76,.24),rgba(31,122,76,.08));
+    border:1px solid rgba(96,214,150,.5);color:#D8FFE9;font-size:15px;letter-spacing:.06em}
+  body.cleared .clear-flag{display:flex}
+
+  @media (max-width:880px){.quiz-body{flex-direction:column}.side{flex:1 1 auto;width:100%;flex-direction:row;flex-wrap:wrap}.side-card{flex:1 1 260px}}
+  @media (max-width:640px){
+    .app{padding:10px 10px 26px}
+    body.phase-quiz .app{padding-bottom:132px}
+    .brand h1{font-size:16px}.line{font-size:15px}
+    .hud,.quiz-bar{padding:10px 12px}.progress b{font-size:18px}.hint{font-size:13px}
+    .ans{grid-template-columns:30px 1fr;gap:0 10px}
+    .modal-body{padding:14px 16px 20px}.modal-head{padding:16px}.modal-foot{padding:0 16px 18px}
+    .fb-inner{font-size:13.5px}
+    .opt{padding:11px 16px;font-size:14.5px}
+    .reveal .rv-ans{font-size:20px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="hud">
+    <div class="brand">
+      <span class="badge">关卡 14-1</span>
+      <div>
+        <h1>入党宣誓时间</h1>
+        <div class="sub">入党之路 · 角色扮演闯关</div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="progress" id="hudProgress"><span>已答</span><b id="hudRight">0</b><span>/ 1</span></div>
+      <button class="btn ghost" id="btnReplay" type="button">重看剧情</button>
+    </div>
+  </header>
+
+  <div class="clear-flag" id="clearFlag"><span>✔ 本题作答完成。</span></div>
+
+  <main class="stage-wrap">
+    <section class="scene" id="scene">
+      <img class="bg" src="https://Lyy803.github.io/picx-images-hosting/zhengjiehuichang.102z6g2fki.webp" alt="整洁的入党宣誓会场">
+      <div class="vignette"></div>
+      <img class="actor actor-li" id="li" src="https://Lyy803.github.io/picx-images-hosting/li_half.1vzgizh8c5.webp" alt="支部书记李四">
+      <img class="actor actor-wang-stand" id="wang" src="https://Lyy803.github.io/picx-images-hosting/wang_half.2a5w9upjh9.webp" alt="支部干事王五">
+      <div class="chapter" id="chapter">
+        <em>2026年10月30日</em>
+        <strong>公司第一党支部 · 党委批复送达</strong>
+      </div>
+    </section>
+
+    <section class="quiz" id="quiz" aria-hidden="true">
+      <div class="quiz-bar">
+        <div class="hint">
+          <span class="dot" aria-hidden="true"></span>
+          <span>请判断以下两种做法是否正确。每题二选一，答完自动给出解析。</span>
+        </div>
+        <div class="bar-actions">
+          <button class="btn ghost" id="btnReset" type="button">重新开始</button>
+        </div>
+      </div>
+
+      <div class="quiz-body">
+        <div class="quiz-main">
+
+          <!-- 题1：宣誓截止日期填空题 -->
+          <article class="qcard" id="qcard0">
+            <div class="qhead">
+              <span class="qno">填空</span>
+              <h3>张三被批准为预备党员后，党支部将其编入支部和党小组。党支部最迟应于 <b>　　</b> 前组织张三进行入党宣誓。</h3>
+            </div>
+            <div class="qstem"><span class="date">2026年10月29日</span>公司党委批复同意接收张三为预备党员。支委会开会研究决定把张三编入第一党支部第一党小组，并尽快安排入党宣誓仪式。但王五对"一个月内"的截止日期有些拿不准，请帮他算清楚：党支部最迟应于 <b>　　</b> 前组织宣誓。</div>
+            <div class="fill-area">
+              <div class="fill-row">
+                <label>请填写截止日期</label>
+                <div class="fill-inputs">
+                  <span class="dbox y"><input id="fy" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="2026"></span><span class="lbl">年</span>
+                  <span class="dbox"><input id="fm" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="MM"></span><span class="lbl">月</span>
+                  <span class="dbox"><input id="fd" type="text" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="DD"></span><span class="lbl">日</span>
+                </div>
+                <div class="fill-submit">
+                  <button class="btn primary" id="btnFillSubmit" type="button">提交答案</button>
+                </div>
+              </div>
+            </div>
+            <div class="verdict" id="v0" hidden></div>
+            <div class="reveal" id="r0" hidden></div>
+          </article>
+
+          <div class="finish-row" id="finishRow" hidden>
+            <button class="btn primary" id="btnFinish" type="button">查看本关完整解析 ▸</button>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="side-card">
+            <h3>党委批复后的第一件事</h3>
+            <p class="side-tip">党委批复同意接收预备党员后，党支部应当<b>及时</b>将其编入党支部和党小组，并组织<b>入党宣誓仪式</b>。宣誓仪式一般在批复同意后<b>一个月内</b>举行，由基层党委或党支部（党总支）组织。</p>
+          </div>
+          <div class="side-card">
+            <h3>本关考察重点</h3>
+            <p class="side-tip">本题考察<b>入党宣誓仪式的时间要求</b>：起算点是<b>党委批复同意</b>之日（不是支部大会通过日），期限是<b>一个月内</b>。答完会自动给出解析和完整知识点。</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dialogue" id="dialogue">
+    <div class="speaker" id="speaker">旁白</div>
+    <p class="line" id="line"></p>
+    <div class="dlg-actions">
+      <button class="btn primary" id="btnNext" type="button">继续 ▸</button>
+    </div>
+  </footer>
+</div>
+
+<div class="feedback" id="feedback" role="status" aria-live="polite">
+  <div class="fb-inner"><span class="fb-icon" id="fbIcon" aria-hidden="true">◆</span><span id="fbText"></span></div>
+</div>
+
+<div class="modal" id="modalAnswer" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><h2>关卡 14-1 通过 · 入党宣誓时间全解析</h2><p>党委批复 · 一个月内 · 入党宣誓</p></div>
+      <button class="btn plain" data-close="modalAnswer" type="button">回看题目</button>
+    </div>
+    <div class="modal-body" id="answerBody"></div>
+    <div class="modal-foot">
+      <button class="btn plain" id="btnRetry" type="button">重新挑战本关</button>
+      <button class="btn dark" data-close="modalAnswer" type="button">关闭，回看题目</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  function el(id){ return document.getElementById(id); }
+
+  /* ================= 反馈 ================= */
+  var AC = null;
+  function blip(freq){
+    try{
+      var Ctx = window.AudioContext || window.webkitAudioContext; if(!Ctx) return;
+      AC = AC || new Ctx(); if(AC.state === "suspended" && AC.resume) AC.resume();
+      var t = AC.currentTime; var notes = typeof freq === "number" ? [freq] : freq;
+      for(var i = 0; i < notes.length; i++){
+        var o = AC.createOscillator(), g = AC.createGain(); o.type = "sine"; o.frequency.value = notes[i];
+        var at = t + i * 0.09;
+        g.gain.setValueAtTime(0.0001, at);
+        g.gain.exponentialRampToValueAtTime(0.16, at + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.22);
+        o.connect(g); g.connect(AC.destination); o.start(at); o.stop(at + 0.26);
+      }
+    }catch(e){}
+  }
+  var fb = el("feedback"), fbIcon = el("fbIcon"), fbText = el("fbText"), fbTimer = null;
+  function say(kind, text){
+    fb.classList.remove("ok","warn","bad");
+    fb.classList.add(kind === "ok" ? "ok" : (kind === "bad" ? "bad" : "warn"));
+    fbIcon.textContent = kind === "ok" ? "✔" : (kind === "bad" ? "✕" : "◆");
+    fbText.textContent = text;
+    fb.classList.add("show");
+    if(fbTimer) clearTimeout(fbTimer);
+    fbTimer = setTimeout(function(){ fb.classList.remove("show"); }, kind === "ok" ? 2800 : 5000);
+  }
+  function hideFeedback(){ if(fbTimer){ clearTimeout(fbTimer); fbTimer = null; } fb.classList.remove("show"); }
+
+  /* ================= 弹窗 ================= */
+  function closeModals(){ var ms = document.querySelectorAll(".modal"); for(var i = 0; i < ms.length; i++) ms[i].classList.remove("open"); }
+  function openModal(id){ el(id).classList.add("open"); }
+  document.addEventListener("click", function(e){
+    var t = e.target;
+    if(t && t.getAttribute && t.getAttribute("data-close")) closeModals();
+    if(t && t.classList && t.classList.contains("modal")) closeModals();
+  });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModals(); });
+
+  /* ================= 立绘 ================= */
+  var li = el("li"), wang = el("wang");
+  function switchActor(who){
+    if(li) li.classList.remove("show");
+    if(wang) wang.classList.remove("show");
+    if(who === "li"){ if(li) li.classList.add("show"); }
+    else if(who === "wang"){ if(wang) wang.classList.add("show"); }
+  }
+  function hardReset(node, cls){
+    if(!node) return;
+    node.style.transition = "none";
+    node.className = cls;
+    void node.offsetWidth;
+    node.style.transition = "";
+  }
+
+  /* ================= 剧情 ================= */
+  var chapter = el("chapter"), speaker = el("speaker"), lineEl = el("line"), btnNext = el("btnNext");
+
+  var STEPS = [
+    { who:"旁白", cls:"", text:"2026年10月29日，公司党委批复同意接收张三为预备党员。10月30日下午，支部干事王五拿着批复文件来到支部办公室。",
+      fx:function(){ switchActor("wang"); } },
+    { who:"支部干事王五", cls:"wang", text:"书记，党委批复收到了。张三要补编入支部和党小组，还要尽快安排入党宣誓。您说这宣誓仪式最迟得在几号前办完？" },
+    { who:"支部书记李四", cls:"li", text:"《发展党员工作细则》说一般在批复同意接收预备党员后的一个月内。批复是10月29日，一个月后是……来，你来算。",
+      fx:function(){ switchActor("li"); } },
+    { who:"旁白", cls:"", text:"请你算出党支部最迟应在哪一天前组织张三的入党宣誓仪式。",
+      fx:function(){ switchActor(null); } },
+  ];
+
+  var stepIdx = 0;
+  function renderStep(){
+    var s = STEPS[stepIdx];
+    speaker.textContent = s.who;
+    speaker.className = "speaker" + (s.cls ? " " + s.cls : "");
+    lineEl.textContent = s.text;
+    btnNext.textContent = (stepIdx === STEPS.length - 1) ? "开始答题 ▸" : "继续 ▸";
+    if(s.fx) s.fx();
+  }
+  function nextStep(){
+    if(stepIdx >= STEPS.length - 1){ enterQuiz(); return; }
+    stepIdx++; renderStep(); blip("tick");
+  }
+  btnNext.addEventListener("click", nextStep);
+
+  /* ================= 答题数据 ================= */
+  var QS = [
+    {
+      id: 0,
+      type: "filldate",
+      correct: { y: 2026, m: 11, d: 29 },
+      stemShort: "入党宣誓仪式最迟应于 2026 年 11 月 29 日前组织进行。",
+      explainRight: "回答正确！党委于 2026 年 10 月 29 日批复同意接收张三为预备党员，入党宣誓仪式一般应在批复后一个月内组织进行。10 月 29 日批复，一个月后的截止日期即为 <b>2026 年 11 月 29 日</b>。",
+      explainWrong: '回答有误。正确答案是 <b>2026 年 11 月 29 日</b>。"一个月内"是从党委批复同意接收预备党员之日（2026 年 10 月 29 日）起算，不是从支部大会通过日起算。<b>10 月 29 日 + 一个月 = 2026 年 11 月 29 日</b>。《发展党员工作细则》第二十九条明确规定：入党宣誓仪式，一般在批复同意接收预备党员后的一个月内组织进行。'
+    }
+  ];
+  var answers = [null];   /* 记录每题用户选了什么 */
+  var answered = [false];
+
+  function updateHud(){
+    var n = answered.filter(function(x){ return x; }).length;
+    el("hudRight").textContent = String(n);
+    if(n === answered.length){ el("hudProgress").classList.add("done"); document.body.classList.add("cleared"); }
+  }
+
+  function enterQuiz(){
+    if(document.body.classList.contains("phase-quiz")) return;
+    document.body.classList.add("phase-quiz");
+    chapter.classList.add("hide");
+    el("quiz").setAttribute("aria-hidden","false");
+    say("warn", "请在下方输入截止日期后点击提交。");
+    setTimeout(function(){ try{ el("quiz").scrollIntoView({ behavior:"smooth", block:"start" }); }catch(e){ window.scrollTo(0, Math.max(0, el("quiz").offsetTop - 12)); } }, 280);
+  }
+
+  function handleFillSubmit(){
+    if(answered[0]) return;
+    var fy = el("fy").value.trim();
+    var fm = el("fm").value.trim();
+    var fd = el("fd").value.trim();
+    if(!fy || !fm || !fd){
+      say("warn", "请完整填写年、月、日。");
+      blip("tick");
+      return;
+    }
+    var yN = Number(fy), mN = Number(fm), dN = Number(fd);
+    var q = QS[0];
+    var isRight = (yN === q.correct.y && mN === q.correct.m && dN === q.correct.d);
+
+    answered[0] = true;
+    answers[0] = { y: yN, m: mN, d: dN };
+
+    /* 禁用输入 */
+    ["fy","fm","fd"].forEach(function(id){ var e = el(id); e.disabled = true; if(isRight) e.classList.add("ok-fill"); else e.classList.add("bad-fill"); });
+    el("btnFillSubmit").disabled = true;
+
+    /* 判定 */
+    var verdict = el("v0");
+    verdict.hidden = false;
+    if(isRight){
+      verdict.className = "verdict ok";
+      verdict.innerHTML = "<b>✔ 回答正确</b><span>时间算对了！</span>";
+      say("ok", "回答正确！");
+      blip([660, 990]);
+    } else {
+      verdict.className = "verdict bad";
+      verdict.innerHTML = "<b>✗ 回答错误</b><span>正确答案稍后解析。</span>";
+      say("bad", "回答有误——正确答案稍后解析。");
+      blip([320, 210]);
+    }
+
+    /* 解析块 */
+    el("r0").innerHTML =
+      '<div class="rv-lbl">正 确 答 案</div>' +
+      '<div class="rv-ans">应于 <b>2026 年 11 月 29 日</b> 前组织宣誓（你填了 ' + fy + '年' + fm + '月' + fd + '日）</div>' +
+      '<p>' + (isRight ? QS[0].explainRight : QS[0].explainWrong) + '</p>';
+    el("r0").hidden = false;
+
+    el("qcard0").classList.add("done");
+
+    setTimeout(function(){ el("finishRow").hidden = false; }, 400);
+    updateHud();
+  }
+
+  el("btnFillSubmit").addEventListener("click", handleFillSubmit);
+  ["fy","fm","fd"].forEach(function(id){
+    el(id).addEventListener("keydown", function(e){ if(e.key === "Enter") handleFillSubmit(); });
+  });
+
+  /* ================= 通关解析弹窗 ================= */
+  function buildAnswer(){
+    var html = "";
+    var ans = answers[0] || {};
+    var correct = QS[0].correct;
+    var isRight = (ans.y === correct.y && ans.m === correct.m && ans.d === correct.d);
+    var userStr = (ans.y ? ans.y + "年" + ans.m + "月" + ans.d + "日" : "未作答");
+    html += '<div class="ans"><div class="no">1</div><div>' +
+      '<h4>入党宣誓仪式最迟应于哪一天前组织进行？</h4>' +
+      '<div class="row"><span class="lbl ' + (isRight ? "good" : "bad") + '">你的答案</span><span class="txt">' + userStr + '</span></div>' +
+      '<div class="row"><span class="lbl good">正确答案</span><span class="txt">2026 年 11 月 29 日</span></div>' +
+      '<div class="row"><span class="lbl why">解析</span><span class="txt">《发展党员工作细则》第二十九条规定，入党宣誓仪式一般在批复同意接收预备党员后的一个月内组织进行。党委于 2026 年 10 月 29 日批复，一个月后的截止日期即为 2026 年 11 月 29 日。</span></div>' +
+      '</div></div>';
+
+    html += '<div class="summary"><h3>本关知识点小结</h3><ul>' +
+      '<li><b>起算点</b>：从党委<b>批复同意接收预备党员</b>之日起算，不是从支部大会通过日起算。</li>' +
+      '<li><b>一个月内</b>：细则原文"一般在批复同意接收预备党员后的一个月内"，到期日即批复日 + 30 天。</li>' +
+      '<li><b>谁来组织</b>：由基层党委或者党支部（党总支）组织进行；县级以上党委可以在"七一"、国庆等重大纪念日组织集中宣誓。</li>' +
+      '<li><b>面向党旗</b>：入党宣誓必须面向党旗进行，领誓人为党组织负责人。</li>' +
+      '</ul></div>';
+
+    html += '<div class="next-lv"><strong>继续闯关 · 关卡 14-2 ~ 14-4</strong>' +
+      '<span>日期算对了，宣誓截止日是 11 月 29 日。接下来，你作为支部干事王五，要布置入党宣誓的会场、处理一面破损的党旗，并在宣誓后为张三佩戴党员徽章。</span>' +
+      '<a class="btn dark" href="党建知识闯关_关卡14宣誓会场整理和党旗破损.html">进入关卡 14-2 ~ 14-4 ▸</a></div>';
+
+    html += '<div class="srcs"><strong>本关判定依据（可点击查阅原文）</strong><ul>' +
+      '<li>《中国共产党发展党员工作细则》第二十八条（编入支部和党小组）、第二十九条（入党宣誓在批复后一个月内举行）—— <a href="https://www.gov.cn/zhengce/202605/content_7069305.htm" target="_blank" rel="noopener noreferrer">中国政府网</a></li>' +
+      '</ul></div>';
+
+    el("answerBody").innerHTML = html;
+  }
+  function finish(){ buildAnswer(); openModal("modalAnswer"); }
+
+  el("btnFinish").addEventListener("click", finish);
+
+  /* ================= 重置 ================= */
+  function resetRun(){
+    closeModals();
+    hideFeedback();
+    stepIdx = 0;
+    answers = [null];
+    answered = [false];
+
+    document.body.classList.remove("phase-quiz","cleared");
+    chapter.classList.remove("hide");
+    el("quiz").setAttribute("aria-hidden","true");
+    el("hudProgress").classList.remove("done");
+    el("hudRight").textContent = "0";
+
+    el("fy").value = ""; el("fm").value = ""; el("fd").value = "";
+    ["fy","fm","fd"].forEach(function(id){ var e = el(id); e.disabled = false; e.classList.remove("ok-fill","bad-fill"); });
+    el("btnFillSubmit").disabled = false;
+    el("qcard0").classList.remove("done");
+    var v0 = el("v0"), r0 = el("r0");
+    v0.hidden = true; v0.className = "verdict"; v0.innerHTML = "";
+    r0.hidden = true; r0.innerHTML = "";
+    el("finishRow").hidden = true;
+
+    renderStep();
+    window.scrollTo(0, 0);
+  }
+
+  el("btnReset").addEventListener("click", resetRun);
+  el("btnRetry").addEventListener("click", resetRun);
+  el("btnReplay").addEventListener("click", function(){
+    closeModals();
+    hideFeedback();
+    hardReset(li, "actor actor-li");
+    hardReset(wang, "actor actor-wang-stand");
+    resetRun();
+    say("warn", "已回到场景开头。");
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>
