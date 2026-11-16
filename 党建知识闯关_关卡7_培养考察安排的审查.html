@@ -336,7 +336,9 @@
 
   /* ---------- 响应式 ---------- */
   @media (max-width:880px){
-    .letter-body{flex-direction:column}
+    .letter-body{flex-direction:column;width:100%}
+    .doc-wrap{width:100%;flex:1 1 auto;align-self:stretch}
+    .paper{width:100%;max-width:none}
     .side{flex:1 1 auto;width:100%;flex-direction:row;flex-wrap:wrap}
     .side-card{flex:1 1 260px}
   }
@@ -680,7 +682,7 @@
   function layoutGrid(){
     var inner = doc.clientWidth;
     if(inner < 60) return;
-    var cols = Math.max(12, Math.min(22, Math.floor(inner / 30)));
+    var cols = Math.max(10, Math.min(22, Math.floor(inner / 30)));
     COLS = cols;
     grid.style.setProperty("--cols", cols);
     grid.style.setProperty("--cell", (inner / cols) + "px");
